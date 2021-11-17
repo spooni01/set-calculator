@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 // todo: dynamicka alokacia a zmena dlzok v celom programe
@@ -86,7 +87,7 @@ void separate_universum(char line[MAX_LENGTH], char universum[MAX_LENGTH][MAX_LE
    int word = 0;     // Count number of words to know where to save it.
    int letter = 0;   // Count letters in word.
 
-   for(int i=0;i<=(arr_length(line));i++)
+   for(int i = 0; i <= arr_length(line); i++)
    {
       if(line[i]==' '||line[i]=='\0')
       {
@@ -111,16 +112,14 @@ void sort_file(char *filename, char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_
    file = fopen(filename, "r");
    char line[MAX_LENGTH];  // Temporary storage of a row from a file.
    
-   // Go through file line by line and save lines to '*set'
-   // and then in for() cycle go through line letter by letter
-   // and save letters to 'set[row].item[i]'.
+   // Go through file line by line and save lines to '*set' and then in for() cycle go through 
+   // line letter by letter and save letters to 'set[row].item[i]'.
    for(int row = 0; fgets(line, MAX_LENGTH, file) != NULL; row++)
    {
-      // Separate line to words.
       int word = 0;     // Count number of words to know where to save it.
       int letter = 0;   // Count letters in word.
 
-      for(int i=0;i<=(arr_length(line));i++)
+      for(int i = 0; i <= arr_length(line); i++)
       {
          if(i == 0 && line[i] == 'U')
             separate_universum(line, universum);
@@ -133,11 +132,82 @@ void sort_file(char *filename, char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_
          }
          else
          {
-            lines_from_file[row][word][letter] = line[i];
+            if(line[i] != '\n')
+               lines_from_file[row][word][letter] = line[i];
+            
             letter++; 
          } 
       }
    }
+}
+
+bool arr_equal(char arr1[], char arr2[])
+{
+   // check if two arrays are equal
+   bool same_arrays = true;
+   if(arr_length(arr1) == arr_length(arr2))
+   {
+      for (int i=0; i < arr_length(arr1); i++)
+      if(arr1[i] != arr2[i])
+         same_arrays = false;
+   }
+   else
+      same_arrays = false;
+
+   return same_arrays;        
+}
+
+void operation_set_empty(char set[5], char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH])
+{
+   /*
+      Check if set is empty.
+   */
+   int item;    
+   for (item = 0; lines_from_file[atoi(set)][item][0] != '\0'; item++) {}
+
+   item = item - 1; // Minus one becauce for cycle count also first letter ('U').
+
+   if(item == 0)
+      printf("true\n");
+   else   
+      printf("false\n");        
+}
+
+void operation_set_card(char set[5], char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH])
+{
+   /*
+      Count number of items in set.
+   */
+   int item;    
+   for (item = 0; lines_from_file[atoi(set)][item][0] != '\0'; item++) {}
+   printf("%d\n", item - 1);      
+}
+
+
+void operations(char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], int row)
+{
+   /*
+      Find what type of operator is on line 'row' and go to that function.
+   */
+   //todo: check arguments on line after C
+   if(arr_equal(lines_from_file[row][1], "empty"))
+      operation_set_empty(lines_from_file[row][2], lines_from_file);
+   else if(arr_equal(lines_from_file[row][1], "card"))
+      operation_set_card(lines_from_file[row][2], lines_from_file);
+   else if(arr_equal(lines_from_file[row][1], "complement"))
+      return; //todo
+   else if(arr_equal(lines_from_file[row][1], "union"))
+      return; //todo
+   else if(arr_equal(lines_from_file[row][1], "intersect"))
+      return; //todo
+   else if(arr_equal(lines_from_file[row][1], "minus"))
+      return; //todo
+   else if(arr_equal(lines_from_file[row][1], "subseteq"))
+      return; //todo 
+   else if(arr_equal(lines_from_file[row][1], "subset"))
+      return; //todo 
+   else if(arr_equal(lines_from_file[row][1], "equals"))
+      return; //todo   
 }
 
 int main(int argc, char *argv[]) 
@@ -151,13 +221,13 @@ int main(int argc, char *argv[])
    if(check_arguments(argc, &error))
    {
       sort_file(argv[1], lines_from_file, universum);
-
-      // now in lines_from_lines are all lines, in universum are universums 
-      // todo: zjednodusit program, then delete this
-
-      //Just example of printing things, can be deleted:
-      printf("Univerzum: %s", universum[4]);
-      printf("\n%s\n", lines_from_file[3][1]);
+      // Now in lines_from_file are all lines from file, in universum are universums 
+      // Find all operations by "C" on begin and for each row do operation.
+      for (int row = 0; row < MAX_ROWS; row++)
+      {
+         if(lines_from_file[row][0][0]=='C')
+            operations(lines_from_file, row);
+      }
    }
 
    // If there is an error in the program, exit the program with a return code 1

@@ -1,5 +1,5 @@
 U a b c x y z
-S a b c x
-S x y z
-C intersect 2 3
-C minus 2 3
+S a x y z
+S a b c
+C card 1
+C empty 1
