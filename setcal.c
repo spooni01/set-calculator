@@ -2,16 +2,9 @@
 #include <string.h>
 #include <stdbool.h>
 
-// todo: dynamicka alokacia
+// todo: dynamicka alokacia a zmena dlzok v celom programe
 #define MAX_LENGTH 30
 #define MAX_ROWS 1000
-
-
-// todo: universum a set ako array? alebo vsetko ako jeden struct?
-typedef struct universum
-{
-   char item[MAX_LENGTH];
-} universum_t;
 
 typedef struct set
 {
@@ -35,7 +28,7 @@ int arr_length(char *str)
    return length;
 }
 
-void print_set(set_t set[MAX_ROWS])
+void print_set(set_t set[MAX_ROWS], int rows)
 {
    /*
       Function will print set in format:
@@ -46,7 +39,7 @@ void print_set(set_t set[MAX_ROWS])
    int count = 0;
 
    printf("{");
-   for(int i = 0; i < MAX_ROWS; i++)
+   for(int i = 0; i < rows; i++)
    {
       // Check if item is empty. If item is empty, skip it.
       if(strlen(set[i].item) != 0)
@@ -82,12 +75,10 @@ bool check_arguments(int argc, bool *error)
       return false;
    }
 
-   // todo: add tests for argv (also add *argv[] to arguments of this function)
-
    return true;
 }
 
-void separate_universum(char line[MAX_LENGTH], universum_t *universum)
+void separate_universum(char line[MAX_LENGTH], char universum[MAX_LENGTH][MAX_LENGTH])
 {
    /*
       Function will separate 'line' to words and store it in '*universum'.
@@ -99,64 +90,74 @@ void separate_universum(char line[MAX_LENGTH], universum_t *universum)
    {
       if(line[i]==' '||line[i]=='\0')
       {
-         universum[word].item[letter]='\0';
+         universum[word][letter]='\0';
          word++;     // Next word.
          letter = 0; // Reset 'letter' to 0 because new word will start with 'letter = 0'.
       }
       else
       {
-         universum[word].item[letter] = line[i];
+         universum[word][letter] = line[i];
          letter++; 
       } 
    }
 }
 
-bool read_file(char *filename, set_t *set, universum_t *universum)
+void sort_file(char *filename, char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], char universum[MAX_LENGTH][MAX_LENGTH])
 {  
    /*
       Function open file 'filename' and save each line to '*set'.
    */
-   //todo: error (problem with loading file,etc...)
    FILE *file;
    file = fopen(filename, "r");
-   int row = 0;            // 'row' counts the number of rows and saves the row from the file to '*set'.
    char line[MAX_LENGTH];  // Temporary storage of a row from a file.
    
    // Go through file line by line and save lines to '*set'
    // and then in for() cycle go through line letter by letter
    // and save letters to 'set[row].item[i]'.
-   // todo: change while cycle to for?
-   while((fgets(line, MAX_LENGTH, file)) != NULL)
+   for(int row = 0; fgets(line, MAX_LENGTH, file) != NULL; row++)
    {
-      for(int i=0; i < arr_length(line); i++)
+      // Separate line to words.
+      int word = 0;     // Count number of words to know where to save it.
+      int letter = 0;   // Count letters in word.
+
+      for(int i=0;i<=(arr_length(line));i++)
       {
-         // Check if line start with "U", so it is universum.
          if(i == 0 && line[i] == 'U')
             separate_universum(line, universum);
 
-         // Save letters to 'set[row].item[i]' line by line.
-         set[row].item[i] = line[i];
-      }           
-      row++;
+         if(line[i]==' '||line[i]=='\0')
+         {
+            lines_from_file[row][word][letter]='\0';
+            word++;     // Next word.
+            letter = 0; // Reset 'letter' to 0 because new word will start with 'letter = 0'.
+         }
+         else
+         {
+            lines_from_file[row][word][letter] = line[i];
+            letter++; 
+         } 
+      }
    }
-   return true;
 }
 
 int main(int argc, char *argv[]) 
 {
-   bool error = false;                 // Variable that is true if in program is error.
-   universum_t universum[MAX_LENGTH];  // There will be store universums from file. On the [0] will be "U", so the first universum is on [1].
-   set_t set[MAX_ROWS];                // todo change set_t to array
-
+   char lines_from_file[MAX_ROWS][MAX_LENGTH][MAX_LENGTH];  // Store all lines from file.
+   char universum[MAX_LENGTH][MAX_LENGTH];                  // There will be store universums from file. On the [0] will be "U", so the first universum is on [1].
+   bool error = false;                                      // Variable that is true if in program is error.   
+   
    // This condition check if arguments from user are correct (check_arguments())
    // and whether an error occurs while loading the file '*file'.
-   if(check_arguments(argc, &error) && read_file(argv[1], set, universum))
+   if(check_arguments(argc, &error))
    {
-      
+      sort_file(argv[1], lines_from_file, universum);
+
+      // now in lines_from_lines are all lines, in universum are universums 
+      // todo: zjednodusit program, then delete this
+
       //Just example of printing things, can be deleted:
-      //printf("First char: %c\n", set[0].item[0]);
-      //printf("First line: %s", set[0].item);
-      printf("Prve univerzum: %s", universum[1].item);
+      printf("Univerzum: %s", universum[4]);
+      printf("\n%s\n", lines_from_file[3][1]);
    }
 
    // If there is an error in the program, exit the program with a return code 1
