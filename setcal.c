@@ -29,30 +29,30 @@ int arr_length(char *str)
    return length;
 }
 
-void print_set(set_t set[MAX_ROWS], int rows)
+void print_set(char set[MAX_LENGTH][MAX_LENGTH], int length)
 {
    /*
-      Function will print set in format:
+      Function will print universum in format:
       '{item1, item2, item3}'.
    */
-   // Counts the number of items so the function knows when it is the 
-   // first item (-> function do not print the comma before the first item)
-   int count = 0;
+   int count = 0; // Must be counting because if condition may not allow to continue.
 
    printf("{");
-   for(int i = 0; i < rows; i++)
+   for (int i = 1; i < length; i++) 
    {
-      // Check if item is empty. If item is empty, skip it.
-      if(strlen(set[i].item) != 0)
+      if(set[i][0] != '\0')
       {
          count++;
-         if(count == 1)
-            printf("%s", set[i].item);
-         else
-            printf(", %s", set[i].item);
+         if(count == 1) 
+            printf("%s", set[i]);
+         else  
+         {
+            strtok(set[i], "\n");
+            printf(", %s", set[i]);
+         }
       }
    }
-   printf("}");
+   printf("}\n");
 }
 
 bool check_arguments(int argc, bool *error)
@@ -79,7 +79,7 @@ bool check_arguments(int argc, bool *error)
    return true;
 }
 
-void separate_universum(char line[MAX_LENGTH], char universum[MAX_LENGTH][MAX_LENGTH])
+void separate_universum(char line[MAX_LENGTH], char universum[MAX_LENGTH][MAX_LENGTH], int *number_of_universums)
 {
    /*
       Function will separate 'line' to words and store it in '*universum'.
@@ -101,9 +101,11 @@ void separate_universum(char line[MAX_LENGTH], char universum[MAX_LENGTH][MAX_LE
          letter++; 
       } 
    }
+
+   *number_of_universums = word - 1; // Minus 1 because first letter "U" is also counted.
 }
 
-void sort_file(char *filename, char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], char universum[MAX_LENGTH][MAX_LENGTH])
+void sort_file(char *filename, char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], char universum[MAX_LENGTH][MAX_LENGTH], int *number_of_universums)
 {  
    /*
       Function open file 'filename' and save each line to '*set'.
@@ -122,7 +124,7 @@ void sort_file(char *filename, char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_
       for(int i = 0; i <= arr_length(line); i++)
       {
          if(i == 0 && line[i] == 'U')
-            separate_universum(line, universum);
+            separate_universum(line, universum, number_of_universums);
 
          if(line[i]==' '||line[i]=='\0')
          {
@@ -138,6 +140,10 @@ void sort_file(char *filename, char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_
             letter++; 
          } 
       }
+
+      // Print actual line to terminal.      
+      if(line[0] != 'C')
+         printf("%s", line);
    }
 }
 
@@ -183,8 +189,54 @@ void operation_set_card(char set[5], char lines_from_file[MAX_LENGTH][MAX_LENGTH
    printf("%d\n", item - 1);      
 }
 
+void operation_set_complement(char set[5], char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], char universum[MAX_LENGTH][MAX_LENGTH], int number_of_universums)
+{
+   /*
+      Find complement of set 'set'.
+   */
+   for (int i = 0; i <= number_of_universums; i++)
+   {
+      for (int j = 0; j < MAX_LENGTH;j++)
+      {
+         // Delete '\n' from a chars[]. With '\n' function can recognize, that 'x' and 'x\n' is the same item.
+         strtok(lines_from_file[atoi(set)][i], "\n");
+         strtok(universum[j], "\n");
 
-void operations(char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], int row)
+         if(arr_equal(lines_from_file[atoi(set)][i], universum[j]))
+            universum[j][0]='\0';
+      }      
+   }
+   
+   print_set(universum, number_of_universums+1); 
+}   
+
+void operation_set_intersect(char set_a[5], char set_b[5], char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], int number_of_universums)
+{
+   /*
+      Return intersect of two sets.
+   */
+   int count = 0;
+   char final_set[MAX_LENGTH][MAX_LENGTH];
+   for (int i = 0; i <= number_of_universums; i++)
+   {
+      for (int j = 0; j < number_of_universums; j++)
+      {
+         if(arr_equal(lines_from_file[atoi(set_a)][i], lines_from_file[atoi(set_b)][j]))
+         {
+            // Write to final_set.
+            for (int k = 0; k < MAX_LENGTH; k++)
+            {
+               final_set[count][k] = lines_from_file[atoi(set_a)][i][k];
+            }
+            
+            count++;
+         }   
+      }    
+   }
+   print_set(final_set, count);
+}
+
+void operations(char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], int row, char universum[MAX_LENGTH][MAX_LENGTH], int number_of_universums)
 {
    /*
       Find what type of operator is on line 'row' and go to that function.
@@ -195,11 +247,11 @@ void operations(char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], int ro
    else if(arr_equal(lines_from_file[row][1], "card"))
       operation_set_card(lines_from_file[row][2], lines_from_file);
    else if(arr_equal(lines_from_file[row][1], "complement"))
-      return; //todo
+      operation_set_complement(lines_from_file[row][2], lines_from_file, universum, number_of_universums);
    else if(arr_equal(lines_from_file[row][1], "union"))
       return; //todo
    else if(arr_equal(lines_from_file[row][1], "intersect"))
-      return; //todo
+      operation_set_intersect(lines_from_file[row][2], lines_from_file[row][3], lines_from_file, number_of_universums);
    else if(arr_equal(lines_from_file[row][1], "minus"))
       return; //todo
    else if(arr_equal(lines_from_file[row][1], "subseteq"))
@@ -213,20 +265,21 @@ void operations(char lines_from_file[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH], int ro
 int main(int argc, char *argv[]) 
 {
    char lines_from_file[MAX_ROWS][MAX_LENGTH][MAX_LENGTH];  // Store all lines from file.
-   char universum[MAX_LENGTH][MAX_LENGTH];                  // There will be store universums from file. On the [0] will be "U", so the first universum is on [1].
+   char universum[MAX_LENGTH][MAX_LENGTH];                  // There will be store universums from file. On the [0] will be , so the first universum is on [1].
+   int number_of_universums;                                // Number of universums on a line where is "U" on first place.
    bool error = false;                                      // Variable that is true if in program is error.   
    
    // This condition check if arguments from user are correct (check_arguments())
    // and whether an error occurs while loading the file '*file'.
    if(check_arguments(argc, &error))
    {
-      sort_file(argv[1], lines_from_file, universum);
+      sort_file(argv[1], lines_from_file, universum, &number_of_universums);
       // Now in lines_from_file are all lines from file, in universum are universums 
       // Find all operations by "C" on begin and for each row do operation.
       for (int row = 0; row < MAX_ROWS; row++)
       {
          if(lines_from_file[row][0][0]=='C')
-            operations(lines_from_file, row);
+            operations(lines_from_file, row, universum, number_of_universums);
       }
    }
 
