@@ -54,7 +54,7 @@ int loadUniElements(char *uniElems, char **univerzum)
 
 		if(uniElems[uniElemsIndex] != ' ' && uniElems[uniElemsIndex] != '\0')
 		{
-			fprintf(stderr, "Prvek %s... je prilis dlouhy, maximilni delka prvku je %d znaku!\n", element, ELEM_MAX_LENGTH);
+			fprintf(stderr, "Chyba: Prvek %s... je prilis dlouhy, maximilni delka prvku je %d znaku!\n", element, ELEM_MAX_LENGTH);
 			free(element);
 			return 1;
 		}
@@ -99,18 +99,69 @@ int getPosInUni(char *element, char **univerzum, int numOfUniElems)
 	return -1;
 }
 
-int main() {	
+//returns a string containing all the univerzum elements loaded from file
+char *loadUniverzum(FILE *file, int *numOfUniElems)
+{
+	if(getc(file) != 'U' || getc(file) != ' ')
+		fprintf(stderr,"Chyba: Spatny format univerza!\n");
+
+	char ch = EOF;
+	char *line = NULL;
+	char *temp = NULL;
+	size_t size = 0;
+	size_t index = 0;
+
+	while(ch)
+	{
+		ch = getc(file);
+		if(ch == ' ' || ch == '\n')
+			(*numOfUniElems)++;
+		if(ch == '\n' || ch == '\0' || ch == EOF)
+			ch = 0;
+
+		if(size <= index)
+		{
+			size += sizeof(char);
+			temp = realloc(line, size);
+			if(!temp)
+			{
+				free(line);
+				line = NULL;
+				break;
+			}
+			line = temp;
+		}
+		line[index++] = ch;
+	}
 	
+	return line;
+}
+
+int main(int argc, char *argv[]) {	
+	
+	if(argc == 1)
+	{
+		fprintf(stderr, "Chyba: Nebyl dodan soubor s daty!\n");
+		return 1;
+	}
+	
+	FILE *file = fopen(argv[1], "r");
+	if(!file)
+	{
+		fprintf(stderr, "Chyba: Nelze otevrit soubor s daty!\n");
+		fclose(file);
+		return 1;
+	}
+
 	char **univerzum;
-	univerzum = malloc(4 * sizeof(char*));
+	int numOfUniElems = 0;
+	char *univerzumLine = loadUniverzum(file, &numOfUniElems);
+	univerzum = malloc(numOfUniElems * sizeof(char*));
+	loadUniElements(univerzumLine, univerzum);
 
-	char *str = "ahoj babo dedku pazure";
+	//all elements of univerzum are loaded
 
-	//testing functions
-	loadUniElements(str, univerzum);
-	printUniverzum(univerzum, 4);
-	printf("prvek: %s je v univerzu na %d. pozici\n", "pazure", getPosInUni("pazure", univerzum, 4) + 1);
-	freeUni(univerzum, 4);	
+	printUniverzum(univerzum, numOfUniElems);
 
 	/*	
 	set_t setArray[FILE_MAX_LINES];
@@ -126,5 +177,8 @@ int main() {
 	p_elem2 = elem2;
 	set_t set2 = {.lineNum = 3, .elements = p_elem2};
 	*/
+
+	freeUni(univerzum, numOfUniElems);
+	fclose(file);
 	return 0;
 } 
