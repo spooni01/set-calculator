@@ -88,6 +88,17 @@ void printUniverzum(char **univerzum, int numOfUniElems)
 	}
 }
 
+//returns the indexed position of str element in univerzum or -1 if the element wasnt found
+int getPosInUni(char *element, char **univerzum, int numOfUniElems)
+{
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		if(strcmp(element, univerzum[i]) == 0)
+			return i;
+	}
+	return -1;
+}
+
 int main() {	
 	
 	char **univerzum;
@@ -95,8 +106,10 @@ int main() {
 
 	char *str = "ahoj babo dedku pazure";
 
+	//testing functions
 	loadUniElements(str, univerzum);
 	printUniverzum(univerzum, 4);
+	printf("prvek: %s je v univerzu na %d. pozici\n", "pazure", getPosInUni("pazure", univerzum, 4) + 1);
 	freeUni(univerzum, 4);	
 
 	/*	
