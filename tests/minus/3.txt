@@ -1,4 +1,0 @@
-U a b c
-S
-S c b
-C minus 3 2

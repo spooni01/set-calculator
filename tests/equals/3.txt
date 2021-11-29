@@ -1,4 +1,0 @@
-U a b c
-S
-S a b
-C equals 3 2

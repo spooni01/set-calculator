@@ -1,3 +1,0 @@
-U a b c
-R (b b) (a a) (c c)
-C reflexive 2
