@@ -35,13 +35,5 @@ Relace {(a,b), (b,a), (d,e), (c,d)} takto:
 
 Neboli v trochu citelnejsim tvaru:
 
-  a   b   c   d   e
-a 0 | 1 | 0 | 0 | 0
- ---+---+---+---+----
-b 1 | 0 | 0 | 0 | 0
- ---+---+---+---+----
-c 0 | 0 | 0 | 1 | 0
- ---+---+---+---+----
-d 0 | 0 | 0 | 0 | 1
- ---+---+---+---+----
-e 0 | 0 | 0 | 0 | 0
+![Výstřižek](https://user-images.githubusercontent.com/80490096/143857554-4d9e6cf9-a66b-4fc8-a894-97f3f5eaa37e.PNG)
+
