@@ -5,29 +5,57 @@
 #define ELEM_MAX_LENGTH 30
 #define FILE_MAX_LINES 1000
 
-//set
+//set data type
 typedef struct{
 	int *elements;
 	int lineNum;		
 } set_t;
 
-//relation
+//relation data type
 typedef struct{
 	int **elements;
 	int lineNum;
 } rel_t;
 
-//load data from univerzum and save univerzum, sets and relations to data types
-//loadData(FILE* file, char **univerzum, set_t[] setArray, rel_t[] relArray)
+/** LOADING, FREEING AND HELPER FUNCTIONS **/
 
-//return element from univerzum with particular index
-//returnUniverzumElement(char **univerzum, int uniSize, int index)
+//returns a string containing all the univerzum elements loaded from file
+char *loadUniverzum(FILE *file, int *numOfUniElems)
+{
+	if(getc(file) != 'U' || getc(file) != ' ')
+		fprintf(stderr,"Chyba: Spatny format univerza!\n");
 
-//free all allocated memory for univerzum
-//univerzumDestructor(char ** univerzum, int uniSize)
+	char ch = EOF;
+	char *line = NULL;
+	char *temp = NULL;
+	size_t size = 0;
+	size_t index = 0;
 
-//free all allocated memory from set array and relation array
-//setReldestructor(set_t[] setArray, rel_t[] relArray)
+	while(ch)
+	{
+		ch = getc(file);
+		if(ch == ' ' || ch == '\n')
+			(*numOfUniElems)++;
+		if(ch == '\n' || ch == '\0' || ch == EOF)
+			ch = 0;
+
+		if(size <= index)
+		{
+			size += sizeof(char);
+			temp = realloc(line, size);
+			if(!temp)
+			{
+				free(line);
+				line = NULL;
+				break;
+			}
+			line = temp;
+		}
+		line[index++] = ch;
+	}
+	
+	return line;
+}
 
 //gets univerzum as a long string {element1 element2 element3 ... elementn} and loads these elements into the neatly packed univerzum
 int loadUniElements(char *uniElems, char **univerzum)
@@ -99,43 +127,147 @@ int getPosInUni(char *element, char **univerzum, int numOfUniElems)
 	return -1;
 }
 
-//returns a string containing all the univerzum elements loaded from file
-char *loadUniverzum(FILE *file, int *numOfUniElems)
-{
-	if(getc(file) != 'U' || getc(file) != ' ')
-		fprintf(stderr,"Chyba: Spatny format univerza!\n");
-
-	char ch = EOF;
-	char *line = NULL;
-	char *temp = NULL;
-	size_t size = 0;
-	size_t index = 0;
-
-	while(ch)
+void print_set(set_t set, int length, char **univerzum) {
+	int count = 0; // number of printed elements
+	printf("{");
+	for (int i = 0; i < length; i++)
 	{
-		ch = getc(file);
-		if(ch == ' ' || ch == '\n')
-			(*numOfUniElems)++;
-		if(ch == '\n' || ch == '\0' || ch == EOF)
-			ch = 0;
-
-		if(size <= index)
-		{
-			size += sizeof(char);
-			temp = realloc(line, size);
-			if(!temp)
-			{
-				free(line);
-				line = NULL;
-				break;
-			}
-			line = temp;
+	        if(set.elements[i] == 1) {
+			if(count==0)
+	                	printf("%s", univerzum[i]);
+	                else
+	                	printf(", %s", univerzum[i]); 
+			count++;         
 		}
-		line[index++] = ch;
+	          
+	}
+ 	printf("}\n");
+}
+
+/** FUNCTIONS FOR SETS OPERATIONS **/
+
+void set_empty(set_t set, int length) {
+	for(int i = 0; i < length; i++)
+	{
+		if(set.elements[i] == 1) {
+			printf("false\n");
+			return;
+		}
+	}
+	printf("true\n");
+}
+
+void set_card(set_t set, int length) {
+	int count = 0;
+	for(int i = 0; i < length; i++) {
+		if(set.elements[i] == 1)
+			count++;
+	}
+	printf("%d\n", count);
+}
+
+void set_complement(set_t set, int length, char **univerzum) {
+	for(int i = 0; i < length; i++) {
+		if(set.elements[i] == 1)
+			set.elements[i] = 0;
+		else
+			set.elements[i] = 1;    
+	}
+	print_set(set, length, univerzum);
+
+}
+
+void set_union(set_t set1, set_t set2, int length, char **univerzum) {
+	int elem[length];
+	int *p_elem;
+	p_elem = elem;
+	set_t final_set = {.elements = p_elem};	
+
+	for(int i = -1; i < length; i++) {
+		if(set1.elements[i] == 1 || set2.elements[i] == 1)
+			final_set.elements[i] = 1;
+		else
+			final_set.elements[i] = 0;        
+	}
+			        
+	print_set(final_set, length, univerzum);
+}
+
+void set_intersect(set_t set1, set_t set2, int length, char **univerzum) {
+	int elem[length];
+	int *p_elem;
+	p_elem = elem;
+	set_t final_set = {.elements = p_elem};	
+
+	for(int i = -1; i < length; i++) {
+		if(set1.elements[i] == 1 && set2.elements[i] == 1)
+			final_set.elements[i] = 1;
+		else
+			final_set.elements[i] = 0;       
+	}
+	print_set(final_set, length, univerzum);
+}
+
+void set_minus(set_t set1, set_t set2, int length, char **univerzum) {
+	int elem[length];
+	int *p_elem;
+	p_elem = elem;
+	set_t final_set = {.elements = p_elem};	
+
+	for(int i = -1; i < length; i++) {
+		if(set1.elements[i] == 1 && set2.elements[i] == 1)
+			final_set.elements[i] = 0;
+		else if(set1.elements[i] == 0)
+			final_set.elements[i] = 0;    
+		else
+			final_set.elements[i] = 1;
+	}
+			    
+	print_set(final_set, length, univerzum); 
+}
+
+void set_subseteq(set_t set1, set_t set2, int length) {
+	for(int i = 0; i < length; i++) {
+		if(set1.elements[i] == 1 && set2.elements[i] == 0) {
+			printf("false\n");
+			return;
+		}
+	}
+	printf("true\n");
+}
+
+void set_subset(set_t set1, set_t set2, int length) {
+	int same_elems = 0;
+
+	for(int i = 0; i < length; i++) {
+		if(set1.elements[i] == 1 && set2.elements[i] == 0) {
+			printf("false\n");
+			return;
+		}
+		else if(set1.elements[i] == set2.elements[i])
+			same_elems++;
 	}
 	
-	return line;
+	if(same_elems == length) 
+		printf("false\n");
+	else
+		printf("true\n");
 }
+
+void set_equals(set_t set1, set_t set2, int length) {
+	for(int i = 0; i < length; i++) {
+		if(set1.elements[i] != set2.elements[i]) {
+			printf("false\n");
+			return;
+		}
+	}
+	printf("true\n");
+}
+
+/** FUNCTIONS FOR RELATIONS OPERATIONS**/
+//TO DO: ALL
+
+/** MAIN **/
 
 int main(int argc, char *argv[]) {	
 	
@@ -159,24 +291,14 @@ int main(int argc, char *argv[]) {
 	univerzum = malloc(numOfUniElems * sizeof(char*));
 	loadUniElements(univerzumLine, univerzum);
 
-	//all elements of univerzum are loaded
-
-	printUniverzum(univerzum, numOfUniElems);
-
-	/*	
 	set_t setArray[FILE_MAX_LINES];
 	rel_t relArray[FILE_MAX_LINES];
 
-	//sample sets for setArray
-	int elem1[] = {0, 0, 1, 1, 0, 0};
-	int *p_elem1;
-	p_elem1 = elem1;
-	set_t set1 = {.lineNum = 2, .elements = p_elem1};	
-	int elem2[] = {0, 1, 1, 1, 1, 0};
-	int *p_elem2;
-	p_elem2 = elem2;
-	set_t set2 = {.lineNum = 3, .elements = p_elem2};
-	*/
+	//TO DO: load all sets and relations into respective arrays
+
+	//TO DO: load all instructions from test file and call the corresponding functions
+
+	//TO DO: free all sets and arrays, since they will be dynamically allocated
 
 	freeUni(univerzum, numOfUniElems);
 	fclose(file);
