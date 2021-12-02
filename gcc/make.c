@@ -3,7 +3,7 @@
 
 int main()
 {
-    system("gcc -std=c99 -Wall -Wextra -Werror -g setcal.c -o setcal");
+    system("gcc -std=c99 -Wall -Wextra -Werror -g -O0 setcal.c -o setcal");
 }
 
     

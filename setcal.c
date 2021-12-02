@@ -19,13 +19,16 @@ typedef struct{
 
 /** LOADING, FREEING AND HELPER FUNCTIONS **/
 
-//returns a string containing all the univerzum elements loaded from file
+//returns a a string with the lines elements (checks for validity the first two chars and then discards them)
+//also 'returns' what was the first char (identification), number of elements it found and on success, increases numOfLines by one
 char *loadLine(FILE *file, char *firstChar, int *numOfElems, int *numOfLines)
 {
 	char allowedFirstChars[] = {'U', 'S', 'R', 'C'};
 
 	(*numOfLines)++;
 	char lineIdentifier = getc(file);
+	if(lineIdentifier == EOF)
+		return NULL;
 	if(!strchr(allowedFirstChars, lineIdentifier) || getc(file) != ' ')
 	{	
 		fprintf(stderr,"Chyba: Spatny format na radku %d!\n", *numOfLines);
@@ -67,7 +70,68 @@ char *loadLine(FILE *file, char *firstChar, int *numOfElems, int *numOfLines)
 	return line;
 }
 
-//gets univerzum as a long string {element1 element2 element3 ... elementn} and loads these elements into the neatly packed univerzum
+//returns the indexed position of str element in univerzum or -1 if the element wasnt found
+int getPosInUni(char *element, char **univerzum, int numOfUniElems)
+{
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		if(strcmp(element, univerzum[i]) == 0)
+			return i;
+	}
+	return -1;
+}
+
+int loadSet(char *setStr, int *setArr, int maxElems, char **univerzum)
+{
+	char buffer[ELEM_MAX_LENGTH + 1];
+	int setStrIndex = 0;
+	int posInUni;
+	int numOfElems = 0;
+
+	memset(buffer, '\0', ELEM_MAX_LENGTH + 1);
+
+	while(setStr[setStrIndex] != '\0')
+	{
+		memset(buffer, '\0', ELEM_MAX_LENGTH + 1);
+		//isolate an element from input string and save it into buffer
+		for(int i = 0; i < ELEM_MAX_LENGTH && setStr[setStrIndex] != ' ' && setStr[setStrIndex] != '\0'; i++)
+		{
+			buffer[i] = setStr[setStrIndex];
+			setStrIndex++;
+		}
+
+		//check if element isnt too long	
+		if(setStr[setStrIndex] != ' ' && setStr[setStrIndex] != '\0')
+		{
+			fprintf(stderr, "Chyba: chybny format mnoziny u prvku %s!\n", buffer);
+			return 1;
+		}
+
+		//find this element in univerzum and save 1 on corresponding setArr position
+		posInUni = getPosInUni(buffer, univerzum, maxElems);
+
+		if(posInUni == -1)
+		{
+			fprintf(stderr, "Chyba: prvek %s neni v univerzu!\n", buffer);
+			return 1;
+		}
+
+		numOfElems++;
+		if(numOfElems > maxElems)
+		{
+			fprintf(stderr, "Chyba: prilis mnoho prvku v mnozine {%s}!\n", setStr);
+			return 1;
+		}
+
+		setArr[posInUni] = 1;
+
+		if(setStr[setStrIndex] != '\0')
+			setStrIndex++;
+	}
+	return 0;
+}
+
+//gets univerzum as a long string {element1 element2 element3 ... elementn} and saves these elements into the neatly packed univerzum
 int loadUniElements(char *uniElems, char **univerzum)
 {	
 	char *element;
@@ -117,6 +181,17 @@ void freeUni(char **univerzum, int numOfUniElems)
 	free(univerzum);
 }
 
+//frees all dynamically allocated sets in sets array
+void freeSets(set_t *setArray, int numOfSets)
+{
+	for(int i = 0; i < numOfSets; i++)
+	{
+		if(setArray[i].lineNum)
+			free(setArray[i].elements);
+		setArray[i].lineNum = 0;
+	}
+}
+
 //prints elements of the univerzum
 void printUniverzum(char **univerzum, int numOfUniElems)
 {
@@ -126,16 +201,6 @@ void printUniverzum(char **univerzum, int numOfUniElems)
 	}
 }
 
-//returns the indexed position of str element in univerzum or -1 if the element wasnt found
-int getPosInUni(char *element, char **univerzum, int numOfUniElems)
-{
-	for(int i = 0; i < numOfUniElems; i++)
-	{
-		if(strcmp(element, univerzum[i]) == 0)
-			return i;
-	}
-	return -1;
-}
 
 void print_set(set_t set, int length, char **univerzum) {
 	int count = 0; // number of printed elements
@@ -312,10 +377,48 @@ int main(int argc, char *argv[]) {
 	loadUniElements(univerzumLine, univerzum);
 	free(univerzumLine);
 
-	printUniverzum(univerzum, numOfUniElems);
+	//printUniverzum(univerzum, numOfUniElems);
 
-	//set_t setArray[FILE_MAX_LINES];
+	set_t setArray[FILE_MAX_LINES];
 	//rel_t relArray[FILE_MAX_LINES];
+	int setArrIndex = 0;
+	//relArrIndex = 0;
+
+	char firstCharOnLine;
+	int numOfElementsInArray = 0;
+	char *lineBuffer = loadLine(file, &firstCharOnLine, &numOfElementsInArray, &numOfLines);
+	int functionFail;
+	while((firstCharOnLine == 'S' || firstCharOnLine == 'R') && lineBuffer != NULL)
+	{
+		if(firstCharOnLine == 'S')
+		{
+			int *set = calloc(numOfUniElems, sizeof(int));
+			functionFail = loadSet(lineBuffer, set, numOfUniElems, univerzum);
+			if(functionFail)
+			{	
+				fclose(file);
+				freeUni(univerzum, numOfUniElems);
+				freeSets(setArray, setArrIndex);
+				return 1;
+			}
+
+			setArray[setArrIndex].elements = set;
+			set = NULL;
+			setArray[setArrIndex].lineNum = numOfLines;
+			setArrIndex++;		
+		}
+
+		else
+		{
+			//implement loading rels
+		}
+
+		free(lineBuffer);
+		lineBuffer = loadLine(file, &firstCharOnLine, &numOfElementsInArray, &numOfLines);
+	}
+
+	for(int i = 0; i < setArrIndex; i++)
+		print_set(setArray[i], numOfUniElems, univerzum);
 
 	//TO DO: load all sets and relations into respective arrays
 
@@ -324,6 +427,7 @@ int main(int argc, char *argv[]) {
 	//TO DO: free all sets and arrays, since they will be dynamically allocated
 
 	freeUni(univerzum, numOfUniElems);
+	freeSets(setArray, setArrIndex);
 	fclose(file);
 	return 0;
 } 
