@@ -20,10 +20,19 @@ typedef struct{
 /** LOADING, FREEING AND HELPER FUNCTIONS **/
 
 //returns a string containing all the univerzum elements loaded from file
-char *loadUniverzum(FILE *file, int *numOfUniElems)
+char *loadLine(FILE *file, char *firstChar, int *numOfElems, int *numOfLines)
 {
-	if(getc(file) != 'U' || getc(file) != ' ')
-		fprintf(stderr,"Chyba: Spatny format univerza!\n");
+	char allowedFirstChars[] = {'U', 'S', 'R', 'C'};
+
+	(*numOfLines)++;
+	char lineIdentifier = getc(file);
+	if(!strchr(allowedFirstChars, lineIdentifier) || getc(file) != ' ')
+	{	
+		fprintf(stderr,"Chyba: Spatny format na radku %d!\n", *numOfLines);
+		return NULL;
+	}
+
+	*firstChar = lineIdentifier;
 
 	char ch = EOF;
 	char *line = NULL;
@@ -35,7 +44,7 @@ char *loadUniverzum(FILE *file, int *numOfUniElems)
 	{
 		ch = getc(file);
 		if(ch == ' ' || ch == '\n')
-			(*numOfUniElems)++;
+			(*numOfElems)++;
 		if(ch == '\n' || ch == '\0' || ch == EOF)
 			ch = 0;
 
@@ -45,15 +54,16 @@ char *loadUniverzum(FILE *file, int *numOfUniElems)
 			temp = realloc(line, size);
 			if(!temp)
 			{
+				fprintf(stderr,"Chyba: Alokace pamati pro radek %d selhala!\n", *numOfLines);
+				(*numOfLines)--;
 				free(line);
 				line = NULL;
-				break;
+				return line;
 			}
 			line = temp;
 		}
 		line[index++] = ch;
 	}
-	
 	return line;
 }
 
@@ -82,7 +92,7 @@ int loadUniElements(char *uniElems, char **univerzum)
 
 		if(uniElems[uniElemsIndex] != ' ' && uniElems[uniElemsIndex] != '\0')
 		{
-			fprintf(stderr, "Chyba: Prvek %s... je prilis dlouhy, maximilni delka prvku je %d znaku!\n", element, ELEM_MAX_LENGTH);
+			fprintf(stderr, "Chyba: Chybny format univerza u prvku %s!\n", element);
 			free(element);
 			return 1;
 		}
@@ -286,13 +296,26 @@ int main(int argc, char *argv[]) {
 	}
 
 	char **univerzum;
+	char uniIdentifier;
 	int numOfUniElems = 0;
-	char *univerzumLine = loadUniverzum(file, &numOfUniElems);
+	int numOfLines = 0;
+	char *univerzumLine = loadLine(file, &uniIdentifier, &numOfUniElems, &numOfLines);
+
+	if(uniIdentifier != 'U')
+	{
+		fprintf(stderr, "Chyba: Spatny format univerza\n");
+		fclose(file);
+		return 1;
+	}
+
 	univerzum = malloc(numOfUniElems * sizeof(char*));
 	loadUniElements(univerzumLine, univerzum);
+	free(univerzumLine);
 
-	set_t setArray[FILE_MAX_LINES];
-	rel_t relArray[FILE_MAX_LINES];
+	printUniverzum(univerzum, numOfUniElems);
+
+	//set_t setArray[FILE_MAX_LINES];
+	//rel_t relArray[FILE_MAX_LINES];
 
 	//TO DO: load all sets and relations into respective arrays
 
