@@ -201,10 +201,10 @@ void printUniverzum(char **univerzum, int numOfUniElems)
 	}
 }
 
-void print_set(set_t set, int length, char **univerzum) {
+void printSet(set_t set, int numOfUniElems, char **univerzum) {
 	int count = 0; // number of printed elements
 	printf("{");
-	for (int i = 0; i < length; i++)
+	for (int i = 0; i < numOfUniElems; i++)
 	{
 	        if(set.elements[i] == 1) {
 			if(count==0)
@@ -218,7 +218,7 @@ void print_set(set_t set, int length, char **univerzum) {
  	printf("}\n");
 }
 
-void print_rel(rel_t rel, int numOfUniElems, char **univerzum) {
+void printRel(rel_t rel, int numOfUniElems, char **univerzum) {
 	for (int i = 0; i < numOfUniElems; i++)
 	{
 		for (int j = 0; j < numOfUniElems; j++)
@@ -232,8 +232,8 @@ void print_rel(rel_t rel, int numOfUniElems, char **univerzum) {
 
 /** FUNCTIONS FOR SETS OPERATIONS **/
 
-void set_empty(set_t set, int length) {
-	for(int i = 0; i < length; i++)
+void setEmpty(set_t set, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
 	{
 		if(set.elements[i] == 1) {
 			printf("false\n");
@@ -243,64 +243,64 @@ void set_empty(set_t set, int length) {
 	printf("true\n");
 }
 
-void set_card(set_t set, int length) {
+void setCard(set_t set, int numOfUniElems) {
 	int count = 0;
-	for(int i = 0; i < length; i++) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set.elements[i] == 1)
 			count++;
 	}
 	printf("%d\n", count);
 }
 
-void set_complement(set_t set, int length, char **univerzum) {
-	for(int i = 0; i < length; i++) {
+void setComplement(set_t set, int numOfUniElems, char **univerzum) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set.elements[i] == 1)
 			set.elements[i] = 0;
 		else
 			set.elements[i] = 1;    
 	}
-	print_set(set, length, univerzum);
+	printSet(set, numOfUniElems, univerzum);
 
 }
 
-void set_union(set_t set1, set_t set2, int length, char **univerzum) {
-	int elem[length];
+void setUnion(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
 	int *p_elem;
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
 
-	for(int i = -1; i < length; i++) {
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 || set2.elements[i] == 1)
 			final_set.elements[i] = 1;
 		else
 			final_set.elements[i] = 0;        
 	}
 			        
-	print_set(final_set, length, univerzum);
+	printSet(final_set, numOfUniElems, univerzum);
 }
 
-void set_intersect(set_t set1, set_t set2, int length, char **univerzum) {
-	int elem[length];
+void setIntersect(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
 	int *p_elem;
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
 
-	for(int i = -1; i < length; i++) {
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 1)
 			final_set.elements[i] = 1;
 		else
 			final_set.elements[i] = 0;       
 	}
-	print_set(final_set, length, univerzum);
+	printSet(final_set, numOfUniElems, univerzum);
 }
 
-void set_minus(set_t set1, set_t set2, int length, char **univerzum) {
-	int elem[length];
+void setMinus(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
 	int *p_elem;
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
 
-	for(int i = -1; i < length; i++) {
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 1)
 			final_set.elements[i] = 0;
 		else if(set1.elements[i] == 0)
@@ -309,11 +309,11 @@ void set_minus(set_t set1, set_t set2, int length, char **univerzum) {
 			final_set.elements[i] = 1;
 	}
 			    
-	print_set(final_set, length, univerzum); 
+	printSet(final_set, numOfUniElems, univerzum); 
 }
 
-void set_subseteq(set_t set1, set_t set2, int length) {
-	for(int i = 0; i < length; i++) {
+void setSubseteq(set_t set1, set_t set2, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 0) {
 			printf("false\n");
 			return;
@@ -322,10 +322,10 @@ void set_subseteq(set_t set1, set_t set2, int length) {
 	printf("true\n");
 }
 
-void set_subset(set_t set1, set_t set2, int length) {
+void setSubset(set_t set1, set_t set2, int numOfUniElems) {
 	int same_elems = 0;
 
-	for(int i = 0; i < length; i++) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 0) {
 			printf("false\n");
 			return;
@@ -334,14 +334,14 @@ void set_subset(set_t set1, set_t set2, int length) {
 			same_elems++;
 	}
 	
-	if(same_elems == length) 
+	if(same_elems == numOfUniElems) 
 		printf("false\n");
 	else
 		printf("true\n");
 }
 
-void set_equals(set_t set1, set_t set2, int length) {
-	for(int i = 0; i < length; i++) {
+void setEquals(set_t set1, set_t set2, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set1.elements[i] != set2.elements[i]) {
 			printf("false\n");
 			return;
@@ -351,7 +351,172 @@ void set_equals(set_t set1, set_t set2, int length) {
 }
 
 /** FUNCTIONS FOR RELATIONS OPERATIONS**/
-//todo: all
+
+void relReflexive(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		if(rel.elements[i][i] == 0) {
+			printf("false\n");
+			return;
+		}
+	}
+	printf("true\n");
+}
+
+void relSymmetric(rel_t rel, int numOfUniElems) {
+	// todo: je spravna spravena funckia?
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] != rel.elements[j][i]) {
+				printf("false\n");
+				return;
+			}
+		}		
+	}
+	printf("true\n");
+}
+
+void relAntisymmetric(rel_t rel, int numOfUniElems) {
+	// todo: je spravna spravena funckia?
+	int count = 0;
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] != rel.elements[j][i]) {
+				count++;
+			}
+		}		
+	}
+
+	if(count > 0)
+		printf("true\n");
+	else
+		printf("false\n");	
+}
+
+void relTransitive(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			for (int k = 0; k < numOfUniElems; k++)
+			{
+				if(rel.elements[i][j] == 1 && rel.elements[j][k] == 1 && rel.elements[i][k] == 0) {
+					printf("false\n");
+					return;
+				}
+			}
+		}		
+	}
+
+	printf("true\n");
+}
+
+void relFunction(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		int count = 0; //number of y on one line ... (x,y)
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1)
+				count++;
+		}	
+
+		if(count > 1) {
+			printf("false\n");
+			return;
+		}	
+	}
+
+	printf("true\n");
+}
+
+void relDomain(rel_t rel, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
+	int *p_elem;
+	p_elem = elem;
+	set_t final_set = {.elements = p_elem};	
+
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1 || final_set.elements[i] == 1)
+				final_set.elements[i] = 1;
+			else
+				final_set.elements[i] = 0;	
+		}	
+
+	}
+
+	printSet(final_set, numOfUniElems, univerzum);
+}
+
+void relCodomain(rel_t rel, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
+	int *p_elem;
+	p_elem = elem;
+	set_t final_set = {.elements = p_elem};	
+
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1 || final_set.elements[j] == 1)
+				final_set.elements[j] = 1;
+			else
+				final_set.elements[j] = 0;	
+		}	
+
+	}
+
+	printSet(final_set, numOfUniElems, univerzum);
+}
+
+void relInjective(rel_t rel, int numOfUniElems) {
+	relFunction(rel, numOfUniElems);
+}
+
+void relSurjective(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		int count = 0; 
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1)
+				count++;
+		}	
+
+		if(count == 0) {
+			printf("false\n");
+			return;
+		}	
+	}
+
+	printf("true\n");
+}
+
+void relBijective(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		int count = 0;
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1)
+				count++;
+		}	
+
+		if(count != 1) {
+			printf("false\n");
+			return;
+		}	
+	}
+
+	printf("true\n");
+}
 
 /** MAIN **/
 
@@ -429,33 +594,30 @@ int main(int argc, char *argv[]) {
 	}
 
 	for(int i = 0; i < setArrIndex; i++)
-		print_set(setArray[i], numOfUniElems, univerzum);
+		printSet(setArray[i], numOfUniElems, univerzum);
 
 	//TO DO: load all sets and relations into respective arrays
 
 	//TO DO: load all instructions from test file and call the corresponding functions
-    /************* adam **************/
-    //sample rels for setArray
-    int *rel_lines[3];
 
-    int firstline[3] =  {0,1,0};
-    int secondline[3] = {0,0,1};
-    int thirdline[3] =  {1,0,0};
+    /*************sample rel: can be deleted **************/
+    int *rel_lines[3];
+    int firstline[] =  {1,0,0};
+    int secondline[] = {0,1,0};
+    int thirdline[] =  {0,0,1};
 
     rel_lines[0] = firstline;
     rel_lines[1] = secondline;
     rel_lines[2] = thirdline;
 
-
 	int **p_elem;
 	p_elem = rel_lines;
 	rel_t rel = {.lineNum = 2, .elements = p_elem};	
 
-	//print rel
-	print_rel(rel, numOfUniElems, univerzum);
+	relBijective(rel, numOfUniElems);
 
+    /*************sample rel **************/
 
-    /************* adam **************/
 	//TO DO: free all sets and arrays, since they will be dynamically allocated
 
 	freeUni(univerzum, numOfUniElems);

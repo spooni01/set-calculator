@@ -1,3 +1,5 @@
-U auto ilava vrtulnik
-R (auto ilava) (vrtulnik ilava)
-C empty 1
+U auto pes macka
+R (auto pes) (macka pes)
+S auto pes
+C surjective 1
+C complement 2
