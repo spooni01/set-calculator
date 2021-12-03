@@ -201,7 +201,6 @@ void printUniverzum(char **univerzum, int numOfUniElems)
 	}
 }
 
-
 void print_set(set_t set, int length, char **univerzum) {
 	int count = 0; // number of printed elements
 	printf("{");
@@ -217,6 +216,18 @@ void print_set(set_t set, int length, char **univerzum) {
 	          
 	}
  	printf("}\n");
+}
+
+void print_rel(rel_t rel, int numOfUniElems, char **univerzum) {
+	for (int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1) {
+				printf("(%s %s) ", univerzum[i], univerzum[j]);
+			}
+		}
+	}
 }
 
 /** FUNCTIONS FOR SETS OPERATIONS **/
@@ -340,7 +351,7 @@ void set_equals(set_t set1, set_t set2, int length) {
 }
 
 /** FUNCTIONS FOR RELATIONS OPERATIONS**/
-//TO DO: ALL
+//todo: all
 
 /** MAIN **/
 
@@ -382,7 +393,7 @@ int main(int argc, char *argv[]) {
 	set_t setArray[FILE_MAX_LINES];
 	//rel_t relArray[FILE_MAX_LINES];
 	int setArrIndex = 0;
-	//relArrIndex = 0;
+	//int relArrIndex = 0;
 
 	char firstCharOnLine;
 	int numOfElementsInArray = 0;
@@ -423,7 +434,28 @@ int main(int argc, char *argv[]) {
 	//TO DO: load all sets and relations into respective arrays
 
 	//TO DO: load all instructions from test file and call the corresponding functions
+    /************* adam **************/
+    //sample rels for setArray
+    int *rel_lines[3];
 
+    int firstline[3] =  {0,1,0};
+    int secondline[3] = {0,0,1};
+    int thirdline[3] =  {1,0,0};
+
+    rel_lines[0] = firstline;
+    rel_lines[1] = secondline;
+    rel_lines[2] = thirdline;
+
+
+	int **p_elem;
+	p_elem = rel_lines;
+	rel_t rel = {.lineNum = 2, .elements = p_elem};	
+
+	//print rel
+	print_rel(rel, numOfUniElems, univerzum);
+
+
+    /************* adam **************/
 	//TO DO: free all sets and arrays, since they will be dynamically allocated
 
 	freeUni(univerzum, numOfUniElems);

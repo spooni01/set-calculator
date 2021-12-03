@@ -1,6 +1,0 @@
-U a b c
-S
-C complement 5
-C complement 3
-C complement 4
-C empty 5 3

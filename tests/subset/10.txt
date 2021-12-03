@@ -1,4 +1,0 @@
-U a b c
-R (b d)
-S a b c d
-C subset 3 2

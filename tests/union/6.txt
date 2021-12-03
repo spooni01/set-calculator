@@ -1,4 +1,0 @@
-U a b c d
-R (a b)
-S b a
-C union 2 3
