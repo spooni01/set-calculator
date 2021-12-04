@@ -323,6 +323,35 @@ void printRel(rel_t rel, int numOfUniElems, char **univerzum) {
 	printf("\n");
 }
 
+void endProgram(char *buffer, FILE *file, char **univerzum, int numOfUniElems, set_t *setArray, int numOfSets, rel_t *relArray, int numOfRels)
+{
+	free(buffer);
+	fclose(file);
+	freeUni(univerzum, numOfUniElems);
+	freeSets(setArray, numOfSets);
+	freeRels(relArray, numOfRels, numOfUniElems);
+}
+
+int findSetIndex(set_t *setArray, int numOfSets, int lineNum)
+{
+	for(int i = 0; i < numOfSets; ++i)
+	{
+		if(setArray[i].lineNum == lineNum)
+			return i;
+	}
+	return -1;
+}
+
+int findRelIndex(set_t *relArray, int numOfRels, int lineNum)
+{
+	for(int i = 0; i < numOfRels; ++i)
+	{
+		if(relArray[i].lineNum == lineNum)
+			return i;
+	}
+	return -1;
+}
+
 /** FUNCTIONS FOR SETS OPERATIONS **/
 
 void setEmpty(set_t set, int numOfUniElems) {
@@ -653,19 +682,18 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
+	//load univerzum into memory
 	char **univerzum;
 	char uniIdentifier;
 	int numOfUniElems = 0;
 	int numOfLines = 0;
 	char *univerzumLine = loadLine(file, &uniIdentifier, &numOfUniElems, &numOfLines);
-
 	if(uniIdentifier != 'U')
 	{
 		fprintf(stderr, "Chyba: Spatny format univerza\n");
 		fclose(file);
 		return 1;
 	}
-
 	univerzum = malloc(numOfUniElems * sizeof(char*));
 	loadUniElements(univerzumLine, univerzum);
 	free(univerzumLine);
@@ -675,6 +703,7 @@ int main(int argc, char *argv[]) {
 	int setArrIndex = 0;
 	int relArrIndex = 0;
 
+	//load all sets and relations into memory
 	char firstCharOnLine;
 	int numOfElementsInArray = 0;
 	char *lineBuffer = loadLine(file, &firstCharOnLine, &numOfElementsInArray, &numOfLines);
@@ -687,9 +716,7 @@ int main(int argc, char *argv[]) {
 			functionFail = loadSet(lineBuffer, set, numOfUniElems, univerzum);
 			if(functionFail)
 			{	
-				fclose(file);
-				freeUni(univerzum, numOfUniElems);
-				freeSets(setArray, setArrIndex);
+				endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
 				return 1;
 			}
 
@@ -712,9 +739,7 @@ int main(int argc, char *argv[]) {
 			functionFail = loadRel(lineBuffer, rel, numOfLines,  numOfUniElems, univerzum);
 			if(functionFail)
 			{	
-				fclose(file);
-				freeUni(univerzum, numOfUniElems);
-				freeRels(relArray, relArrIndex, numOfUniElems);
+				endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
 				return 1;
 			}
 
@@ -729,18 +754,44 @@ int main(int argc, char *argv[]) {
 	}
 	if(lineBuffer == NULL)
 	{
-		freeUni(univerzum, numOfUniElems);
-		freeSets(setArray, setArrIndex);
-		freeRels(relArray, relArrIndex, numOfUniElems);
-		fclose(file);
+		endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
 		return 1;
 	}
 
-	//TO DO: load all instructions from test file and call the corresponding functions
+	//execute all commands
+	char command[14]; //14 is the length of the longest command
+	int paramsLoaded;
+	int paramOne;
+	int paramTwo;
+	int paramThree;
+	while(firstCharOnLine == 'C' && lineBuffer != NULL)
+	{
+		//TODO
+		//zjisti, co je to za prikaz
+		//zkontroluj platnost prikazu
+		//zavolej danou funkci
+		//opakuj do konca
 
-	freeUni(univerzum, numOfUniElems);
-	freeSets(setArray, setArrIndex);
-	freeRels(relArray, relArrIndex, numOfUniElems);
-	fclose(file);
+		paramsLoaded = sscanf(lineBuffer, "%s %d %d %d", command, &paramOne, &paramTwo, &paramThree);
+
+		/* moze se hodit
+		if(paramsLoaded != 1)
+		{
+			fprintf(stderr, "Prikaz empty prijima pouze jeden argument\nChyba na radku: %d\n", numOfLines);
+			endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+			return 1;
+		}
+		else if(findSetIndex(setArray, setArrIndex + 1, paramOne) == -1)
+		{
+			fprintf(stderr, "Neplatny argument prikazu empty\nChyba na radku: %d\n", numOfLines);
+			endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+			return 1;
+		}
+		*/
+			free(lineBuffer);
+			lineBuffer = loadLine(file, &firstCharOnLine, &numOfElementsInArray, &numOfLines);
+	}
+
+	endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
 	return 0;
-} 
+ } 
