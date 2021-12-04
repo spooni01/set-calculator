@@ -444,7 +444,171 @@ void setEquals(set_t set1, set_t set2, int numOfUniElems) {
 
 /** FUNCTIONS FOR RELATIONS OPERATIONS**/
 
+void relReflexive(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		if(rel.elements[i][i] == 0) {
+			printf("false\n");
+			return;
+		}
+	}
+	printf("true\n");
+}
 
+void relSymmetric(rel_t rel, int numOfUniElems) {
+	// todo: je spravna spravena funckia?
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] != rel.elements[j][i]) {
+				printf("false\n");
+				return;
+			}
+		}		
+	}
+	printf("true\n");
+}
+
+void relAntisymmetric(rel_t rel, int numOfUniElems) {
+	// todo: je spravna spravena funckia?
+	int count = 0;
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] != rel.elements[j][i]) {
+				count++;
+			}
+		}		
+	}
+
+	if(count > 0)
+		printf("true\n");
+	else
+		printf("false\n");	
+}
+
+void relTransitive(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			for (int k = 0; k < numOfUniElems; k++)
+			{
+				if(rel.elements[i][j] == 1 && rel.elements[j][k] == 1 && rel.elements[i][k] == 0) {
+					printf("false\n");
+					return;
+				}
+			}
+		}		
+	}
+
+	printf("true\n");
+}
+
+void relFunction(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		int count = 0; //number of y on one line ... (x,y)
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1)
+				count++;
+		}	
+
+		if(count > 1) {
+			printf("false\n");
+			return;
+		}	
+	}
+
+	printf("true\n");
+}
+
+void relDomain(rel_t rel, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
+	int *p_elem;
+	p_elem = elem;
+	set_t final_set = {.elements = p_elem};	
+
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1 || final_set.elements[i] == 1)
+				final_set.elements[i] = 1;
+			else
+				final_set.elements[i] = 0;	
+		}	
+
+	}
+
+	printSet(final_set, numOfUniElems, univerzum);
+}
+
+void relCodomain(rel_t rel, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
+	int *p_elem;
+	p_elem = elem;
+	set_t final_set = {.elements = p_elem};	
+
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1 || final_set.elements[j] == 1)
+				final_set.elements[j] = 1;
+			else
+				final_set.elements[j] = 0;	
+		}	
+
+	}
+
+	printSet(final_set, numOfUniElems, univerzum);
+}
+
+void relInjective(rel_t rel, int numOfUniElems) {
+	relFunction(rel, numOfUniElems);
+}
+
+void relSurjective(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		int count = 0; 
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1)
+				count++;
+		}	
+
+		if(count == 0) {
+			printf("false\n");
+			return;
+		}	
+	}
+
+	printf("true\n");
+}
+
+void relBijective(rel_t rel, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
+	{
+		int count = 0;
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1)
+				count++;
+		}	
+
+		if(count != 1) {
+			printf("false\n");
+			return;
+		}	
+	}
+
+	printf("true\n");
+}
 
 /** MAIN **/
 
