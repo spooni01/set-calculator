@@ -325,8 +325,8 @@ void printRel(rel_t rel, int numOfUniElems, char **univerzum) {
 
 /** FUNCTIONS FOR SETS OPERATIONS **/
 
-void set_empty(set_t set, int length) {
-	for(int i = 0; i < length; i++)
+void setEmpty(set_t set, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++)
 	{
 		if(set.elements[i] == 1) {
 			printf("false\n");
@@ -336,64 +336,63 @@ void set_empty(set_t set, int length) {
 	printf("true\n");
 }
 
-void set_card(set_t set, int length) {
+void setCard(set_t set, int numOfUniElems) {
 	int count = 0;
-	for(int i = 0; i < length; i++) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set.elements[i] == 1)
 			count++;
 	}
 	printf("%d\n", count);
 }
 
-void set_complement(set_t set, int length, char **univerzum) {
-	for(int i = 0; i < length; i++) {
-		if(set.elements[i] == 1)
-			set.elements[i] = 0;
-		else
-			set.elements[i] = 1;    
+void setComplement(set_t set, int numOfUniElems, char **univerzum) {
+	for(int i = 0; i < numOfUniElems; i++) {
+			if(set.elements[i] == 1)
+				set.elements[i] = 0;
+			else
+				set.elements[i] = 1;    
 	}
-	print_set(set, length, univerzum);
-
+	printSet(set, numOfUniElems, univerzum);
 }
 
-void set_union(set_t set1, set_t set2, int length, char **univerzum) {
-	int elem[length];
+void setUnion(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
 	int *p_elem;
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
 
-	for(int i = -1; i < length; i++) {
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 || set2.elements[i] == 1)
 			final_set.elements[i] = 1;
 		else
 			final_set.elements[i] = 0;        
 	}
-			        
-	print_set(final_set, length, univerzum);
+						        
+	printSet(final_set, numOfUniElems, univerzum);
 }
 
-void set_intersect(set_t set1, set_t set2, int length, char **univerzum) {
-	int elem[length];
+void setIntersect(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
 	int *p_elem;
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
-
-	for(int i = -1; i < length; i++) {
+	
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 1)
 			final_set.elements[i] = 1;
 		else
 			final_set.elements[i] = 0;       
 	}
-	print_set(final_set, length, univerzum);
+	printSet(final_set, numOfUniElems, univerzum);
 }
 
-void set_minus(set_t set1, set_t set2, int length, char **univerzum) {
-	int elem[length];
+void setMinus(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
+	int elem[numOfUniElems];
 	int *p_elem;
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
 
-	for(int i = -1; i < length; i++) {
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 1)
 			final_set.elements[i] = 0;
 		else if(set1.elements[i] == 0)
@@ -401,12 +400,12 @@ void set_minus(set_t set1, set_t set2, int length, char **univerzum) {
 		else
 			final_set.elements[i] = 1;
 	}
-			    
-	print_set(final_set, length, univerzum); 
+								    
+	printSet(final_set, numOfUniElems, univerzum); 
 }
 
-void set_subseteq(set_t set1, set_t set2, int length) {
-	for(int i = 0; i < length; i++) {
+void setSubseteq(set_t set1, set_t set2, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 0) {
 			printf("false\n");
 			return;
@@ -415,10 +414,10 @@ void set_subseteq(set_t set1, set_t set2, int length) {
 	printf("true\n");
 }
 
-void set_subset(set_t set1, set_t set2, int length) {
+void setSubset(set_t set1, set_t set2, int numOfUniElems) {
 	int same_elems = 0;
 
-	for(int i = 0; i < length; i++) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 0) {
 			printf("false\n");
 			return;
@@ -426,15 +425,15 @@ void set_subset(set_t set1, set_t set2, int length) {
 		else if(set1.elements[i] == set2.elements[i])
 			same_elems++;
 	}
-	
-	if(same_elems == length) 
+		
+	if(same_elems == numOfUniElems) 
 		printf("false\n");
 	else
 		printf("true\n");
 }
 
-void set_equals(set_t set1, set_t set2, int length) {
-	for(int i = 0; i < length; i++) {
+void setEquals(set_t set1, set_t set2, int numOfUniElems) {
+	for(int i = 0; i < numOfUniElems; i++) {
 		if(set1.elements[i] != set2.elements[i]) {
 			printf("false\n");
 			return;
@@ -444,7 +443,8 @@ void set_equals(set_t set1, set_t set2, int length) {
 }
 
 /** FUNCTIONS FOR RELATIONS OPERATIONS**/
-//TO DO: ALL
+
+
 
 /** MAIN **/
 
