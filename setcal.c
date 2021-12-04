@@ -293,7 +293,7 @@ void printUniverzum(char **univerzum, int numOfUniElems)
 }
 
 
-void print_set(set_t set, int length, char **univerzum) {
+void printSet(set_t set, int length, char **univerzum) {
 	int count = 0; // number of printed elements
 	printf("{");
 	for (int i = 0; i < length; i++)
@@ -456,7 +456,6 @@ void relReflexive(rel_t rel, int numOfUniElems) {
 }
 
 void relSymmetric(rel_t rel, int numOfUniElems) {
-	// todo: je spravna spravena funckia?
 	for(int i = 0; i < numOfUniElems; i++)
 	{
 		for (int j = 0; j < numOfUniElems; j++)
@@ -471,22 +470,17 @@ void relSymmetric(rel_t rel, int numOfUniElems) {
 }
 
 void relAntisymmetric(rel_t rel, int numOfUniElems) {
-	// todo: je spravna spravena funckia?
-	int count = 0;
 	for(int i = 0; i < numOfUniElems; i++)
 	{
 		for (int j = 0; j < numOfUniElems; j++)
 		{
-			if(rel.elements[i][j] != rel.elements[j][i]) {
-				count++;
+			if(rel.elements[i][j] && rel.elements[j][i] && i != j) {
+				printf("false\n");
+				return;
 			}
 		}		
 	}
-
-	if(count > 0)
-		printf("true\n");
-	else
-		printf("false\n");	
+	printf("true\n");	
 }
 
 void relTransitive(rel_t rel, int numOfUniElems) {
@@ -507,7 +501,9 @@ void relTransitive(rel_t rel, int numOfUniElems) {
 	printf("true\n");
 }
 
-void relFunction(rel_t rel, int numOfUniElems) {
+//returns 1 (= is a function) or a 0 (= isnt a function)
+//depending on shouldPrint value (1 = yes, 0 = no) prints answer
+int relFunction(rel_t rel, int numOfUniElems, int shouldPrint) {
 	for(int i = 0; i < numOfUniElems; i++)
 	{
 		int count = 0; //number of y on one line ... (x,y)
@@ -518,12 +514,14 @@ void relFunction(rel_t rel, int numOfUniElems) {
 		}	
 
 		if(count > 1) {
-			printf("false\n");
-			return;
+			if(shouldPrint)
+				printf("false\n");
+			return 0;
 		}	
 	}
-
-	printf("true\n");
+	if(shouldPrint)
+		printf("true\n");
+	return 1;
 }
 
 void relDomain(rel_t rel, int numOfUniElems, char **univerzum) {
@@ -568,46 +566,73 @@ void relCodomain(rel_t rel, int numOfUniElems, char **univerzum) {
 	printSet(final_set, numOfUniElems, univerzum);
 }
 
-void relInjective(rel_t rel, int numOfUniElems) {
-	relFunction(rel, numOfUniElems);
+int relInjective(rel_t rel, int numOfUniElems, int shouldPrint) {
+	if(!relFunction(rel, numOfUniElems, 0))
+	{
+		if(shouldPrint)
+			printf("false\n");
+		return 0;
+	}
+
+	int count;
+	for(int j = 0; j < numOfUniElems; j++)
+	{
+		count = 0;
+		for(int i = 0; i < numOfUniElems; i++)
+		{
+			if(rel.elements[i][j])
+				count++;
+		}
+
+		if(count > 1)
+		{
+			if(shouldPrint)
+				printf("false\n");
+			return 0;
+		}
+	}
+
+	if(shouldPrint)
+		printf("true\n");
+	return 1;
 }
 
-void relSurjective(rel_t rel, int numOfUniElems) {
-	for(int i = 0; i < numOfUniElems; i++)
+int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint) {	
+	if(!relFunction(rel, numOfUniElems, 0))
 	{
-		int count = 0; 
-		for (int j = 0; j < numOfUniElems; j++)
+		if(shouldPrint)
+			printf("false\n");
+		return 0;
+	}
+	
+	int count;
+	for(int j = 0; j < numOfUniElems; j++)
+	{
+		count = 0; 
+		for (int i = 0; i < numOfUniElems; i++)
 		{
-			if(rel.elements[i][j] == 1)
+			if(rel.elements[i][j])
 				count++;
 		}	
 
-		if(count == 0) {
-			printf("false\n");
-			return;
+		if(!count) {
+			if(shouldPrint)
+				printf("false\n");
+			return 0;
 		}	
 	}
 
-	printf("true\n");
+	if(shouldPrint)
+		printf("true\n");
+	return 1;
 }
 
 void relBijective(rel_t rel, int numOfUniElems) {
-	for(int i = 0; i < numOfUniElems; i++)
-	{
-		int count = 0;
-		for (int j = 0; j < numOfUniElems; j++)
-		{
-			if(rel.elements[i][j] == 1)
-				count++;
-		}	
+	if(!relFunction(rel, numOfUniElems, 0) || !relInjective(rel, numOfUniElems, 0) || !relSurjective(rel, numOfUniElems, 0))
+		printf("false\n");
+	else
+		printf("true\n");
 
-		if(count != 1) {
-			printf("false\n");
-			return;
-		}	
-	}
-
-	printf("true\n");
 }
 
 /** MAIN **/
