@@ -29,6 +29,11 @@ char *loadLine(FILE *file, char *firstChar, int *numOfElems, int *numOfLines)
 	char lineIdentifier = getc(file);
 	if(lineIdentifier == EOF)
 		return NULL;
+	if(lineIdentifier == '\n')
+	{
+		fprintf(stderr, "Chyba: na vstupu je prazdny radek (%d)!\n", *numOfLines);
+		return NULL;
+	}
 	if(!strchr(allowedFirstChars, lineIdentifier) || getc(file) != ' ')
 	{	
 		fprintf(stderr,"Chyba: Spatny format na radku %d!\n", *numOfLines);
@@ -81,6 +86,8 @@ int getPosInUni(char *element, char **univerzum, int numOfUniElems)
 	return -1;
 }
 
+
+//gets set as a str with all the elements which are then split and an array of 1s and 0s is saved into setArr
 int loadSet(char *setStr, int *setArr, int maxElems, char **univerzum)
 {
 	char buffer[ELEM_MAX_LENGTH + 1];
@@ -127,6 +134,76 @@ int loadSet(char *setStr, int *setArr, int maxElems, char **univerzum)
 
 		if(setStr[setStrIndex] != '\0')
 			setStrIndex++;
+	}
+	return 0;
+}
+
+//gets relation as a str with all the elements which are then split and a 2D array of 1s and 0s is saved into relArr
+int loadRel(char *relStr, int **relArr, int lineNum, int maxElems, char **univerzum)
+{
+	char buffer1[ELEM_MAX_LENGTH + 1];
+	char buffer2[ELEM_MAX_LENGTH + 1];
+	int arrX;
+	int arrY;
+	int relStrIndex = 0;
+
+
+	memset(buffer1, '\0', ELEM_MAX_LENGTH + 1);
+	memset(buffer2, '\0', ELEM_MAX_LENGTH + 1);
+
+	while(relStr[relStrIndex] != '\0')
+	{
+		memset(buffer1, '\0', ELEM_MAX_LENGTH + 1);
+		memset(buffer2, '\0', ELEM_MAX_LENGTH + 1);
+
+		if(relStr[relStrIndex] != '(')
+		{
+			fprintf(stderr, "Chyba: spatny format relace na radku %d!\n", lineNum);
+			return 1;
+		}
+		relStrIndex++;
+
+		for(int i = 0; i < ELEM_MAX_LENGTH && relStr[relStrIndex] != ' '; i++ )
+		{
+			buffer1[i] = relStr[relStrIndex];
+			relStrIndex++;
+		}
+
+		if(relStr[relStrIndex] != ' ')
+		{
+			fprintf(stderr, "Chyba: prvek relace %s.. na radku %d je prilis dlouhy!\n", buffer1, lineNum);
+			return 1;
+		}
+		relStrIndex++;
+
+		for(int i = 0; i < ELEM_MAX_LENGTH && relStr[relStrIndex] != ')'; i++ )
+		{
+			buffer2[i] = relStr[relStrIndex];
+			relStrIndex++;
+		}
+
+		if(relStr[relStrIndex] != ')'  || (relStr[++relStrIndex] != ' ' && relStr[relStrIndex] != '\0'))
+		{
+			fprintf(stderr, "Chyba: spatny format relace na radku %d!\n", lineNum);
+			return 1;
+		}
+		if(relStr[relStrIndex] != '\0')
+			relStrIndex++;
+		
+		arrY = getPosInUni(buffer1, univerzum, maxElems);
+		arrX = getPosInUni(buffer2, univerzum, maxElems);
+		if(arrY == -1)
+		{
+			fprintf(stderr, "Chyba: prvek %s v relaci na radku %d nebyl nalezen v univerzu!\n", buffer1, lineNum);
+			return 1;
+		}
+		if(arrX == -1)
+		{
+			fprintf(stderr, "Chyba: prvek %s v relaci na radku %d nebyl nalezen v univerzu!\n", buffer2, lineNum);
+			return 1;
+		}
+		
+		relArr[arrY][arrX] = 1;
 	}
 	return 0;
 }
@@ -186,10 +263,24 @@ void freeSets(set_t *setArray, int numOfSets)
 {
 	for(int i = 0; i < numOfSets; i++)
 	{
-		if(setArray[i].lineNum)
-			free(setArray[i].elements);
+		free(setArray[i].elements);
 		setArray[i].lineNum = 0;
 	}
+}
+
+//frees all dynamically allocated relations in relArray
+void freeRels(rel_t *relArray, int numOfRels, int relSize)
+{
+	for(int i = 0; i < numOfRels; ++i)
+	{
+		for(int j = 0; j < relSize; ++j)
+		{
+			free(relArray[i].elements[j]);
+		}
+		free(relArray[i].elements);
+		relArray[i].lineNum = 0;
+	}
+		
 }
 
 //prints elements of the univerzum
@@ -217,6 +308,19 @@ void print_set(set_t set, int length, char **univerzum) {
 	          
 	}
  	printf("}\n");
+}
+
+void printRel(rel_t rel, int numOfUniElems, char **univerzum) {
+	for (int i = 0; i < numOfUniElems; i++)
+	{
+		for (int j = 0; j < numOfUniElems; j++)
+		{
+			if(rel.elements[i][j] == 1) {
+				printf("(%s %s) ", univerzum[i], univerzum[j]);
+			}
+		}
+	}
+	printf("\n");
 }
 
 /** FUNCTIONS FOR SETS OPERATIONS **/
@@ -377,12 +481,10 @@ int main(int argc, char *argv[]) {
 	loadUniElements(univerzumLine, univerzum);
 	free(univerzumLine);
 
-	//printUniverzum(univerzum, numOfUniElems);
-
 	set_t setArray[FILE_MAX_LINES];
-	//rel_t relArray[FILE_MAX_LINES];
+	rel_t relArray[FILE_MAX_LINES];
 	int setArrIndex = 0;
-	//relArrIndex = 0;
+	int relArrIndex = 0;
 
 	char firstCharOnLine;
 	int numOfElementsInArray = 0;
@@ -410,24 +512,46 @@ int main(int argc, char *argv[]) {
 
 		else
 		{
-			//implement loading rels
+
+			int **rel;
+			rel = calloc(numOfUniElems, sizeof(int*));
+			for (int i = 0; i < numOfUniElems; ++i)
+			{
+				rel[i] = calloc(numOfUniElems, sizeof(int));
+			}
+
+			functionFail = loadRel(lineBuffer, rel, numOfLines,  numOfUniElems, univerzum);
+			if(functionFail)
+			{	
+				fclose(file);
+				freeUni(univerzum, numOfUniElems);
+				freeRels(relArray, relArrIndex, numOfUniElems);
+				return 1;
+			}
+
+			relArray[relArrIndex].elements = rel;
+			rel = NULL;
+			relArray[relArrIndex].lineNum = numOfLines;
+			relArrIndex++;
 		}
 
 		free(lineBuffer);
 		lineBuffer = loadLine(file, &firstCharOnLine, &numOfElementsInArray, &numOfLines);
 	}
-
-	for(int i = 0; i < setArrIndex; i++)
-		print_set(setArray[i], numOfUniElems, univerzum);
-
-	//TO DO: load all sets and relations into respective arrays
+	if(lineBuffer == NULL)
+	{
+		freeUni(univerzum, numOfUniElems);
+		freeSets(setArray, setArrIndex);
+		freeRels(relArray, relArrIndex, numOfUniElems);
+		fclose(file);
+		return 1;
+	}
 
 	//TO DO: load all instructions from test file and call the corresponding functions
 
-	//TO DO: free all sets and arrays, since they will be dynamically allocated
-
 	freeUni(univerzum, numOfUniElems);
 	freeSets(setArray, setArrIndex);
+	freeRels(relArray, relArrIndex, numOfUniElems);
 	fclose(file);
 	return 0;
 } 
