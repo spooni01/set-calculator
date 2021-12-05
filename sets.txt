@@ -1,5 +1,0 @@
-U auto pes macka
-R (auto pes) (macka pes)
-S auto pes
-C surjective 1
-C complement 2
