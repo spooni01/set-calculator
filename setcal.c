@@ -5,6 +5,17 @@
 #define ELEM_MAX_LENGTH 30
 #define FILE_MAX_LINES 1000
 
+/*	IZP PROJEKT 2 2021
+ *	
+ *	AUTORI:
+ *
+ *	xvolfr00
+ *	xlizic00
+ *	xtepla01
+ *	xfejas00
+ *
+ * */
+
 //set data type
 typedef struct{
 	int *elements;
