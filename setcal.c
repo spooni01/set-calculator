@@ -604,7 +604,7 @@ void relCodomain(rel_t rel, int numOfUniElems, char **univerzum) {
 	printSet(final_set, numOfUniElems, univerzum);
 }
 
-int relInjective(rel_t rel, int numOfUniElems, int shouldPrint) {
+int relInjective(rel_t rel, int numOfUniElems, int shouldPrint, set_t set1, set_t set2) {
 	if(!relFunction(rel, numOfUniElems, 0))
 	{
 		if(shouldPrint)
@@ -618,6 +618,15 @@ int relInjective(rel_t rel, int numOfUniElems, int shouldPrint) {
 		count = 0;
 		for(int i = 0; i < numOfUniElems; i++)
 		{
+			for (int k = 0; k < numOfUniElems; k++)
+			{
+				if(rel.elements[i][j] == 1 && (set1.elements[k] == 0 && set2.elements[k] == 0))
+				{
+					fprintf(stderr, "Relace obsahuje prvky nepatrici do patricnych mnozin\n");
+					return 0;
+				}
+			}
+			
 			if(rel.elements[i][j])
 				count++;
 		}
@@ -635,7 +644,7 @@ int relInjective(rel_t rel, int numOfUniElems, int shouldPrint) {
 	return 1;
 }
 
-int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint) {	
+int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint, set_t set1, set_t set2) {	
 	if(!relFunction(rel, numOfUniElems, 0))
 	{
 		if(shouldPrint)
@@ -649,6 +658,15 @@ int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint) {
 		count = 0; 
 		for (int i = 0; i < numOfUniElems; i++)
 		{
+			for (int k = 0; k < numOfUniElems; k++)
+			{
+				if(rel.elements[i][j] == 1 && (set1.elements[k] == 0 && set2.elements[k] == 0))
+				{
+					fprintf(stderr, "Relace obsahuje prvky nepatrici do patricnych mnozin\n");
+					return 0;
+				}
+			}
+
 			if(rel.elements[i][j])
 				count++;
 		}	
@@ -665,8 +683,8 @@ int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint) {
 	return 1;
 }
 
-void relBijective(rel_t rel, int numOfUniElems) {
-	if(!relFunction(rel, numOfUniElems, 0) || !relInjective(rel, numOfUniElems, 0) || !relSurjective(rel, numOfUniElems, 0))
+void relBijective(rel_t rel, int numOfUniElems, set_t set1, set_t set2) {
+	if(!relFunction(rel, numOfUniElems, 0) || !relInjective(rel, numOfUniElems, 0, set1, set2) || !relSurjective(rel, numOfUniElems, 0, set1, set2))
 		printf("false\n");
 	else
 		printf("true\n");
@@ -713,6 +731,21 @@ int checkOneRel(int numOfArgs, int arg, char *commandName, rel_t *relArray, int 
 		return 1;
 	}
 	else if(findRelIndex(relArray, numOfRels, arg) == -1)
+	{
+		fprintf(stderr, "Neplatny argument prikazu %s\nChyba na radku: %d\n", commandName, lineNum);
+		return 1;
+	}
+	return 0;
+}
+
+int checkThreeRel(int numOfArgs, int arg1, int arg2, int arg3, char *commandName, set_t *setArray, int numOfSets, rel_t *relArray, int numOfRels, int lineNum)
+{
+	if(numOfArgs != 4)
+	{
+		fprintf(stderr, "Prikaz %s prijima pouze jeden argument\nChyba na radku: %d\n", commandName, lineNum);
+		return 1;
+	}
+	else if(findRelIndex(relArray, numOfRels, arg1) == -1 || findSetIndex(setArray, numOfSets, arg2) == -1 || findSetIndex(setArray, numOfSets, arg3) == -1) 
 	{
 		fprintf(stderr, "Neplatny argument prikazu %s\nChyba na radku: %d\n", commandName, lineNum);
 		return 1;
@@ -988,12 +1021,41 @@ int main(int argc, char *argv[]) {
 				return 1;
 			}
 		}
-
-		//TODO - pridat elseif pro fce relInjective relSurjective a relBijective
-
+		else if(!strcmp("injective", command))
+		{
+			if (!checkThreeRel(paramsLoaded, paramOne, paramTwo, paramThree, "injective", setArray, setArrIndex + 1, relArray, relArrIndex + 1, numOfLines))
+				relInjective(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems, 1, setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], setArray[findSetIndex(setArray, setArrIndex + 1, paramThree)]);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("surjective", command))
+		{
+			if (!checkThreeRel(paramsLoaded, paramOne, paramTwo, paramThree, "surjective", setArray, setArrIndex + 1, relArray, relArrIndex + 1, numOfLines))
+				relSurjective(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems, 1, setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], setArray[findSetIndex(setArray, setArrIndex + 1, paramThree)]);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("bijective", command))
+		{
+			if (!checkThreeRel(paramsLoaded, paramOne, paramTwo, paramThree, "bijective", setArray, setArrIndex + 1, relArray, relArrIndex + 1, numOfLines))
+				relSurjective(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems, 1, setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], setArray[findSetIndex(setArray, setArrIndex + 1, paramThree)]);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
 		else
 		{
-			printf("command not found lol\n");
+			fprintf(stderr, "Chyba: prikaz %s na radku %d nebyl rozpoznan!\n", command, numOfLines);
+			endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+			return 1;
 		}
 
 		free(lineBuffer);
