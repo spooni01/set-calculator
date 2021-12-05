@@ -13,9 +13,9 @@ import sys
 import argparse
 from typing import Counter, Tuple
 
-OK = "\033[1;32m[ OK ]\033[0m"
-FAIL = "\033[1;31m[FAIL]\033[0m"
-WARN = "\033[1;33m[WARN]\033[0m"
+OK = "\033[1;32;40m[ OK ]\033[0;37;40m"
+FAIL = "\033[1;31;40m[FAIL]\033[0;37;40m"
+WARN = "\033[1;33;40m[WARN]\033[0;37;40m"
 
 VALGRIND_LOG = 'valgrind-log.txt'
 
@@ -28,16 +28,15 @@ def detect_valgrind():
         return False
 
 class Tester:
-    def __init__(self, program_name, valgrind, stop_on_error):
+    def __init__(self, program_name, valgrind):
         self.program_name = './' + program_name
         self.test_count = 0
         self.pass_count = 0
-        self.stop_on_error = stop_on_error
         self.valgrind = valgrind
 
     def check_valgrind(self, args):
         try:
-            run(['valgrind', '--track-origins=yes', '--leak-check=full','--quiet', '--log-file=' + VALGRIND_LOG] + [self.program_name] + args, stdout=PIPE, stderr=PIPE)
+            run(['valgrind', '--track-origins=yes', '--quiet', '--log-file=' + VALGRIND_LOG] + [self.program_name] + args, stdout=PIPE, stderr=PIPE)
         except Exception as e:
             print(FAIL, 'Chyba pri spousteni valgrindu!')
             print(e)
@@ -46,9 +45,8 @@ class Tester:
         try:
             valgrind_log_file = open(VALGRIND_LOG, 'r')
             valgrind_log = valgrind_log_file.read().strip()
-            valgrind_arr = valgrind_log.splitlines()
 
-            if valgrind_log != '' and not (len(valgrind_arr) == 1 and "error calling PR_SET_PTRACER, vgdb might block" in valgrind_arr[0]):
+            if valgrind_log != '':
                 print(WARN, 'Valgrind detekoval memory leak nebo jinou chybu!')
                 print(valgrind_log)
         except Exception as e:
@@ -66,7 +64,7 @@ class Tester:
         for i in range(0, len(out_list)):
             stdout_line = stdout_list[i].split(' ')
             out_line = out_list[i].split(' ')
-            if stdout_line[0] in ['R', 'S', 'U']:
+            if stdout_line[0] == 'R' or stdout_line[0] == 'S':
                 if Counter(stdout_line) != Counter(out_line):
                     return False
             elif stdout_list[i] != out_list[i]:
@@ -132,24 +130,17 @@ class Tester:
 
         if self.valgrind:
             self.check_valgrind(args)
-            
-        if error and self.stop_on_error:
-            if valgrind:
-                os.remove(VALGRIND_LOG)
-            
-            exit();
 
     def print_stats(self):
         print('Uspesnost: {}/{} ({:.2f}%)'.format(self.pass_count, self.test_count, (self.pass_count / self.test_count) * 100))
         pass
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Tester 2. IZP projektu')
-    parser.add_argument('prog', metavar='P', type=str, help='Cesta k programu (napriklad: setcal)')
-    parser.add_argument('--bonus', dest='bonus', action='store_true', help='Kontrola bonusoveho reseni')
-    parser.add_argument('--valgrind', dest='valgrind', action='store_true', help='Kontrola chyb pomoci valgrindu')
+    parser = argparse.ArgumentParser(description='Tester 1. IZP projektu')
+    parser.add_argument('prog', metavar='P', type=str, help='Jmeno programu (napriklad: pwcheck)')
+    parser.add_argument('--bonus', dest='bonus', action='store_true', help='Kontrola bonusoveho parsovani argumentu')
+    parser.add_argument('--valgrind', dest='valgrind', action='store_true', help='Vypnuti kontrol pomoci valgrindu')
     parser.add_argument('--no-color', dest='color', action='store_false', help='Vystup bez barev')
-    parser.add_argument('--stop-on-error', dest='stop_on_error', action='store_true', help='Vypnout tester kdyz je chyba')
     args = parser.parse_args()
 
     if not args.color:
@@ -161,93 +152,40 @@ if __name__ == '__main__':
     if valgrind:
         valgrind = detect_valgrind()
 
-    t1 = Tester(args.prog, valgrind, args.stop_on_error)
-    t2 = Tester(args.prog, valgrind, args.stop_on_error)
+    t1 = Tester(args.prog, valgrind)
+    t2 = Tester(args.prog, valgrind)
 
     # Testy ze zadani
-    t1.test('Test ze zadani #1 (sets.txt)', ['tests/assignment/sets.txt'], 'tests/assignment/sets_res.txt')
-    t1.test('Test ze zadani #2 (rel.txt)', ['tests/assignment/rel.txt'], 'tests/assignment/rel_res.txt')
+    t1.test('Test ze zadani #1 (sets.txt)', ['tests/sets.txt'], 'tests/sets_res.txt')
+    t1.test('Test ze zadani #2 (rel.txt)', ['tests/rel.txt'], 'tests/rel_res.txt')
 
     # Zakladni testovani argumentu
     t1.test('Bez argumentu', [], intentional_error=True)
     t1.test('Moc argumentu', ['tests/sets.txt', 'tests/rel.txt'], intentional_error=True)
     t1.test('Neexistujici soubor', ['tests/a'], intentional_error=True)
 
-    # Testovani univerza
-    t1.test('Univerzum #01 Cisla ve jmenech prvku', ['tests/universe/1.txt'], intentional_error=True)
-    t1.test('Univerzum #02 Specialni znaky ve jmenech prvku', ['tests/universe/2.txt'], intentional_error=True)
-    t1.test('Univerzum #03 Maximalni delka jmena prvku', ['tests/universe/3.txt'], 'tests/universe/3_res.txt')
-    t1.test('Univerzum #04 Vetsi nez maximalni delka jmena prvku', ['tests/universe/4.txt'], intentional_error=True)
-    t1.test('Univerzum #05 Prvek ma nazev prikazu 1', ['tests/universe/5.txt'], intentional_error=True)
-    t1.test('Univerzum #06 Prvek ma nazev prikazu 2', ['tests/universe/6.txt'], intentional_error=True)
-    t1.test('Univerzum #07 Prvek ma false', ['tests/universe/7.txt'], intentional_error=True)
-    t1.test('Univerzum #08 Opakovani prvku 1', ['tests/universe/8.txt'], intentional_error=True)
-    t1.test('Univerzum #09 Opakovani prvku 2', ['tests/universe/9.txt'], intentional_error=True)
-    t1.test('Univerzum #10 Zadna mezera za U', ['tests/universe/10.txt'], intentional_error=True)
-
-    # Testovani mnozin
-    t1.test('Mnozina #1 Prvky, ktere nepatri do univerza', ['tests/set/1.txt'], intentional_error=True)
-    t1.test('Mnozina #2 Opakujici se prvek', ['tests/set/2.txt'], intentional_error=True)
-    t1.test('Mnozina #3 Delsi prvek nez maximalni delka', ['tests/set/3.txt'], intentional_error=True)
-    t1.test('Mnozina #4 Zadna mezera za S', ['tests/set/4.txt'], intentional_error=True)
-
-    # Testovani relaci
-    t1.test('Relace #1 Prvky, ktere nepatri do univerza 1', ['tests/relation/1.txt'], intentional_error=True)
-    t1.test('Relace #2 Prvky, ktere nepatri do univerza 2', ['tests/relation/2.txt'], intentional_error=True)
-    t1.test('Relace #3 Opakujici se prvek', ['tests/relation/3.txt'], intentional_error=True)
-    t1.test('Relace #4 Delsi prvek nez maximalni delka', ['tests/relation/4.txt'], intentional_error=True)
-    t1.test('Relace #5 Zadna mezera za R', ['tests/relation/5.txt'], intentional_error=True)
-
-    # Testovani prikazu
-    t1.test('Prikaz #1 Neexistujici', ['tests/command/1.txt'], intentional_error=True)
-    t1.test('Prikaz #2 Zadna mezera za C', ['tests/command/2.txt'], intentional_error=True)
-
-    # Testovani obecne validity souboru
-    t1.test('Obecne #1 Pouze univerzum', ['tests/general/universe_only.txt'], intentional_error=True)
-    t1.test('Obecne #2 Spatne poradi definic', ['tests/general/wrong_order.txt'], intentional_error=True)
-    t1.test('Obecne #3 Prazdny radek', ['tests/general/empty_line.txt'], intentional_error=True)
-    t1.test('Obecne #4 Rozlisovani velikosti pismen', ['tests/general/case_sensitivity.txt'], intentional_error=True)
-    t1.test('Obecne #5 2x univerzum', ['tests/general/multiple_universe.txt'], intentional_error=True)
-    t1.test('Obecne #6 Zadne univerzum', ['tests/general/no_universe.txt'], intentional_error=True)
-    t1.test('Obecne #7 Zadna mnozina nebo relace', ['tests/general/no_set.txt'], intentional_error=True)
-    t1.test('Obecne #8 Zadny prikaz', ['tests/general/no_command.txt'], intentional_error=True)
-    t1.test('Obecne #9 Nevalidni pocatecni pismeno', ['tests/general/invalid_start.txt'], intentional_error=True)
-    t1.test('Obecne #10 Radek s mezerou', ['tests/general/line_with_space.txt'], intentional_error=True)
-    t1.test('Obecne #11 Radek s mezerami', ['tests/general/line_with_spaces.txt'], intentional_error=True)
-    t1.test('Obecne #12 Radek s tabem', ['tests/general/line_with_tab.txt'], intentional_error=True)
-    t1.test('Obecne #13 Radek s taby', ['tests/general/line_with_tabs.txt'], intentional_error=True)
-    t1.test('Obecne #14 Radek s mezerami a taby', ['tests/general/line_with_spacetabs.txt'], intentional_error=True)
-
-    # Testovani limitu 1000 radku
-    t1.test('Pocet radku #1 999 radku', ['tests/max_lines_count/1.txt'], 'tests/max_lines_count/1_res.txt')
-    t1.test('Pocet radku #2 1000 radku', ['tests/max_lines_count/2.txt'], 'tests/max_lines_count/2_res.txt')
-    t1.test('Pocet radku #3 1001 radku', ['tests/max_lines_count/3.txt'], intentional_error=True)
-    t1.test('Pocet radku #4 1002 radku', ['tests/max_lines_count/4.txt'], intentional_error=True)
-
-    # Testovani univerza jako mnoziny
-    t1.test('Univerzum jako mnozina #1 Prikaz complement', ['tests/universum_set/1.txt'], 'tests/universum_set/1_res.txt')
-    t1.test('Univerzum jako mnozina #2 Prikaz empty', ['tests/universum_set/2.txt'], 'tests/universum_set/2_res.txt')
-    t1.test('Univerzum jako mnozina #3 Prikaz complement (chyba)', ['tests/universum_set/3.txt'], intentional_error=True)
-
+    # Testovani validity souboru
+    t1.test('Nevalidni soubor #01 Pouze univerzum', ['tests/universe_only.txt'], intentional_error=True)
+    t1.test('Nevalidni soubor #02 Spatne poradi definic', ['tests/wrong_order.txt'], intentional_error=True)
+    t1.test('Nevalidni soubor #03 Prilis dlouhy nazev prvku', ['tests/too_long.txt'], intentional_error=True)
+    t1.test('Nevalidni soubor #04 Prazdny radek', ['tests/empty_line.txt'], intentional_error=True)
+    t1.test('Nevadidni soubor #05 Bez mezery po zacatku', ['tests/no_space.txt'], intentional_error=True)
+    t1.test('Nevalidni soubor #06 Spatny znak v definici', ['tests/invalid_char.txt'], intentional_error=True)
 
     # Command empty
     t1.test('Prikaz "empty" #1 Prazdna mnozina', ['tests/empty/0.txt'], 'tests/empty/0_res.txt')
     t1.test('Prikaz "empty" #2 Neprazdna mnozina', ['tests/empty/1.txt'], 'tests/empty/1_res.txt')
     t1.test('Prikaz "empty" #3 Relace', ['tests/empty/2.txt'], intentional_error=True)
-    t1.test('Prikaz "empty" #4 Neprazdne univerzum jako mnozina', ['tests/empty/3.txt'], 'tests/empty/3_res.txt')
-    t1.test('Prikaz "empty" #5 Prazdne univerzum jako mnozina', ['tests/empty/4.txt'], 'tests/empty/4_res.txt')
-    t1.test('Prikaz "empty" #6 Zadny parametr', ['tests/empty/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "empty" #7 Moc parametru', ['tests/empty/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "empty" #4 Zadny parametr', ['tests/empty/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "empty" #5 Moc parametru', ['tests/empty/too_many.txt'], intentional_error=True)
 
     # Command card
     t1.test('Prikaz "card" #1 Prazdna mnozina', ['tests/card/0.txt'], 'tests/card/0_res.txt')
     t1.test('Prikaz "card" #2 Mnozina o velikosti 1', ['tests/card/1.txt'], 'tests/card/1_res.txt')
     t1.test('Prikaz "card" #3 Mnozina o velikosti 5', ['tests/card/2.txt'], 'tests/card/2_res.txt')
     t1.test('Prikaz "card" #4 Relace', ['tests/card/3.txt'], intentional_error=True)
-    t1.test('Prikaz "card" #5 Neprazdne univerzum jako mnozina', ['tests/card/4.txt'], 'tests/card/4_res.txt')
-    t1.test('Prikaz "card" #6 Prazdne univerzum jako mnozina', ['tests/card/5.txt'], 'tests/card/5_res.txt')
-    t1.test('Prikaz "card" #7 Zadny parametr', ['tests/card/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "card" #8 Moc parametru', ['tests/card/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "card" #5 Zadny parametr', ['tests/card/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "card" #6 Moc parametru', ['tests/card/too_many.txt'], intentional_error=True)
 
     # Command complement
     t1.test('Prikaz "complement" #1 Prazdne univerzum, prazdna mnozina', ['tests/complement/0.txt'], 'tests/complement/0_res.txt')
@@ -255,10 +193,8 @@ if __name__ == '__main__':
     t1.test('Prikaz "complement" #3 Univerzum a prazdna mnozina', ['tests/complement/2.txt'], 'tests/complement/2_res.txt')
     t1.test('Prikaz "complement" #4 Univerzum a neprazdna mnozina', ['tests/complement/3.txt'], 'tests/complement/3_res.txt')
     t1.test('Prikaz "complement" #5 Relace', ['tests/complement/4.txt'], intentional_error=True)
-    t1.test('Prikaz "complement" #6 Neprazdne univerzum jako mnozina', ['tests/complement/5.txt'], 'tests/complement/5_res.txt')
-    t1.test('Prikaz "complement" #7 Prazdne univerzum jako mnozina', ['tests/complement/6.txt'], 'tests/complement/6_res.txt')
-    t1.test('Prikaz "complement" #8 Zadny parametr', ['tests/complement/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "complement" #9 Moc parametru', ['tests/complement/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "complement" #6 Zadny parametr', ['tests/complement/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "complement" #7 Moc parametru', ['tests/complement/too_many.txt'], intentional_error=True)
 
     # Command union
     t1.test('Prikaz "union" #01 Dve prazdne mnoziny', ['tests/union/0.txt'], 'tests/union/0_res.txt')
@@ -348,9 +284,8 @@ if __name__ == '__main__':
     t1.test('Prikaz "reflexive" #4 Reflexivni relace 2', ['tests/reflexive/4.txt'], 'tests/reflexive/4_res.txt')
     t1.test('Prikaz "reflexive" #5 Nereflexivni relace', ['tests/reflexive/5.txt'], 'tests/reflexive/5_res.txt')
     t1.test('Prikaz "reflexive" #6 Mnozina', ['tests/reflexive/6.txt'], intentional_error=True)
-    t1.test('Prikaz "reflexive" #7 Univerzum', ['tests/reflexive/7.txt'], intentional_error=True)
-    t1.test('Prikaz "reflexive" #8 Zadny parametr', ['tests/reflexive/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "reflexive" #9 Moc parametru', ['tests/reflexive/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "reflexive" #7 Zadny parametr', ['tests/reflexive/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "reflexive" #8 Moc parametru', ['tests/reflexive/too_many.txt'], intentional_error=True)
 
     # Command symmetric
     t1.test('Prikaz "symmetric" #1 Prazdne univerzum, prazdna relace', ['tests/symmetric/1.txt'], 'tests/symmetric/1_res.txt')
@@ -359,9 +294,8 @@ if __name__ == '__main__':
     t1.test('Prikaz "symmetric" #4 Symetricka relace 2', ['tests/symmetric/4.txt'], 'tests/symmetric/4_res.txt')
     t1.test('Prikaz "symmetric" #5 Nesymetricka relace', ['tests/symmetric/5.txt'], 'tests/symmetric/5_res.txt')
     t1.test('Prikaz "symmetric" #6 Mnozina', ['tests/symmetric/6.txt'], intentional_error=True)
-    t1.test('Prikaz "symmetric" #7 Univerzum', ['tests/symmetric/7.txt'], intentional_error=True)
-    t1.test('Prikaz "symmetric" #8 Zadny parametr', ['tests/symmetric/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "symmetric" #9 Moc parametru', ['tests/symmetric/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "symmetric" #7 Zadny parametr', ['tests/symmetric/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "symmetric" #8 Moc parametru', ['tests/symmetric/too_many.txt'], intentional_error=True)
 
     # Command antisymmetric
     t1.test('Prikaz "antisymmetric" #1 Prazdne univerzum, prazdna relace', ['tests/antisymmetric/1.txt'], 'tests/antisymmetric/1_res.txt')
@@ -370,9 +304,8 @@ if __name__ == '__main__':
     t1.test('Prikaz "antisymmetric" #4 Antisymetricka relace 2', ['tests/antisymmetric/4.txt'], 'tests/antisymmetric/4_res.txt')
     t1.test('Prikaz "antisymmetric" #5 Neantisymetricka', ['tests/antisymmetric/5.txt'], 'tests/antisymmetric/5_res.txt')
     t1.test('Prikaz "antisymmetric" #6 Mnozina', ['tests/antisymmetric/6.txt'], intentional_error=True)
-    t1.test('Prikaz "antisymmetric" #7 Univerzum', ['tests/antisymmetric/7.txt'], intentional_error=True)
-    t1.test('Prikaz "antisymmetric" #8 Zadny parametr', ['tests/antisymmetric/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "antisymmetric" #9 Moc parametru', ['tests/antisymmetric/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "antisymmetric" #7 Zadny parametr', ['tests/antisymmetric/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "antisymmetric" #8 Moc parametru', ['tests/antisymmetric/too_many.txt'], intentional_error=True)
 
     # Command transitive
     t1.test('Prikaz "transitive" #1 Prazdne univerzum, prazdna relace', ['tests/transitive/1.txt'], 'tests/transitive/1_res.txt')
@@ -381,9 +314,8 @@ if __name__ == '__main__':
     t1.test('Prikaz "transitive" #4 Tranzitivni relace 2', ['tests/transitive/4.txt'], 'tests/transitive/4_res.txt')
     t1.test('Prikaz "transitive" #5 Netranzitivni relace', ['tests/transitive/5.txt'], 'tests/transitive/5_res.txt')
     t1.test('Prikaz "transitive" #6 Mnozina', ['tests/transitive/6.txt'], intentional_error=True)
-    t1.test('Prikaz "transitive" #7 Univerzum', ['tests/transitive/7.txt'], intentional_error=True)
-    t1.test('Prikaz "transitive" #8 Zadny parametr', ['tests/transitive/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "transitive" #9 Moc parametru', ['tests/transitive/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "transitive" #7 Zadny parametr', ['tests/transitive/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "transitive" #8 Moc parametru', ['tests/transitive/too_many.txt'], intentional_error=True)
 
     # Command domain
     t1.test('Prikaz "domain" #1 Prazdne univerzum, prazdna relace', ['tests/domain/1.txt'], 'tests/domain/1_res.txt')
@@ -392,9 +324,8 @@ if __name__ == '__main__':
     t1.test('Prikaz "domain" #4 Relace 3', ['tests/domain/4.txt'], 'tests/domain/4_res.txt')
     t1.test('Prikaz "domain" #5 Relace 4', ['tests/domain/5.txt'], 'tests/domain/5_res.txt')
     t1.test('Prikaz "domain" #6 Mnozina', ['tests/domain/6.txt'], intentional_error=True)
-    t1.test('Prikaz "domain" #7 Univerzum', ['tests/domain/7.txt'], intentional_error=True)
-    t1.test('Prikaz "domain" #8 Zadny parametr', ['tests/domain/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "domain" #9 Moc parametru', ['tests/domain/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "domain" #7 Zadny parametr', ['tests/domain/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "domain" #8 Moc parametru', ['tests/domain/too_many.txt'], intentional_error=True)
 
     # Command codomain
     t1.test('Prikaz "codomain" #1 Prazdne univerzum, prazdna relace', ['tests/codomain/1.txt'], 'tests/codomain/1_res.txt')
@@ -403,9 +334,8 @@ if __name__ == '__main__':
     t1.test('Prikaz "codomain" #4 Relace 3', ['tests/codomain/4.txt'], 'tests/codomain/4_res.txt')
     t1.test('Prikaz "codomain" #5 Relace 4', ['tests/codomain/5.txt'], 'tests/codomain/5_res.txt')
     t1.test('Prikaz "codomain" #6 Mnozina', ['tests/codomain/6.txt'], intentional_error=True)
-    t1.test('Prikaz "codomain" #7 Univerzum', ['tests/codomain/7.txt'], intentional_error=True)
-    t1.test('Prikaz "codomain" #8 Zadny parametr', ['tests/codomain/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "codomain" #9 Moc parametru', ['tests/codomain/too_many.txt'], intentional_error=True)
+    t1.test('Prikaz "codomain" #7 Zadny parametr', ['tests/codomain/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "codomain" #8 Moc parametru', ['tests/codomain/too_many.txt'], intentional_error=True)
 
     # Command function
     t1.test('Prikaz "function" #1 Prazdne univerzum, prazdna relace', ['tests/function/1.txt'], 'tests/function/1_res.txt')
@@ -414,72 +344,15 @@ if __name__ == '__main__':
     t1.test('Prikaz "function" #4 Funkce 2', ['tests/function/4.txt'], 'tests/function/4_res.txt')
     t1.test('Prikaz "function" #5 Neni funkce', ['tests/function/5.txt'], 'tests/function/5_res.txt')
     t1.test('Prikaz "function" #6 Mnozina', ['tests/function/6.txt'], intentional_error=True)
-    t1.test('Prikaz "function" #7 Univerzum', ['tests/function/7.txt'], intentional_error=True)
-    t1.test('Prikaz "function" #8 Zadny parametr', ['tests/function/no_param.txt'], intentional_error=True)
-    t1.test('Prikaz "function" #9 Moc parametru', ['tests/function/too_many.txt'], intentional_error=True)
-
-    # Command surjective
-    t1.test('Prikaz "surjective"', ['tests/surjective/1.txt'], 'tests/surjective/1_res.txt')
-    
-    # Command injective
-    t1.test('Prikaz "injective" #1 Obsahly test', ['tests/injective/1.txt'], 'tests/injective/1_res.txt');
-    t1.test('Prikaz "injective" #2 Malo parametru', ['tests/injective/2.txt'], intentional_error=True);
-    t1.test('Prikaz "injective" #3 Moc parametru', ['tests/injective/3.txt'], intentional_error=True);
-    t1.test('Prikaz "injective" #4 Spatne typy parametru', ['tests/injective/4.txt'], intentional_error=True);
-    t1.test('Prikaz "injective" #5 Spatne typy parametru', ['tests/injective/5.txt'], intentional_error=True);
-    
-    # Command bijective
-    t1.test('Prikaz "bijective"', ['tests/bijective/1.txt'], 'tests/bijective/1_res.txt')
+    t1.test('Prikaz "function" #7 Zadny parametr', ['tests/function/no_param.txt'], intentional_error=True)
+    t1.test('Prikaz "function" #8 Moc parametru', ['tests/function/too_many.txt'], intentional_error=True)
 
     if args.bonus:
         # Bonusove reseni
-        # Command closure_ref
-        t2.test('Prikaz "closure_ref" #1 Prazdne univerzum, prazdna relace', ['tests/closure_ref/1.txt'], 'tests/closure_ref/1_res.txt')
-        t2.test('Prikaz "closure_ref" #2 Prazdna relace', ['tests/closure_ref/2.txt'], 'tests/closure_ref/2_res.txt')
-        t2.test('Prikaz "closure_ref" #3 Reflexivni relace', ['tests/closure_ref/3.txt'], 'tests/closure_ref/3_res.txt')
-        t2.test('Prikaz "closure_ref" #4 Nereflexivni relace', ['tests/closure_ref/4.txt'], 'tests/closure_ref/4_res.txt')
-        t2.test('Prikaz "closure_ref" #5 Mnozina', ['tests/closure_ref/5.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_ref" #6 Univerzum', ['tests/closure_ref/6.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_ref" #7 Zadny parametr', ['tests/closure_ref/no_param.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_ref" #8 Moc parametru', ['tests/closure_ref/too_many.txt'], intentional_error=True)
-
-        # Command closure_sym
-        t2.test('Prikaz "closure_sym" #1 Prazdne univerzum, prazdna relace', ['tests/closure_sym/1.txt'], 'tests/closure_sym/1_res.txt')
-        t2.test('Prikaz "closure_sym" #2 Prazdna relace', ['tests/closure_sym/2.txt'], 'tests/closure_sym/2_res.txt')
-        t2.test('Prikaz "closure_sym" #3 Symetricka relace', ['tests/closure_sym/3.txt'], 'tests/closure_sym/3_res.txt')
-        t2.test('Prikaz "closure_sym" #4 Nesymetricka relace', ['tests/closure_sym/4.txt'], 'tests/closure_sym/4_res.txt')
-        t2.test('Prikaz "closure_sym" #5 Mnozina', ['tests/closure_sym/5.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_sym" #6 Univerzum', ['tests/closure_sym/6.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_sym" #7 Zadny parametr', ['tests/closure_sym/no_param.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_sym" #8 Moc parametru', ['tests/closure_sym/too_many.txt'], intentional_error=True)
-
-        # Command closure_trans
-        t2.test('Prikaz "closure_trans" #1 Prazdne univerzum, prazdna relace', ['tests/closure_trans/1.txt'], 'tests/closure_trans/1_res.txt')
-        t2.test('Prikaz "closure_trans" #2 Prazdna relace', ['tests/closure_trans/2.txt'], 'tests/closure_trans/2_res.txt')
-        t2.test('Prikaz "closure_trans" #3 Tranzitivni relace 1', ['tests/closure_trans/3.txt'], 'tests/closure_trans/3_res.txt')
-        t2.test('Prikaz "closure_trans" #4 Tranzitivni relace 2', ['tests/closure_trans/4.txt'], 'tests/closure_trans/4_res.txt')
-        t2.test('Prikaz "closure_trans" #5 Netranzitivni relace, nekolik iteraci', ['tests/closure_trans/5.txt'], 'tests/closure_trans/5_res.txt')
-        t2.test('Prikaz "closure_trans" #6 Mnozina', ['tests/closure_trans/6.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_trans" #7 Univerzum', ['tests/closure_trans/7.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_trans" #8 Zadny parametr', ['tests/closure_trans/no_param.txt'], intentional_error=True)
-        t2.test('Prikaz "closure_trans" #9 Moc parametru', ['tests/closure_trans/too_many.txt'], intentional_error=True)
-
-        # Command select
-        t2.test('Prikaz "select" #1 Jednoprvkova mnozina', ['tests/select/1.txt'], 'tests/select/1_res.txt')
-        t2.test('Prikaz "select" #2 Jednoprvkova relace', ['tests/select/2.txt'], 'tests/select/2_res.txt')
-        t2.test('Prikaz "select" #3 Prazdna mnozina', ['tests/select/3.txt'], 'tests/select/3_res.txt')
-        t2.test('Prikaz "select" #4 Nevykonany radek', ['tests/select/4.txt'], 'tests/select/4_res.txt')
-        t2.test('Prikaz "select" #5 Skok na neexistujici radek', ['tests/select/5.txt'], intentional_error=True)
-        t2.test('Prikaz "select" #6 Pristup na neexistujici radek', ['tests/select/6.txt'], intentional_error=True)
-        t2.test('Prikaz "select" #7 Prazdna relace', ['tests/select/7.txt'], 'tests/select/7_res.txt')
-        t2.test('Prikaz "select" #8 Zadny parametr', ['tests/select/no_param.txt'], intentional_error=True)
-        t2.test('Prikaz "select" #9 Moc parametru', ['tests/select/too_many.txt'], intentional_error=True)
-
-
         # Self modifying tests
-        # t2.test('Sebeupravujici radky #1 Jeden complement', ['tests/self_mod/1.txt'], 'tests/self_mod/1_res.txt')
-        # t2.test('Sebeupravujici radky #2 Tri complementy', ['tests/self_mod/2.txt'], 'tests/self_mod/2_res.txt')
-        # t2.test('Sebeupravujici radky #3 Tri iterace (union+complement)', ['tests/self_mod/3.txt'], 'tests/self_mod/3_res.txt')
+        t2.test('Sebeupravujici radky #1 Jeden complement', ['tests/self_mod/1.txt'], 'tests/self_mod/1_res.txt')
+        t2.test('Sebeupravujici radky #2 Tri complementy', ['tests/self_mod/2.txt'], 'tests/self_mod/2_res.txt')
+        t2.test('Sebeupravujici radky #3 Tri iterace (union+complement)', ['tests/self_mod/3.txt'], 'tests/self_mod/3_res.txt')
 
 
     print('-- STATISTIKA --')

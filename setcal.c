@@ -399,7 +399,7 @@ void setUnion(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
 
-	for(int i = 0; i < numOfUniElems; i++) {
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 || set2.elements[i] == 1)
 			final_set.elements[i] = 1;
 		else
@@ -415,7 +415,7 @@ void setIntersect(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
 	
-	for(int i = 0; i < numOfUniElems; i++) {
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 1)
 			final_set.elements[i] = 1;
 		else
@@ -430,7 +430,7 @@ void setMinus(set_t set1, set_t set2, int numOfUniElems, char **univerzum) {
 	p_elem = elem;
 	set_t final_set = {.elements = p_elem};	
 
-	for(int i = 0; i < numOfUniElems; i++) {
+	for(int i = -1; i < numOfUniElems; i++) {
 		if(set1.elements[i] == 1 && set2.elements[i] == 1)
 			final_set.elements[i] = 0;
 		else if(set1.elements[i] == 0)
@@ -767,6 +767,7 @@ int main(int argc, char *argv[]) {
 	if(!file)
 	{
 		fprintf(stderr, "Chyba: Nelze otevrit soubor s daty!\n");
+		fclose(file);
 		return 1;
 	}
 
