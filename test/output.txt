@@ -1,0 +1,7391 @@
+[1;31m[FAIL][0m Test ze zadani #1 (sets.txt)
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/assignment/sets.txt
+Predpokladany vystup:
+U a b c x y z
+S a b c x
+S x y z
+S x
+S a b c
+
+STDOUT:
+U a b c x y z 
+S a b c x 
+S x y z 
+S x 
+S a b c 
+
+STDERR:
+
+[1;31m[FAIL][0m Test ze zadani #2 (rel.txt)
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/assignment/rel.txt
+Predpokladany vystup:
+U dad mom girl boy man woman
+R (dad boy) (dad girl) (mom boy) (mom girl)
+R (dad man) (boy man) (mom woman) (girl woman)
+S boy girl
+true
+
+STDOUT:
+U dad mom girl boy man woman 
+R (dad girl) (dad boy) (mom girl) (mom boy) 
+R (dad man) (mom woman) (girl woman) (boy man) 
+S girl boy 
+true
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3166== Conditional jump or move depends on uninitialised value(s)
+==3166==    at 0x10B1ED: relCodomain (setcal.c:596)
+==3166==    by 0x10D080: main (setcal.c:1016)
+==3166==  Uninitialised value was created by a stack allocation
+==3166==    at 0x10B08F: relCodomain (setcal.c:586)
+==3166==
+[1;32m[ OK ][0m Bez argumentu
+[1;32m[ OK ][0m Moc argumentu
+[1;32m[ OK ][0m Neexistujici soubor
+[1;31m[FAIL][0m Univerzum #01 Cisla ve jmenech prvku
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/universe/1.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c d0 
+S a b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Univerzum #02 Specialni znaky ve jmenech prvku
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/universe/2.txt
+Predpokladany vystup:
+
+STDOUT:
+U A b c d! 
+S A b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Univerzum #03 Maximalni delka jmena prvku
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/universe/3.txt
+Predpokladany vystup:
+U aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b c dddddddddddddddddddddddddddddd
+S aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b dddddddddddddddddddddddddddddd
+false
+
+STDOUT:
+U aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b c dddddddddddddddddddddddddddddd 
+S aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b dddddddddddddddddddddddddddddd 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Univerzum #04 Vetsi nez maximalni delka jmena prvku
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3180== Conditional jump or move depends on uninitialised value(s)
+==3180==    at 0x48CD1C2: __vfprintf_internal (vfprintf-internal.c:1688)
+==3180==    by 0x48B7EBE: printf (printf.c:33)
+==3180==    by 0x109E87: printUniverzum (setcal.c:304)
+==3180==    by 0x10BB06: main (setcal.c:788)
+==3180==  Uninitialised value was created by a heap allocation
+==3180==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3180==    by 0x10BAC0: main (setcal.c:785)
+==3180== 
+==3180== Conditional jump or move depends on uninitialised value(s)
+==3180==    at 0x483C9F5: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3180==    by 0x109D02: freeUni (setcal.c:267)
+==3180==    by 0x10A06F: endProgram (setcal.c:339)
+==3180==    by 0x10BBF1: main (setcal.c:808)
+==3180==  Uninitialised value was created by a heap allocation
+==3180==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3180==    by 0x10BAC0: main (setcal.c:785)
+==3180== 
+==3180== 16 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3180==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3180==    by 0x10BB78: main (setcal.c:804)
+==3180==
+[1;31m[FAIL][0m Univerzum #05 Prvek ma nazev prikazu 1
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/universe/5.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c surjective 
+S a b surjective 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Univerzum #06 Prvek ma nazev prikazu 2
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/universe/6.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c empty 
+S a b empty 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Univerzum #07 Prvek ma false
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/universe/7.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c false 
+S a b false 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Univerzum #08 Opakovani prvku 1
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/universe/8.txt
+Predpokladany vystup:
+
+STDOUT:
+U ha hah hahh ha 
+S ha hah 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Univerzum #09 Opakovani prvku 2
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/universe/9.txt
+Predpokladany vystup:
+
+STDOUT:
+U h hah hahh hah 
+S h hahh 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Univerzum #10 Zadna mezera za U
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3192== Conditional jump or move depends on uninitialised value(s)
+==3192==    at 0x10BA72: main (setcal.c:779)
+==3192==  Uninitialised value was created by a stack allocation
+==3192==    at 0x10B97C: main (setcal.c:758)
+==3192==
+[1;32m[ OK ][0m Mnozina #1 Prvky, ktere nepatri do univerza
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3194== 12 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3194==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3194==    by 0x10BB78: main (setcal.c:804)
+==3194==
+[1;32m[ OK ][0m Mnozina #2 Opakujici se prvek
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3196== 12 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3196==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3196==    by 0x10BB78: main (setcal.c:804)
+==3196==
+[1;32m[ OK ][0m Mnozina #3 Delsi prvek nez maximalni delka
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3198== 12 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3198==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3198==    by 0x10BB78: main (setcal.c:804)
+==3198==
+[1;32m[ OK ][0m Mnozina #4 Zadna mezera za S
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3200== Conditional jump or move depends on uninitialised value(s)
+==3200==    at 0x10BE64: main (setcal.c:800)
+==3200==  Uninitialised value was created by a stack allocation
+==3200==    at 0x10B97C: main (setcal.c:758)
+==3200== 
+==3200== Conditional jump or move depends on uninitialised value(s)
+==3200==    at 0x10BE6F: main (setcal.c:800)
+==3200==  Uninitialised value was created by a stack allocation
+==3200==    at 0x10B97C: main (setcal.c:758)
+==3200==
+[1;32m[ OK ][0m Relace #1 Prvky, ktere nepatri do univerza 1
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3202== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3202==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3202==    by 0x10BCAA: main (setcal.c:823)
+==3202==
+[1;32m[ OK ][0m Relace #2 Prvky, ktere nepatri do univerza 2
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3204== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3204==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3204==    by 0x10BCAA: main (setcal.c:823)
+==3204==
+[1;31m[FAIL][0m Relace #3 Opakujici se prvek
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/relation/3.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+R (a b) (b c) 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Relace #4 Delsi prvek nez maximalni delka
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3208== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3208==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3208==    by 0x10BCAA: main (setcal.c:823)
+==3208==
+[1;32m[ OK ][0m Relace #5 Zadna mezera za R
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3210== Conditional jump or move depends on uninitialised value(s)
+==3210==    at 0x10BE64: main (setcal.c:800)
+==3210==  Uninitialised value was created by a stack allocation
+==3210==    at 0x10B97C: main (setcal.c:758)
+==3210== 
+==3210== Conditional jump or move depends on uninitialised value(s)
+==3210==    at 0x10BE6F: main (setcal.c:800)
+==3210==  Uninitialised value was created by a stack allocation
+==3210==    at 0x10B97C: main (setcal.c:758)
+==3210==
+[1;32m[ OK ][0m Prikaz #1 Neexistujici
+[1;32m[ OK ][0m Prikaz #2 Zadna mezera za C
+[1;31m[FAIL][0m Obecne #1 Pouze univerzum
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/general/universe_only.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3216== Conditional jump or move depends on uninitialised value(s)
+==3216==    at 0x10BE64: main (setcal.c:800)
+==3216==  Uninitialised value was created by a stack allocation
+==3216==    at 0x10B97C: main (setcal.c:758)
+==3216== 
+==3216== Conditional jump or move depends on uninitialised value(s)
+==3216==    at 0x10BE6F: main (setcal.c:800)
+==3216==  Uninitialised value was created by a stack allocation
+==3216==    at 0x10B97C: main (setcal.c:758)
+==3216==
+[1;31m[FAIL][0m Obecne #2 Spatne poradi definic
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/general/wrong_order.txt
+Predpokladany vystup:
+
+STDOUT:
+U a 
+S a 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Obecne #3 Prazdny radek
+[1;32m[ OK ][0m Obecne #4 Rozlisovani velikosti pismen
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3222== 12 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3222==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3222==    by 0x10BB78: main (setcal.c:804)
+==3222==
+[1;31m[FAIL][0m Obecne #5 2x univerzum
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/general/multiple_universe.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c d 
+
+STDERR:
+
+[1;32m[ OK ][0m Obecne #6 Zadne univerzum
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3226== Conditional jump or move depends on uninitialised value(s)
+==3226==    at 0x10BA72: main (setcal.c:779)
+==3226==  Uninitialised value was created by a stack allocation
+==3226==    at 0x10B97C: main (setcal.c:758)
+==3226== 
+==3226== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3226==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3226==    by 0x109482: loadLine (setcal.c:51)
+==3226==    by 0x10BA61: main (setcal.c:778)
+==3226==
+[1;32m[ OK ][0m Obecne #7 Zadna mnozina nebo relace
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3228== Conditional jump or move depends on uninitialised value(s)
+==3228==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3228==    by 0x10B70E: checkOneSet (setcal.c:703)
+==3228==    by 0x10BF6E: main (setcal.c:864)
+==3228==  Uninitialised value was created by a stack allocation
+==3228==    at 0x10B97C: main (setcal.c:758)
+==3228==
+[1;31m[FAIL][0m Obecne #8 Zadny prikaz
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/general/no_command.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+S a b 
+
+STDERR:
+
+[1;31m[FAIL][0m Obecne #9 Nevalidni pocatecni pismeno
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+
+Argumenty: tests/general/invalid_start.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c d 
+S a b c 
+false
+
+STDERR:
+Chyba: Spatny format na radku 4!
+
+[1;32m[ OK ][0m Obecne #10 Radek s mezerou
+[1;32m[ OK ][0m Obecne #11 Radek s mezerami
+[1;32m[ OK ][0m Obecne #12 Radek s tabem
+[1;32m[ OK ][0m Obecne #13 Radek s taby
+[1;32m[ OK ][0m Obecne #14 Radek s mezerami a taby
+[1;31m[FAIL][0m Pocet radku #1 999 radku
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/max_lines_count/1.txt
+Predpokladany vystup:
+U a b c
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+false
+
+STDOUT:
+U a b c 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Pocet radku #2 1000 radku
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/max_lines_count/2.txt
+Predpokladany vystup:
+U a b c
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+S a
+false
+
+STDOUT:
+U a b c 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+S a 
+false
+
+STDERR:
+Chyba: prilis mnoho radku!
+[1;32m[ OK ][0m Pocet radku #3 1001 radku
+[1;32m[ OK ][0m Pocet radku #4 1002 radku
+[1;31m[FAIL][0m Univerzum jako mnozina #1 Prikaz complement
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/universum_set/1.txt
+Predpokladany vystup:
+U a b c
+S a
+S
+
+STDOUT:
+U a b c 
+S a 
+
+STDERR:
+Neplatny argument prikazu complement
+Chyba na radku: 3
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3252== Conditional jump or move depends on uninitialised value(s)
+==3252==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3252==    by 0x10B70E: checkOneSet (setcal.c:703)
+==3252==    by 0x10C15E: main (setcal.c:884)
+==3252==  Uninitialised value was created by a stack allocation
+==3252==    at 0x10B97C: main (setcal.c:758)
+==3252==
+[1;31m[FAIL][0m Univerzum jako mnozina #2 Prikaz empty
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/universum_set/2.txt
+Predpokladany vystup:
+U a b c
+S
+false
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3254== Conditional jump or move depends on uninitialised value(s)
+==3254==    at 0x10BE64: main (setcal.c:800)
+==3254==  Uninitialised value was created by a stack allocation
+==3254==    at 0x10B97C: main (setcal.c:758)
+==3254== 
+==3254== Conditional jump or move depends on uninitialised value(s)
+==3254==    at 0x10BE6F: main (setcal.c:800)
+==3254==  Uninitialised value was created by a stack allocation
+==3254==    at 0x10B97C: main (setcal.c:758)
+==3254== 
+==3254== Conditional jump or move depends on uninitialised value(s)
+==3254==    at 0x10D67C: main (setcal.c:858)
+==3254==  Uninitialised value was created by a stack allocation
+==3254==    at 0x10B97C: main (setcal.c:758)
+==3254==
+[1;32m[ OK ][0m Univerzum jako mnozina #3 Prikaz complement (chyba)
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3256== Conditional jump or move depends on uninitialised value(s)
+==3256==    at 0x10A117: findRelIndex (setcal.c:358)
+==3256==    by 0x10B85A: checkOneRel (setcal.c:733)
+==3256==    by 0x10CA46: main (setcal.c:955)
+==3256==  Uninitialised value was created by a stack allocation
+==3256==    at 0x10B96B: main (setcal.c:758)
+==3256==
+[1;31m[FAIL][0m Prikaz "empty" #1 Prazdna mnozina
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/empty/0.txt
+Predpokladany vystup:
+U a b c
+S
+true
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3258== Conditional jump or move depends on uninitialised value(s)
+==3258==    at 0x10BE64: main (setcal.c:800)
+==3258==  Uninitialised value was created by a stack allocation
+==3258==    at 0x10B97C: main (setcal.c:758)
+==3258== 
+==3258== Conditional jump or move depends on uninitialised value(s)
+==3258==    at 0x10BE6F: main (setcal.c:800)
+==3258==  Uninitialised value was created by a stack allocation
+==3258==    at 0x10B97C: main (setcal.c:758)
+==3258== 
+==3258== Conditional jump or move depends on uninitialised value(s)
+==3258==    at 0x10D67C: main (setcal.c:858)
+==3258==  Uninitialised value was created by a stack allocation
+==3258==    at 0x10B97C: main (setcal.c:758)
+==3258==
+[1;31m[FAIL][0m Prikaz "empty" #2 Neprazdna mnozina
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/empty/1.txt
+Predpokladany vystup:
+U a b c
+S a
+false
+
+STDOUT:
+U a b c 
+S a 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "empty" #3 Relace
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3262== Conditional jump or move depends on uninitialised value(s)
+==3262==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3262==    by 0x10B70E: checkOneSet (setcal.c:703)
+==3262==    by 0x10BF6E: main (setcal.c:864)
+==3262==  Uninitialised value was created by a stack allocation
+==3262==    at 0x10B97C: main (setcal.c:758)
+==3262==
+[1;31m[FAIL][0m Prikaz "empty" #4 Neprazdne univerzum jako mnozina
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/empty/3.txt
+Predpokladany vystup:
+U a b c
+S a b
+false
+
+STDOUT:
+U a b c 
+S a b 
+
+STDERR:
+Neplatny argument prikazu empty
+Chyba na radku: 3
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3264== Conditional jump or move depends on uninitialised value(s)
+==3264==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3264==    by 0x10B70E: checkOneSet (setcal.c:703)
+==3264==    by 0x10BF6E: main (setcal.c:864)
+==3264==  Uninitialised value was created by a stack allocation
+==3264==    at 0x10B97C: main (setcal.c:758)
+==3264==
+[1;31m[FAIL][0m Prikaz "empty" #5 Prazdne univerzum jako mnozina
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/empty/4.txt
+Predpokladany vystup:
+U
+S
+true
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3266== Conditional jump or move depends on uninitialised value(s)
+==3266==    at 0x10BA72: main (setcal.c:779)
+==3266==  Uninitialised value was created by a stack allocation
+==3266==    at 0x10B97C: main (setcal.c:758)
+==3266== 
+==3266== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3266==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3266==    by 0x109482: loadLine (setcal.c:51)
+==3266==    by 0x10BA61: main (setcal.c:778)
+==3266==
+[1;31m[FAIL][0m Prikaz "empty" #6 Zadny parametr
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/empty/no_param.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3268== Conditional jump or move depends on uninitialised value(s)
+==3268==    at 0x10BE64: main (setcal.c:800)
+==3268==  Uninitialised value was created by a stack allocation
+==3268==    at 0x10B97C: main (setcal.c:758)
+==3268== 
+==3268== Conditional jump or move depends on uninitialised value(s)
+==3268==    at 0x10BE6F: main (setcal.c:800)
+==3268==  Uninitialised value was created by a stack allocation
+==3268==    at 0x10B97C: main (setcal.c:758)
+==3268== 
+==3268== Conditional jump or move depends on uninitialised value(s)
+==3268==    at 0x10D67C: main (setcal.c:858)
+==3268==  Uninitialised value was created by a stack allocation
+==3268==    at 0x10B97C: main (setcal.c:758)
+==3268==
+[1;31m[FAIL][0m Prikaz "empty" #7 Moc parametru
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/empty/too_many.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3270== Conditional jump or move depends on uninitialised value(s)
+==3270==    at 0x10BE64: main (setcal.c:800)
+==3270==  Uninitialised value was created by a stack allocation
+==3270==    at 0x10B97C: main (setcal.c:758)
+==3270== 
+==3270== Conditional jump or move depends on uninitialised value(s)
+==3270==    at 0x10BE6F: main (setcal.c:800)
+==3270==  Uninitialised value was created by a stack allocation
+==3270==    at 0x10B97C: main (setcal.c:758)
+==3270== 
+==3270== Conditional jump or move depends on uninitialised value(s)
+==3270==    at 0x10D67C: main (setcal.c:858)
+==3270==  Uninitialised value was created by a stack allocation
+==3270==    at 0x10B97C: main (setcal.c:758)
+==3270==
+[1;31m[FAIL][0m Prikaz "card" #1 Prazdna mnozina
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/card/0.txt
+Predpokladany vystup:
+U a b c
+S
+0
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3272== Conditional jump or move depends on uninitialised value(s)
+==3272==    at 0x10BE64: main (setcal.c:800)
+==3272==  Uninitialised value was created by a stack allocation
+==3272==    at 0x10B97C: main (setcal.c:758)
+==3272== 
+==3272== Conditional jump or move depends on uninitialised value(s)
+==3272==    at 0x10BE6F: main (setcal.c:800)
+==3272==  Uninitialised value was created by a stack allocation
+==3272==    at 0x10B97C: main (setcal.c:758)
+==3272== 
+==3272== Conditional jump or move depends on uninitialised value(s)
+==3272==    at 0x10D67C: main (setcal.c:858)
+==3272==  Uninitialised value was created by a stack allocation
+==3272==    at 0x10B97C: main (setcal.c:758)
+==3272==
+[1;31m[FAIL][0m Prikaz "card" #2 Mnozina o velikosti 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/card/1.txt
+Predpokladany vystup:
+U a b c
+S a
+1
+
+STDOUT:
+U a b c 
+S a 
+1
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "card" #3 Mnozina o velikosti 5
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/card/2.txt
+Predpokladany vystup:
+U a b c d e
+S a b c d e
+5
+
+STDOUT:
+U a b c d e 
+S a b c d e 
+5
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "card" #4 Relace
+[1;31m[FAIL][0m Prikaz "card" #5 Neprazdne univerzum jako mnozina
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/card/4.txt
+Predpokladany vystup:
+U
+S
+0
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3280== Conditional jump or move depends on uninitialised value(s)
+==3280==    at 0x10BA72: main (setcal.c:779)
+==3280==  Uninitialised value was created by a stack allocation
+==3280==    at 0x10B97C: main (setcal.c:758)
+==3280== 
+==3280== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3280==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3280==    by 0x109482: loadLine (setcal.c:51)
+==3280==    by 0x10BA61: main (setcal.c:778)
+==3280==
+[1;31m[FAIL][0m Prikaz "card" #6 Prazdne univerzum jako mnozina
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/card/5.txt
+Predpokladany vystup:
+U a b c d e
+S
+5
+
+STDOUT:
+U a b c d e 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3282== Conditional jump or move depends on uninitialised value(s)
+==3282==    at 0x10BE64: main (setcal.c:800)
+==3282==  Uninitialised value was created by a stack allocation
+==3282==    at 0x10B97C: main (setcal.c:758)
+==3282== 
+==3282== Conditional jump or move depends on uninitialised value(s)
+==3282==    at 0x10BE6F: main (setcal.c:800)
+==3282==  Uninitialised value was created by a stack allocation
+==3282==    at 0x10B97C: main (setcal.c:758)
+==3282== 
+==3282== Conditional jump or move depends on uninitialised value(s)
+==3282==    at 0x10D67C: main (setcal.c:858)
+==3282==  Uninitialised value was created by a stack allocation
+==3282==    at 0x10B97C: main (setcal.c:758)
+==3282==
+[1;31m[FAIL][0m Prikaz "card" #7 Zadny parametr
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/card/no_param.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3284== Conditional jump or move depends on uninitialised value(s)
+==3284==    at 0x10BE64: main (setcal.c:800)
+==3284==  Uninitialised value was created by a stack allocation
+==3284==    at 0x10B97C: main (setcal.c:758)
+==3284== 
+==3284== Conditional jump or move depends on uninitialised value(s)
+==3284==    at 0x10BE6F: main (setcal.c:800)
+==3284==  Uninitialised value was created by a stack allocation
+==3284==    at 0x10B97C: main (setcal.c:758)
+==3284== 
+==3284== Conditional jump or move depends on uninitialised value(s)
+==3284==    at 0x10D67C: main (setcal.c:858)
+==3284==  Uninitialised value was created by a stack allocation
+==3284==    at 0x10B97C: main (setcal.c:758)
+==3284==
+[1;31m[FAIL][0m Prikaz "card" #8 Moc parametru
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/card/too_many.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3286== Conditional jump or move depends on uninitialised value(s)
+==3286==    at 0x10BE64: main (setcal.c:800)
+==3286==  Uninitialised value was created by a stack allocation
+==3286==    at 0x10B97C: main (setcal.c:758)
+==3286== 
+==3286== Conditional jump or move depends on uninitialised value(s)
+==3286==    at 0x10BE6F: main (setcal.c:800)
+==3286==  Uninitialised value was created by a stack allocation
+==3286==    at 0x10B97C: main (setcal.c:758)
+==3286== 
+==3286== Conditional jump or move depends on uninitialised value(s)
+==3286==    at 0x10D67C: main (setcal.c:858)
+==3286==  Uninitialised value was created by a stack allocation
+==3286==    at 0x10B97C: main (setcal.c:758)
+==3286==
+[1;31m[FAIL][0m Prikaz "complement" #1 Prazdne univerzum, prazdna mnozina
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/complement/0.txt
+Predpokladany vystup:
+U
+S
+S
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3288== Conditional jump or move depends on uninitialised value(s)
+==3288==    at 0x10BA72: main (setcal.c:779)
+==3288==  Uninitialised value was created by a stack allocation
+==3288==    at 0x10B97C: main (setcal.c:758)
+==3288== 
+==3288== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3288==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3288==    by 0x109482: loadLine (setcal.c:51)
+==3288==    by 0x10BA61: main (setcal.c:778)
+==3288==
+[1;31m[FAIL][0m Prikaz "complement" #2 Univerzum a mnozina stejne prvky
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/complement/1.txt
+Predpokladany vystup:
+U dd b c a
+S b c dd a
+S
+
+STDOUT:
+U dd b c a 
+S dd b c a 
+S 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "complement" #3 Univerzum a prazdna mnozina
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/complement/2.txt
+Predpokladany vystup:
+U a b c d e f
+S
+S a b c d e f
+
+STDOUT:
+U a b c d e f 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3292== Conditional jump or move depends on uninitialised value(s)
+==3292==    at 0x10BE64: main (setcal.c:800)
+==3292==  Uninitialised value was created by a stack allocation
+==3292==    at 0x10B97C: main (setcal.c:758)
+==3292== 
+==3292== Conditional jump or move depends on uninitialised value(s)
+==3292==    at 0x10BE6F: main (setcal.c:800)
+==3292==  Uninitialised value was created by a stack allocation
+==3292==    at 0x10B97C: main (setcal.c:758)
+==3292== 
+==3292== Conditional jump or move depends on uninitialised value(s)
+==3292==    at 0x10D67C: main (setcal.c:858)
+==3292==  Uninitialised value was created by a stack allocation
+==3292==    at 0x10B97C: main (setcal.c:758)
+==3292==
+[1;31m[FAIL][0m Prikaz "complement" #4 Univerzum a neprazdna mnozina
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/complement/3.txt
+Predpokladany vystup:
+U a b c d e f
+S d c f
+S a b e
+
+STDOUT:
+U a b c d e f 
+S c d f 
+S a b e 
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "complement" #5 Relace
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3296== Conditional jump or move depends on uninitialised value(s)
+==3296==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3296==    by 0x10B70E: checkOneSet (setcal.c:703)
+==3296==    by 0x10C15E: main (setcal.c:884)
+==3296==  Uninitialised value was created by a stack allocation
+==3296==    at 0x10B97C: main (setcal.c:758)
+==3296==
+[1;31m[FAIL][0m Prikaz "complement" #6 Neprazdne univerzum jako mnozina
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/complement/5.txt
+Predpokladany vystup:
+U
+S
+S
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3298== Conditional jump or move depends on uninitialised value(s)
+==3298==    at 0x10BA72: main (setcal.c:779)
+==3298==  Uninitialised value was created by a stack allocation
+==3298==    at 0x10B97C: main (setcal.c:758)
+==3298== 
+==3298== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3298==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3298==    by 0x109482: loadLine (setcal.c:51)
+==3298==    by 0x10BA61: main (setcal.c:778)
+==3298==
+[1;31m[FAIL][0m Prikaz "complement" #7 Prazdne univerzum jako mnozina
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/complement/6.txt
+Predpokladany vystup:
+U a b c d e
+S
+S
+
+STDOUT:
+U a b c d e 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3300== Conditional jump or move depends on uninitialised value(s)
+==3300==    at 0x10BE64: main (setcal.c:800)
+==3300==  Uninitialised value was created by a stack allocation
+==3300==    at 0x10B97C: main (setcal.c:758)
+==3300== 
+==3300== Conditional jump or move depends on uninitialised value(s)
+==3300==    at 0x10BE6F: main (setcal.c:800)
+==3300==  Uninitialised value was created by a stack allocation
+==3300==    at 0x10B97C: main (setcal.c:758)
+==3300== 
+==3300== Conditional jump or move depends on uninitialised value(s)
+==3300==    at 0x10D67C: main (setcal.c:858)
+==3300==  Uninitialised value was created by a stack allocation
+==3300==    at 0x10B97C: main (setcal.c:758)
+==3300==
+[1;32m[ OK ][0m Prikaz "complement" #8 Zadny parametr
+[1;32m[ OK ][0m Prikaz "complement" #9 Moc parametru
+[1;31m[FAIL][0m Prikaz "union" #01 Dve prazdne mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/union/0.txt
+Predpokladany vystup:
+U a b
+S
+S
+S
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3306== Conditional jump or move depends on uninitialised value(s)
+==3306==    at 0x10BE64: main (setcal.c:800)
+==3306==  Uninitialised value was created by a stack allocation
+==3306==    at 0x10B97C: main (setcal.c:758)
+==3306== 
+==3306== Conditional jump or move depends on uninitialised value(s)
+==3306==    at 0x10BE6F: main (setcal.c:800)
+==3306==  Uninitialised value was created by a stack allocation
+==3306==    at 0x10B97C: main (setcal.c:758)
+==3306== 
+==3306== Conditional jump or move depends on uninitialised value(s)
+==3306==    at 0x10D67C: main (setcal.c:858)
+==3306==  Uninitialised value was created by a stack allocation
+==3306==    at 0x10B97C: main (setcal.c:758)
+==3306==
+[1;31m[FAIL][0m Prikaz "union" #02 Prvni prazdna, druha neprazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/union/1.txt
+Predpokladany vystup:
+U a b c d
+S
+S c d
+S c d
+
+STDOUT:
+U a b c d 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3308== Conditional jump or move depends on uninitialised value(s)
+==3308==    at 0x10BE64: main (setcal.c:800)
+==3308==  Uninitialised value was created by a stack allocation
+==3308==    at 0x10B97C: main (setcal.c:758)
+==3308== 
+==3308== Conditional jump or move depends on uninitialised value(s)
+==3308==    at 0x10BE6F: main (setcal.c:800)
+==3308==  Uninitialised value was created by a stack allocation
+==3308==    at 0x10B97C: main (setcal.c:758)
+==3308== 
+==3308== Conditional jump or move depends on uninitialised value(s)
+==3308==    at 0x10D67C: main (setcal.c:858)
+==3308==  Uninitialised value was created by a stack allocation
+==3308==    at 0x10B97C: main (setcal.c:758)
+==3308==
+[1;31m[FAIL][0m Prikaz "union" #03 Prvni neprazdna, druha prazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/union/2.txt
+Predpokladany vystup:
+U a b c d
+S c d
+S
+S c d
+
+STDOUT:
+U a b c d 
+S c d 
+S 
+S c d 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "union" #04 Mnoziny bez pruniku
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/union/3.txt
+Predpokladany vystup:
+U a b c d
+S b a
+S c
+S a b c
+
+STDOUT:
+U a b c d 
+S a b 
+S c 
+S a b c 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "union" #05 Mnoziny s prunikem
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/union/4.txt
+Predpokladany vystup:
+U a b c d
+S b a
+S c b
+S a b c
+
+STDOUT:
+U a b c d 
+S a b 
+S b c 
+S a b c 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "union" #06 Mnozina sama se sebou
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/union/5.txt
+Predpokladany vystup:
+U a b c d
+S b a d
+S a b d
+
+STDOUT:
+U a b c d 
+S a b d 
+S a b d 
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "union" #07 Relace jako prvni parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3318== Conditional jump or move depends on uninitialised value(s)
+==3318==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3318==    by 0x10B7A7: checkTwoSets (setcal.c:718)
+==3318==    by 0x10C269: main (setcal.c:894)
+==3318==  Uninitialised value was created by a stack allocation
+==3318==    at 0x10B97C: main (setcal.c:758)
+==3318==
+[1;32m[ OK ][0m Prikaz "union" #08 Relace jako druhy parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3320== Conditional jump or move depends on uninitialised value(s)
+==3320==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3320==    by 0x10B7C0: checkTwoSets (setcal.c:718)
+==3320==    by 0x10C269: main (setcal.c:894)
+==3320==  Uninitialised value was created by a stack allocation
+==3320==    at 0x10B97C: main (setcal.c:758)
+==3320==
+[1;31m[FAIL][0m Prikaz "union" #09 Zadny parametr
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/union/no_param.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3322== Conditional jump or move depends on uninitialised value(s)
+==3322==    at 0x10BE64: main (setcal.c:800)
+==3322==  Uninitialised value was created by a stack allocation
+==3322==    at 0x10B97C: main (setcal.c:758)
+==3322== 
+==3322== Conditional jump or move depends on uninitialised value(s)
+==3322==    at 0x10BE6F: main (setcal.c:800)
+==3322==  Uninitialised value was created by a stack allocation
+==3322==    at 0x10B97C: main (setcal.c:758)
+==3322== 
+==3322== Conditional jump or move depends on uninitialised value(s)
+==3322==    at 0x10D67C: main (setcal.c:858)
+==3322==  Uninitialised value was created by a stack allocation
+==3322==    at 0x10B97C: main (setcal.c:758)
+==3322==
+[1;31m[FAIL][0m Prikaz "union" #10 Jeden parametr
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/union/one_param.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3324== Conditional jump or move depends on uninitialised value(s)
+==3324==    at 0x10BE64: main (setcal.c:800)
+==3324==  Uninitialised value was created by a stack allocation
+==3324==    at 0x10B97C: main (setcal.c:758)
+==3324== 
+==3324== Conditional jump or move depends on uninitialised value(s)
+==3324==    at 0x10BE6F: main (setcal.c:800)
+==3324==  Uninitialised value was created by a stack allocation
+==3324==    at 0x10B97C: main (setcal.c:758)
+==3324== 
+==3324== Conditional jump or move depends on uninitialised value(s)
+==3324==    at 0x10D67C: main (setcal.c:858)
+==3324==  Uninitialised value was created by a stack allocation
+==3324==    at 0x10B97C: main (setcal.c:758)
+==3324==
+[1;31m[FAIL][0m Prikaz "union" #11 Moc parametru
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/union/too_many.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3326== Conditional jump or move depends on uninitialised value(s)
+==3326==    at 0x10BE64: main (setcal.c:800)
+==3326==  Uninitialised value was created by a stack allocation
+==3326==    at 0x10B97C: main (setcal.c:758)
+==3326== 
+==3326== Conditional jump or move depends on uninitialised value(s)
+==3326==    at 0x10BE6F: main (setcal.c:800)
+==3326==  Uninitialised value was created by a stack allocation
+==3326==    at 0x10B97C: main (setcal.c:758)
+==3326== 
+==3326== Conditional jump or move depends on uninitialised value(s)
+==3326==    at 0x10D67C: main (setcal.c:858)
+==3326==  Uninitialised value was created by a stack allocation
+==3326==    at 0x10B97C: main (setcal.c:758)
+==3326==
+[1;31m[FAIL][0m Prikaz "intersect" #1 Cela mnozina
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/intersect/1.txt
+Predpokladany vystup:
+U kol k kolo l o
+S o l kolo k kol
+S kol k kolo l o
+S kol k kolo l o
+
+STDOUT:
+U kol k kolo l o 
+S kol k kolo l o 
+S kol k kolo l o 
+S kol k kolo l o 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "intersect" #2 Casti mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/intersect/2.txt
+Predpokladany vystup:
+U a b c d e
+S a b c
+S c d
+S c
+
+STDOUT:
+U a b c d e 
+S a b c 
+S c d 
+S c 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "intersect" #3 Prazdna mnozina 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/intersect/3.txt
+Predpokladany vystup:
+U AAA aa A
+S AAA
+S A
+S
+
+STDOUT:
+U AAA aa A 
+S AAA 
+S A 
+S 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "intersect" #4 Prazdna mnozina 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/intersect/4.txt
+Predpokladany vystup:
+U a b c
+S
+S
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3334== Conditional jump or move depends on uninitialised value(s)
+==3334==    at 0x10BE64: main (setcal.c:800)
+==3334==  Uninitialised value was created by a stack allocation
+==3334==    at 0x10B97C: main (setcal.c:758)
+==3334== 
+==3334== Conditional jump or move depends on uninitialised value(s)
+==3334==    at 0x10BE6F: main (setcal.c:800)
+==3334==  Uninitialised value was created by a stack allocation
+==3334==    at 0x10B97C: main (setcal.c:758)
+==3334== 
+==3334== Conditional jump or move depends on uninitialised value(s)
+==3334==    at 0x10D67C: main (setcal.c:858)
+==3334==  Uninitialised value was created by a stack allocation
+==3334==    at 0x10B97C: main (setcal.c:758)
+==3334==
+[1;32m[ OK ][0m Prikaz "intersect" #5 Relace
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3336== Conditional jump or move depends on uninitialised value(s)
+==3336==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3336==    by 0x10B7A7: checkTwoSets (setcal.c:718)
+==3336==    by 0x10C3BF: main (setcal.c:904)
+==3336==  Uninitialised value was created by a stack allocation
+==3336==    at 0x10B97C: main (setcal.c:758)
+==3336==
+[1;32m[ OK ][0m Prikaz "intersect" #6 Zadne parametry
+[1;32m[ OK ][0m Prikaz "intersect" #7 Moc parametru
+[1;32m[ OK ][0m Prikaz "intersect" #8 Malo parametru
+[1;31m[FAIL][0m Prikaz "minus" #01 Prazdne mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/minus/1.txt
+Predpokladany vystup:
+U a b c
+S
+S
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3344== Conditional jump or move depends on uninitialised value(s)
+==3344==    at 0x10BE64: main (setcal.c:800)
+==3344==  Uninitialised value was created by a stack allocation
+==3344==    at 0x10B97C: main (setcal.c:758)
+==3344== 
+==3344== Conditional jump or move depends on uninitialised value(s)
+==3344==    at 0x10BE6F: main (setcal.c:800)
+==3344==  Uninitialised value was created by a stack allocation
+==3344==    at 0x10B97C: main (setcal.c:758)
+==3344== 
+==3344== Conditional jump or move depends on uninitialised value(s)
+==3344==    at 0x10D67C: main (setcal.c:858)
+==3344==  Uninitialised value was created by a stack allocation
+==3344==    at 0x10B97C: main (setcal.c:758)
+==3344==
+[1;31m[FAIL][0m Prikaz "minus" #02 Prvni prazdna, druha neprazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/minus/2.txt
+Predpokladany vystup:
+U a b c
+S
+S c b
+S
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3346== Conditional jump or move depends on uninitialised value(s)
+==3346==    at 0x10BE64: main (setcal.c:800)
+==3346==  Uninitialised value was created by a stack allocation
+==3346==    at 0x10B97C: main (setcal.c:758)
+==3346== 
+==3346== Conditional jump or move depends on uninitialised value(s)
+==3346==    at 0x10BE6F: main (setcal.c:800)
+==3346==  Uninitialised value was created by a stack allocation
+==3346==    at 0x10B97C: main (setcal.c:758)
+==3346== 
+==3346== Conditional jump or move depends on uninitialised value(s)
+==3346==    at 0x10D67C: main (setcal.c:858)
+==3346==  Uninitialised value was created by a stack allocation
+==3346==    at 0x10B97C: main (setcal.c:758)
+==3346==
+[1;31m[FAIL][0m Prikaz "minus" #03 Prvni neprazdna, druha prazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/minus/3.txt
+Predpokladany vystup:
+U a b c
+S
+S c b
+S b c
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3348== Conditional jump or move depends on uninitialised value(s)
+==3348==    at 0x10BE64: main (setcal.c:800)
+==3348==  Uninitialised value was created by a stack allocation
+==3348==    at 0x10B97C: main (setcal.c:758)
+==3348== 
+==3348== Conditional jump or move depends on uninitialised value(s)
+==3348==    at 0x10BE6F: main (setcal.c:800)
+==3348==  Uninitialised value was created by a stack allocation
+==3348==    at 0x10B97C: main (setcal.c:758)
+==3348== 
+==3348== Conditional jump or move depends on uninitialised value(s)
+==3348==    at 0x10D67C: main (setcal.c:858)
+==3348==  Uninitialised value was created by a stack allocation
+==3348==    at 0x10B97C: main (setcal.c:758)
+==3348==
+[1;31m[FAIL][0m Prikaz "minus" #04 Mnozina sama se sebou
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/minus/4.txt
+Predpokladany vystup:
+U a b c d
+S b d c
+S
+
+STDOUT:
+U a b c d 
+S b c d 
+S 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "minus" #05 Dve mnoziny bez pruniku
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/minus/5.txt
+Predpokladany vystup:
+U a b c d
+S b a
+S c d
+S b a
+
+STDOUT:
+U a b c d 
+S a b 
+S c d 
+S a b 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "minus" #06 Dve mnoziny s prunikem 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/minus/6.txt
+Predpokladany vystup:
+U a b c d
+S b a d
+S d c
+S b a
+
+STDOUT:
+U a b c d 
+S a b d 
+S c d 
+S a b 
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "minus" #07 Dve mnoziny s prunikem 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/minus/7.txt
+Predpokladany vystup:
+U a b c d
+S b a c d
+S d c
+S
+
+STDOUT:
+U a b c d 
+S a b c d 
+S c d 
+S 
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "minus" #08 Relace jako prvni parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3358== Conditional jump or move depends on uninitialised value(s)
+==3358==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3358==    by 0x10B7A7: checkTwoSets (setcal.c:718)
+==3358==    by 0x10C515: main (setcal.c:914)
+==3358==  Uninitialised value was created by a stack allocation
+==3358==    at 0x10B97C: main (setcal.c:758)
+==3358==
+[1;32m[ OK ][0m Prikaz "minus" #09 Relace jako druhy parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3360== Conditional jump or move depends on uninitialised value(s)
+==3360==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3360==    by 0x10B7C0: checkTwoSets (setcal.c:718)
+==3360==    by 0x10C515: main (setcal.c:914)
+==3360==  Uninitialised value was created by a stack allocation
+==3360==    at 0x10B97C: main (setcal.c:758)
+==3360==
+[1;32m[ OK ][0m Prikaz "minus" #10 Zadny parametr
+[1;32m[ OK ][0m Prikaz "minus" #11 Jeden parametr
+[1;31m[FAIL][0m Prikaz "minus" #12 Moc parametru
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/minus/too_many.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3366== Conditional jump or move depends on uninitialised value(s)
+==3366==    at 0x10BE64: main (setcal.c:800)
+==3366==  Uninitialised value was created by a stack allocation
+==3366==    at 0x10B97C: main (setcal.c:758)
+==3366== 
+==3366== Conditional jump or move depends on uninitialised value(s)
+==3366==    at 0x10BE6F: main (setcal.c:800)
+==3366==  Uninitialised value was created by a stack allocation
+==3366==    at 0x10B97C: main (setcal.c:758)
+==3366== 
+==3366== Conditional jump or move depends on uninitialised value(s)
+==3366==    at 0x10D67C: main (setcal.c:858)
+==3366==  Uninitialised value was created by a stack allocation
+==3366==    at 0x10B97C: main (setcal.c:758)
+==3366==
+[1;31m[FAIL][0m Prikaz "subseteq" #01 Prazdne mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subseteq/1.txt
+Predpokladany vystup:
+U a b
+S
+true
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3368== Conditional jump or move depends on uninitialised value(s)
+==3368==    at 0x10BE64: main (setcal.c:800)
+==3368==  Uninitialised value was created by a stack allocation
+==3368==    at 0x10B97C: main (setcal.c:758)
+==3368== 
+==3368== Conditional jump or move depends on uninitialised value(s)
+==3368==    at 0x10BE6F: main (setcal.c:800)
+==3368==  Uninitialised value was created by a stack allocation
+==3368==    at 0x10B97C: main (setcal.c:758)
+==3368== 
+==3368== Conditional jump or move depends on uninitialised value(s)
+==3368==    at 0x10D67C: main (setcal.c:858)
+==3368==  Uninitialised value was created by a stack allocation
+==3368==    at 0x10B97C: main (setcal.c:758)
+==3368==
+[1;31m[FAIL][0m Prikaz "subseteq" #02 Prvni prazdna, druha neprazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subseteq/2.txt
+Predpokladany vystup:
+U a b c
+S
+S a b
+true
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3370== Conditional jump or move depends on uninitialised value(s)
+==3370==    at 0x10BE64: main (setcal.c:800)
+==3370==  Uninitialised value was created by a stack allocation
+==3370==    at 0x10B97C: main (setcal.c:758)
+==3370== 
+==3370== Conditional jump or move depends on uninitialised value(s)
+==3370==    at 0x10BE6F: main (setcal.c:800)
+==3370==  Uninitialised value was created by a stack allocation
+==3370==    at 0x10B97C: main (setcal.c:758)
+==3370== 
+==3370== Conditional jump or move depends on uninitialised value(s)
+==3370==    at 0x10D67C: main (setcal.c:858)
+==3370==  Uninitialised value was created by a stack allocation
+==3370==    at 0x10B97C: main (setcal.c:758)
+==3370==
+[1;31m[FAIL][0m Prikaz "subseteq" #03 Prvni neprazdna, druha prazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subseteq/3.txt
+Predpokladany vystup:
+U a b c
+S
+S a b
+false
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3372== Conditional jump or move depends on uninitialised value(s)
+==3372==    at 0x10BE64: main (setcal.c:800)
+==3372==  Uninitialised value was created by a stack allocation
+==3372==    at 0x10B97C: main (setcal.c:758)
+==3372== 
+==3372== Conditional jump or move depends on uninitialised value(s)
+==3372==    at 0x10BE6F: main (setcal.c:800)
+==3372==  Uninitialised value was created by a stack allocation
+==3372==    at 0x10B97C: main (setcal.c:758)
+==3372== 
+==3372== Conditional jump or move depends on uninitialised value(s)
+==3372==    at 0x10D67C: main (setcal.c:858)
+==3372==  Uninitialised value was created by a stack allocation
+==3372==    at 0x10B97C: main (setcal.c:758)
+==3372==
+[1;31m[FAIL][0m Prikaz "subseteq" #04 Dve mnoziny bez pruniku
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subseteq/4.txt
+Predpokladany vystup:
+U a b c d
+S d c
+S a b
+false
+
+
+STDOUT:
+U a b c d 
+S c d 
+S a b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "subseteq" #05 Mnozina sama se sebou
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subseteq/5.txt
+Predpokladany vystup:
+U a b c
+S a b
+true
+
+STDOUT:
+U a b c 
+S a b 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "subseteq" #06 Dve mnoziny s prunikem
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subseteq/6.txt
+Predpokladany vystup:
+U a b c
+S b c
+S a b
+false
+
+STDOUT:
+U a b c 
+S b c 
+S a b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "subseteq" #07 Dve identicke mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subseteq/7.txt
+Predpokladany vystup:
+U a b c
+S b c a
+S a b c
+true
+
+STDOUT:
+U a b c 
+S a b c 
+S a b c 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "subseteq" #08 Prvni podmnozina druhe
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subseteq/8.txt
+Predpokladany vystup:
+U a b c d
+S b d a
+S a b c d
+true
+
+STDOUT:
+U a b c d 
+S a b d 
+S a b c d 
+true
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "subseteq" #09 Relace jako prvni parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3384== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3384==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3384==    by 0x10BCAA: main (setcal.c:823)
+==3384==
+[1;32m[ OK ][0m Prikaz "subseteq" #10 Relace jako druhy parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3386== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3386==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3386==    by 0x10BCAA: main (setcal.c:823)
+==3386==
+[1;32m[ OK ][0m Prikaz "subseteq" #11 Zadny parametr
+[1;32m[ OK ][0m Prikaz "subseteq" #12 Jeden parametr
+[1;31m[FAIL][0m Prikaz "subseteq" #13 Moc parametru
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/subseteq/too_many.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3392== Conditional jump or move depends on uninitialised value(s)
+==3392==    at 0x10BE64: main (setcal.c:800)
+==3392==  Uninitialised value was created by a stack allocation
+==3392==    at 0x10B97C: main (setcal.c:758)
+==3392== 
+==3392== Conditional jump or move depends on uninitialised value(s)
+==3392==    at 0x10BE6F: main (setcal.c:800)
+==3392==  Uninitialised value was created by a stack allocation
+==3392==    at 0x10B97C: main (setcal.c:758)
+==3392== 
+==3392== Conditional jump or move depends on uninitialised value(s)
+==3392==    at 0x10D67C: main (setcal.c:858)
+==3392==  Uninitialised value was created by a stack allocation
+==3392==    at 0x10B97C: main (setcal.c:758)
+==3392==
+[1;31m[FAIL][0m Prikaz "subset" #01 Prazdne mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subset/1.txt
+Predpokladany vystup:
+U a b
+S
+false
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3394== Conditional jump or move depends on uninitialised value(s)
+==3394==    at 0x10BE64: main (setcal.c:800)
+==3394==  Uninitialised value was created by a stack allocation
+==3394==    at 0x10B97C: main (setcal.c:758)
+==3394== 
+==3394== Conditional jump or move depends on uninitialised value(s)
+==3394==    at 0x10BE6F: main (setcal.c:800)
+==3394==  Uninitialised value was created by a stack allocation
+==3394==    at 0x10B97C: main (setcal.c:758)
+==3394== 
+==3394== Conditional jump or move depends on uninitialised value(s)
+==3394==    at 0x10D67C: main (setcal.c:858)
+==3394==  Uninitialised value was created by a stack allocation
+==3394==    at 0x10B97C: main (setcal.c:758)
+==3394==
+[1;31m[FAIL][0m Prikaz "subset" #02 Prvni prazdna, druha neprazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subset/2.txt
+Predpokladany vystup:
+U a b c
+S
+S a b
+true
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3396== Conditional jump or move depends on uninitialised value(s)
+==3396==    at 0x10BE64: main (setcal.c:800)
+==3396==  Uninitialised value was created by a stack allocation
+==3396==    at 0x10B97C: main (setcal.c:758)
+==3396== 
+==3396== Conditional jump or move depends on uninitialised value(s)
+==3396==    at 0x10BE6F: main (setcal.c:800)
+==3396==  Uninitialised value was created by a stack allocation
+==3396==    at 0x10B97C: main (setcal.c:758)
+==3396== 
+==3396== Conditional jump or move depends on uninitialised value(s)
+==3396==    at 0x10D67C: main (setcal.c:858)
+==3396==  Uninitialised value was created by a stack allocation
+==3396==    at 0x10B97C: main (setcal.c:758)
+==3396==
+[1;31m[FAIL][0m Prikaz "subset" #03 Prvni neprazdna, druha prazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subset/3.txt
+Predpokladany vystup:
+U a b c
+S
+S a b
+false
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3398== Conditional jump or move depends on uninitialised value(s)
+==3398==    at 0x10BE64: main (setcal.c:800)
+==3398==  Uninitialised value was created by a stack allocation
+==3398==    at 0x10B97C: main (setcal.c:758)
+==3398== 
+==3398== Conditional jump or move depends on uninitialised value(s)
+==3398==    at 0x10BE6F: main (setcal.c:800)
+==3398==  Uninitialised value was created by a stack allocation
+==3398==    at 0x10B97C: main (setcal.c:758)
+==3398== 
+==3398== Conditional jump or move depends on uninitialised value(s)
+==3398==    at 0x10D67C: main (setcal.c:858)
+==3398==  Uninitialised value was created by a stack allocation
+==3398==    at 0x10B97C: main (setcal.c:758)
+==3398==
+[1;31m[FAIL][0m Prikaz "subset" #04 Dve mnoziny bez pruniku
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subset/4.txt
+Predpokladany vystup:
+U a b c d
+S d c
+S a b
+false
+
+
+STDOUT:
+U a b c d 
+S c d 
+S a b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "subset" #05 Mnozina sama se sebou
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subset/5.txt
+Predpokladany vystup:
+U a b c
+S a b
+false
+
+STDOUT:
+U a b c 
+S a b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "subset" #06 Dve mnoziny s prunikem
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subset/6.txt
+Predpokladany vystup:
+U a b c
+S b c
+S a b
+false
+
+STDOUT:
+U a b c 
+S b c 
+S a b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "subset" #07 Dve identicke mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subset/7.txt
+Predpokladany vystup:
+U a b c
+S b c a
+S a b c
+false
+
+STDOUT:
+U a b c 
+S a b c 
+S a b c 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "subset" #08 Prvni podmnozina druhe
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/subset/8.txt
+Predpokladany vystup:
+U a b c d
+S b d a
+S a b c d
+true
+
+STDOUT:
+U a b c d 
+S a b d 
+S a b c d 
+true
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "subset" #09 Relace jako prvni parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3410== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3410==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3410==    by 0x10BCAA: main (setcal.c:823)
+==3410==
+[1;32m[ OK ][0m Prikaz "subset" #10 Relace jako druhy parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3412== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3412==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3412==    by 0x10BCAA: main (setcal.c:823)
+==3412==
+[1;32m[ OK ][0m Prikaz "subset" #11 Zadny parametr
+[1;32m[ OK ][0m Prikaz "subset" #12 Jeden parametr
+[1;31m[FAIL][0m Prikaz "subset" #13 Moc parametru
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/subset/too_many.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3418== Conditional jump or move depends on uninitialised value(s)
+==3418==    at 0x10BE64: main (setcal.c:800)
+==3418==  Uninitialised value was created by a stack allocation
+==3418==    at 0x10B97C: main (setcal.c:758)
+==3418== 
+==3418== Conditional jump or move depends on uninitialised value(s)
+==3418==    at 0x10BE6F: main (setcal.c:800)
+==3418==  Uninitialised value was created by a stack allocation
+==3418==    at 0x10B97C: main (setcal.c:758)
+==3418== 
+==3418== Conditional jump or move depends on uninitialised value(s)
+==3418==    at 0x10D67C: main (setcal.c:858)
+==3418==  Uninitialised value was created by a stack allocation
+==3418==    at 0x10B97C: main (setcal.c:758)
+==3418==
+[1;31m[FAIL][0m Prikaz "equals" #01 Prazdne mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/equals/1.txt
+Predpokladany vystup:
+U a b
+S
+true
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3420== Conditional jump or move depends on uninitialised value(s)
+==3420==    at 0x10BE64: main (setcal.c:800)
+==3420==  Uninitialised value was created by a stack allocation
+==3420==    at 0x10B97C: main (setcal.c:758)
+==3420== 
+==3420== Conditional jump or move depends on uninitialised value(s)
+==3420==    at 0x10BE6F: main (setcal.c:800)
+==3420==  Uninitialised value was created by a stack allocation
+==3420==    at 0x10B97C: main (setcal.c:758)
+==3420== 
+==3420== Conditional jump or move depends on uninitialised value(s)
+==3420==    at 0x10D67C: main (setcal.c:858)
+==3420==  Uninitialised value was created by a stack allocation
+==3420==    at 0x10B97C: main (setcal.c:758)
+==3420==
+[1;31m[FAIL][0m Prikaz "equals" #02 Prvni prazdna, druha neprazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/equals/2.txt
+Predpokladany vystup:
+U a b c
+S
+S a b
+false
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3422== Conditional jump or move depends on uninitialised value(s)
+==3422==    at 0x10BE64: main (setcal.c:800)
+==3422==  Uninitialised value was created by a stack allocation
+==3422==    at 0x10B97C: main (setcal.c:758)
+==3422== 
+==3422== Conditional jump or move depends on uninitialised value(s)
+==3422==    at 0x10BE6F: main (setcal.c:800)
+==3422==  Uninitialised value was created by a stack allocation
+==3422==    at 0x10B97C: main (setcal.c:758)
+==3422== 
+==3422== Conditional jump or move depends on uninitialised value(s)
+==3422==    at 0x10D67C: main (setcal.c:858)
+==3422==  Uninitialised value was created by a stack allocation
+==3422==    at 0x10B97C: main (setcal.c:758)
+==3422==
+[1;31m[FAIL][0m Prikaz "equals" #03 Prvni neprazdna, druha prazdna
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/equals/3.txt
+Predpokladany vystup:
+U a b c
+S
+S a b
+false
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3424== Conditional jump or move depends on uninitialised value(s)
+==3424==    at 0x10BE64: main (setcal.c:800)
+==3424==  Uninitialised value was created by a stack allocation
+==3424==    at 0x10B97C: main (setcal.c:758)
+==3424== 
+==3424== Conditional jump or move depends on uninitialised value(s)
+==3424==    at 0x10BE6F: main (setcal.c:800)
+==3424==  Uninitialised value was created by a stack allocation
+==3424==    at 0x10B97C: main (setcal.c:758)
+==3424== 
+==3424== Conditional jump or move depends on uninitialised value(s)
+==3424==    at 0x10D67C: main (setcal.c:858)
+==3424==  Uninitialised value was created by a stack allocation
+==3424==    at 0x10B97C: main (setcal.c:758)
+==3424==
+[1;31m[FAIL][0m Prikaz "equals" #04 Dve mnoziny bez pruniku
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/equals/4.txt
+Predpokladany vystup:
+U a b c d
+S d c
+S a b
+false
+
+
+STDOUT:
+U a b c d 
+S c d 
+S a b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "equals" #05 Mnozina sama se sebou
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/equals/5.txt
+Predpokladany vystup:
+U a b c
+S a b
+true
+
+STDOUT:
+U a b c 
+S a b 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "equals" #06 Dve mnoziny s prunikem
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/equals/6.txt
+Predpokladany vystup:
+U a b c
+S b c
+S a b
+false
+
+STDOUT:
+U a b c 
+S b c 
+S a b 
+false
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "equals" #07 Dve identicke mnoziny
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/equals/7.txt
+Predpokladany vystup:
+U a b c
+S b c a
+S a b c
+true
+
+STDOUT:
+U a b c 
+S a b c 
+S a b c 
+true
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "equals" #08 Relace jako prvni parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3434== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3434==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3434==    by 0x10BCAA: main (setcal.c:823)
+==3434==
+[1;32m[ OK ][0m Prikaz "equals" #09 Relace jako druhy parametr
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3436== 60 (24 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==3436==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3436==    by 0x10BCAA: main (setcal.c:823)
+==3436==
+[1;32m[ OK ][0m Prikaz "equals" #10 Zadny parametr
+[1;32m[ OK ][0m Prikaz "equals" #11 Jeden parametr
+[1;31m[FAIL][0m Prikaz "equals" #12 Moc parametru
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/equals/too_many.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3442== Conditional jump or move depends on uninitialised value(s)
+==3442==    at 0x10BE64: main (setcal.c:800)
+==3442==  Uninitialised value was created by a stack allocation
+==3442==    at 0x10B97C: main (setcal.c:758)
+==3442== 
+==3442== Conditional jump or move depends on uninitialised value(s)
+==3442==    at 0x10BE6F: main (setcal.c:800)
+==3442==  Uninitialised value was created by a stack allocation
+==3442==    at 0x10B97C: main (setcal.c:758)
+==3442== 
+==3442== Conditional jump or move depends on uninitialised value(s)
+==3442==    at 0x10D67C: main (setcal.c:858)
+==3442==  Uninitialised value was created by a stack allocation
+==3442==    at 0x10B97C: main (setcal.c:758)
+==3442==
+[1;31m[FAIL][0m Prikaz "reflexive" #1 Prazdne univerzum, prazdna relace
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/reflexive/1.txt
+Predpokladany vystup:
+U
+R
+true
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3444== Conditional jump or move depends on uninitialised value(s)
+==3444==    at 0x10BA72: main (setcal.c:779)
+==3444==  Uninitialised value was created by a stack allocation
+==3444==    at 0x10B97C: main (setcal.c:758)
+==3444== 
+==3444== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3444==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3444==    by 0x109482: loadLine (setcal.c:51)
+==3444==    by 0x10BA61: main (setcal.c:778)
+==3444==
+[1;31m[FAIL][0m Prikaz "reflexive" #2 Prazdna relace
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/reflexive/2.txt
+Predpokladany vystup:
+U a b c
+R
+false
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3446== Conditional jump or move depends on uninitialised value(s)
+==3446==    at 0x10BE64: main (setcal.c:800)
+==3446==  Uninitialised value was created by a stack allocation
+==3446==    at 0x10B97C: main (setcal.c:758)
+==3446== 
+==3446== Conditional jump or move depends on uninitialised value(s)
+==3446==    at 0x10BE6F: main (setcal.c:800)
+==3446==  Uninitialised value was created by a stack allocation
+==3446==    at 0x10B97C: main (setcal.c:758)
+==3446== 
+==3446== Conditional jump or move depends on uninitialised value(s)
+==3446==    at 0x10D67C: main (setcal.c:858)
+==3446==  Uninitialised value was created by a stack allocation
+==3446==    at 0x10B97C: main (setcal.c:758)
+==3446==
+[1;31m[FAIL][0m Prikaz "reflexive" #3 Reflexivni relace 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/reflexive/3.txt
+Predpokladany vystup:
+U a b c
+R (a a) (b b) (c c)
+true
+
+STDOUT:
+U a b c 
+R (a a) (b b) (c c) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "reflexive" #4 Reflexivni relace 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/reflexive/4.txt
+Predpokladany vystup:
+U a b c
+R (a b) (b b) (c a) (a a) (c c)
+true
+
+STDOUT:
+U a b c 
+R (a a) (a b) (b b) (c a) (c c) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "reflexive" #5 Nereflexivni relace
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/reflexive/5.txt
+Predpokladany vystup:
+U a b c
+R (a b) (b b) (c a) (a a)
+false
+
+STDOUT:
+U a b c 
+R (a a) (a b) (b b) (c a) 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "reflexive" #6 Mnozina
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3454== Conditional jump or move depends on uninitialised value(s)
+==3454==    at 0x10A117: findRelIndex (setcal.c:358)
+==3454==    by 0x10B85A: checkOneRel (setcal.c:733)
+==3454==    by 0x10CA46: main (setcal.c:955)
+==3454==  Uninitialised value was created by a stack allocation
+==3454==    at 0x10B96B: main (setcal.c:758)
+==3454==
+[1;31m[FAIL][0m Prikaz "reflexive" #7 Univerzum
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/reflexive/7.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3456== Conditional jump or move depends on uninitialised value(s)
+==3456==    at 0x10BE64: main (setcal.c:800)
+==3456==  Uninitialised value was created by a stack allocation
+==3456==    at 0x10B97C: main (setcal.c:758)
+==3456== 
+==3456== Conditional jump or move depends on uninitialised value(s)
+==3456==    at 0x10BE6F: main (setcal.c:800)
+==3456==  Uninitialised value was created by a stack allocation
+==3456==    at 0x10B97C: main (setcal.c:758)
+==3456== 
+==3456== Conditional jump or move depends on uninitialised value(s)
+==3456==    at 0x10D67C: main (setcal.c:858)
+==3456==  Uninitialised value was created by a stack allocation
+==3456==    at 0x10B97C: main (setcal.c:758)
+==3456==
+[1;32m[ OK ][0m Prikaz "reflexive" #8 Zadny parametr
+[1;32m[ OK ][0m Prikaz "reflexive" #9 Moc parametru
+[1;31m[FAIL][0m Prikaz "symmetric" #1 Prazdne univerzum, prazdna relace
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/symmetric/1.txt
+Predpokladany vystup:
+U
+R
+true
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3462== Conditional jump or move depends on uninitialised value(s)
+==3462==    at 0x10BA72: main (setcal.c:779)
+==3462==  Uninitialised value was created by a stack allocation
+==3462==    at 0x10B97C: main (setcal.c:758)
+==3462== 
+==3462== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3462==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3462==    by 0x109482: loadLine (setcal.c:51)
+==3462==    by 0x10BA61: main (setcal.c:778)
+==3462==
+[1;31m[FAIL][0m Prikaz "symmetric" #2 Prazdna relace
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/symmetric/2.txt
+Predpokladany vystup:
+U a b c
+R
+true
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3464== Conditional jump or move depends on uninitialised value(s)
+==3464==    at 0x10BE64: main (setcal.c:800)
+==3464==  Uninitialised value was created by a stack allocation
+==3464==    at 0x10B97C: main (setcal.c:758)
+==3464== 
+==3464== Conditional jump or move depends on uninitialised value(s)
+==3464==    at 0x10BE6F: main (setcal.c:800)
+==3464==  Uninitialised value was created by a stack allocation
+==3464==    at 0x10B97C: main (setcal.c:758)
+==3464== 
+==3464== Conditional jump or move depends on uninitialised value(s)
+==3464==    at 0x10D67C: main (setcal.c:858)
+==3464==  Uninitialised value was created by a stack allocation
+==3464==    at 0x10B97C: main (setcal.c:758)
+==3464==
+[1;31m[FAIL][0m Prikaz "symmetric" #3 Symetricka relace 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/symmetric/3.txt
+Predpokladany vystup:
+U a b c
+R (a a) (b b)
+true
+
+STDOUT:
+U a b c 
+R (a a) (b b) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "symmetric" #4 Symetricka relace 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/symmetric/4.txt
+Predpokladany vystup:
+U a b c
+R (a a) (b b) (b c) (c b)
+true
+
+STDOUT:
+U a b c 
+R (a a) (b b) (b c) (c b) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "symmetric" #5 Nesymetricka relace
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/symmetric/5.txt
+Predpokladany vystup:
+U a b c
+R (a a) (b b) (b c)
+false
+
+STDOUT:
+U a b c 
+R (a a) (b b) (b c) 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "symmetric" #6 Mnozina
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3472== Conditional jump or move depends on uninitialised value(s)
+==3472==    at 0x10A117: findRelIndex (setcal.c:358)
+==3472==    by 0x10B85A: checkOneRel (setcal.c:733)
+==3472==    by 0x10CB3E: main (setcal.c:965)
+==3472==  Uninitialised value was created by a stack allocation
+==3472==    at 0x10B96B: main (setcal.c:758)
+==3472==
+[1;31m[FAIL][0m Prikaz "symmetric" #7 Univerzum
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/symmetric/7.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3474== Conditional jump or move depends on uninitialised value(s)
+==3474==    at 0x10BE64: main (setcal.c:800)
+==3474==  Uninitialised value was created by a stack allocation
+==3474==    at 0x10B97C: main (setcal.c:758)
+==3474== 
+==3474== Conditional jump or move depends on uninitialised value(s)
+==3474==    at 0x10BE6F: main (setcal.c:800)
+==3474==  Uninitialised value was created by a stack allocation
+==3474==    at 0x10B97C: main (setcal.c:758)
+==3474== 
+==3474== Conditional jump or move depends on uninitialised value(s)
+==3474==    at 0x10D67C: main (setcal.c:858)
+==3474==  Uninitialised value was created by a stack allocation
+==3474==    at 0x10B97C: main (setcal.c:758)
+==3474==
+[1;32m[ OK ][0m Prikaz "symmetric" #8 Zadny parametr
+[1;32m[ OK ][0m Prikaz "symmetric" #9 Moc parametru
+[1;31m[FAIL][0m Prikaz "antisymmetric" #1 Prazdne univerzum, prazdna relace
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/antisymmetric/1.txt
+Predpokladany vystup:
+U
+R
+true
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3480== Conditional jump or move depends on uninitialised value(s)
+==3480==    at 0x10BA72: main (setcal.c:779)
+==3480==  Uninitialised value was created by a stack allocation
+==3480==    at 0x10B97C: main (setcal.c:758)
+==3480== 
+==3480== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3480==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3480==    by 0x109482: loadLine (setcal.c:51)
+==3480==    by 0x10BA61: main (setcal.c:778)
+==3480==
+[1;31m[FAIL][0m Prikaz "antisymmetric" #2 Prazna relace
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/antisymmetric/2.txt
+Predpokladany vystup:
+U a b c
+R
+true
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3482== Conditional jump or move depends on uninitialised value(s)
+==3482==    at 0x10BE64: main (setcal.c:800)
+==3482==  Uninitialised value was created by a stack allocation
+==3482==    at 0x10B97C: main (setcal.c:758)
+==3482== 
+==3482== Conditional jump or move depends on uninitialised value(s)
+==3482==    at 0x10BE6F: main (setcal.c:800)
+==3482==  Uninitialised value was created by a stack allocation
+==3482==    at 0x10B97C: main (setcal.c:758)
+==3482== 
+==3482== Conditional jump or move depends on uninitialised value(s)
+==3482==    at 0x10D67C: main (setcal.c:858)
+==3482==  Uninitialised value was created by a stack allocation
+==3482==    at 0x10B97C: main (setcal.c:758)
+==3482==
+[1;31m[FAIL][0m Prikaz "antisymmetric" #3 Antisymetricka relace 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/antisymmetric/3.txt
+Predpokladany vystup:
+U a b c
+R (a a) (c c) (c a)
+true
+
+STDOUT:
+U a b c 
+R (a a) (c a) (c c) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "antisymmetric" #4 Antisymetricka relace 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/antisymmetric/4.txt
+Predpokladany vystup:
+U a b c
+R (a b) (c b) (a c)
+true
+
+STDOUT:
+U a b c 
+R (a b) (a c) (c b) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "antisymmetric" #5 Neantisymetricka
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/antisymmetric/5.txt
+Predpokladany vystup:
+U a b c
+R (a b) (b c) (b a)
+false
+
+STDOUT:
+U a b c 
+R (a b) (b a) (b c) 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "antisymmetric" #6 Mnozina
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3490== Conditional jump or move depends on uninitialised value(s)
+==3490==    at 0x10A117: findRelIndex (setcal.c:358)
+==3490==    by 0x10B85A: checkOneRel (setcal.c:733)
+==3490==    by 0x10CC36: main (setcal.c:975)
+==3490==  Uninitialised value was created by a stack allocation
+==3490==    at 0x10B96B: main (setcal.c:758)
+==3490==
+[1;31m[FAIL][0m Prikaz "antisymmetric" #7 Univerzum
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/antisymmetric/7.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3492== Conditional jump or move depends on uninitialised value(s)
+==3492==    at 0x10BE64: main (setcal.c:800)
+==3492==  Uninitialised value was created by a stack allocation
+==3492==    at 0x10B97C: main (setcal.c:758)
+==3492== 
+==3492== Conditional jump or move depends on uninitialised value(s)
+==3492==    at 0x10BE6F: main (setcal.c:800)
+==3492==  Uninitialised value was created by a stack allocation
+==3492==    at 0x10B97C: main (setcal.c:758)
+==3492== 
+==3492== Conditional jump or move depends on uninitialised value(s)
+==3492==    at 0x10D67C: main (setcal.c:858)
+==3492==  Uninitialised value was created by a stack allocation
+==3492==    at 0x10B97C: main (setcal.c:758)
+==3492==
+[1;32m[ OK ][0m Prikaz "antisymmetric" #8 Zadny parametr
+[1;32m[ OK ][0m Prikaz "antisymmetric" #9 Moc parametru
+[1;31m[FAIL][0m Prikaz "transitive" #1 Prazdne univerzum, prazdna relace
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/transitive/1.txt
+Predpokladany vystup:
+U
+R
+true
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3498== Conditional jump or move depends on uninitialised value(s)
+==3498==    at 0x10BA72: main (setcal.c:779)
+==3498==  Uninitialised value was created by a stack allocation
+==3498==    at 0x10B97C: main (setcal.c:758)
+==3498== 
+==3498== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3498==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3498==    by 0x109482: loadLine (setcal.c:51)
+==3498==    by 0x10BA61: main (setcal.c:778)
+==3498==
+[1;31m[FAIL][0m Prikaz "transitive" #2 Prazdna relace
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/transitive/2.txt
+Predpokladany vystup:
+U a b c
+R
+true
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3500== Conditional jump or move depends on uninitialised value(s)
+==3500==    at 0x10BE64: main (setcal.c:800)
+==3500==  Uninitialised value was created by a stack allocation
+==3500==    at 0x10B97C: main (setcal.c:758)
+==3500== 
+==3500== Conditional jump or move depends on uninitialised value(s)
+==3500==    at 0x10BE6F: main (setcal.c:800)
+==3500==  Uninitialised value was created by a stack allocation
+==3500==    at 0x10B97C: main (setcal.c:758)
+==3500== 
+==3500== Conditional jump or move depends on uninitialised value(s)
+==3500==    at 0x10D67C: main (setcal.c:858)
+==3500==  Uninitialised value was created by a stack allocation
+==3500==    at 0x10B97C: main (setcal.c:758)
+==3500==
+[1;31m[FAIL][0m Prikaz "transitive" #3 Tranzitivni relace 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/transitive/3.txt
+Predpokladany vystup:
+U a b c d
+R (a b) (c d)
+true
+
+STDOUT:
+U a b c d 
+R (a b) (c d) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "transitive" #4 Tranzitivni relace 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/transitive/4.txt
+Predpokladany vystup:
+U a b c d
+R (a b) (b c) (a c)
+true
+
+STDOUT:
+U a b c d 
+R (a b) (a c) (b c) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "transitive" #5 Netranzitivni relace
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/transitive/5.txt
+Predpokladany vystup:
+U a b c d
+R (a b) (b c) (a c) (d a)
+false
+
+STDOUT:
+U a b c d 
+R (a b) (a c) (b c) (d a) 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "transitive" #6 Mnozina
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3508== Conditional jump or move depends on uninitialised value(s)
+==3508==    at 0x10A117: findRelIndex (setcal.c:358)
+==3508==    by 0x10B85A: checkOneRel (setcal.c:733)
+==3508==    by 0x10CD2E: main (setcal.c:985)
+==3508==  Uninitialised value was created by a stack allocation
+==3508==    at 0x10B96B: main (setcal.c:758)
+==3508==
+[1;31m[FAIL][0m Prikaz "transitive" #7 Univerzum
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/transitive/7.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3510== Conditional jump or move depends on uninitialised value(s)
+==3510==    at 0x10BE64: main (setcal.c:800)
+==3510==  Uninitialised value was created by a stack allocation
+==3510==    at 0x10B97C: main (setcal.c:758)
+==3510== 
+==3510== Conditional jump or move depends on uninitialised value(s)
+==3510==    at 0x10BE6F: main (setcal.c:800)
+==3510==  Uninitialised value was created by a stack allocation
+==3510==    at 0x10B97C: main (setcal.c:758)
+==3510== 
+==3510== Conditional jump or move depends on uninitialised value(s)
+==3510==    at 0x10D67C: main (setcal.c:858)
+==3510==  Uninitialised value was created by a stack allocation
+==3510==    at 0x10B97C: main (setcal.c:758)
+==3510==
+[1;32m[ OK ][0m Prikaz "transitive" #8 Zadny parametr
+[1;32m[ OK ][0m Prikaz "transitive" #9 Moc parametru
+[1;31m[FAIL][0m Prikaz "domain" #1 Prazdne univerzum, prazdna relace
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/domain/1.txt
+Predpokladany vystup:
+U
+R
+S
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3516== Conditional jump or move depends on uninitialised value(s)
+==3516==    at 0x10BA72: main (setcal.c:779)
+==3516==  Uninitialised value was created by a stack allocation
+==3516==    at 0x10B97C: main (setcal.c:758)
+==3516== 
+==3516== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3516==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3516==    by 0x109482: loadLine (setcal.c:51)
+==3516==    by 0x10BA61: main (setcal.c:778)
+==3516==
+[1;31m[FAIL][0m Prikaz "domain" #2 Relace 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/domain/2.txt
+Predpokladany vystup:
+U a b c
+R (a b)
+S a
+
+STDOUT:
+U a b c 
+R (a b) 
+S a 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3518== Conditional jump or move depends on uninitialised value(s)
+==3518==    at 0x10AFF7: relDomain (setcal.c:575)
+==3518==    by 0x10CF7E: main (setcal.c:1006)
+==3518==  Uninitialised value was created by a stack allocation
+==3518==    at 0x10AE96: relDomain (setcal.c:565)
+==3518==
+[1;31m[FAIL][0m Prikaz "domain" #3 Relace 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/domain/3.txt
+Predpokladany vystup:
+U a b c
+R (a a) (b b) (c c)
+S a b c
+
+STDOUT:
+U a b c 
+R (a a) (b b) (c c) 
+S a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3520== Conditional jump or move depends on uninitialised value(s)
+==3520==    at 0x10AFF7: relDomain (setcal.c:575)
+==3520==    by 0x10CF7E: main (setcal.c:1006)
+==3520==  Uninitialised value was created by a stack allocation
+==3520==    at 0x10AE96: relDomain (setcal.c:565)
+==3520==
+[1;31m[FAIL][0m Prikaz "domain" #4 Relace 3
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/domain/4.txt
+Predpokladany vystup:
+U a b c
+R (a b) (b b) (a c) (b c) (c c)
+S a b c
+
+STDOUT:
+U a b c 
+R (a b) (a c) (b b) (b c) (c c) 
+S a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3522== Conditional jump or move depends on uninitialised value(s)
+==3522==    at 0x10AFF7: relDomain (setcal.c:575)
+==3522==    by 0x10CF7E: main (setcal.c:1006)
+==3522==  Uninitialised value was created by a stack allocation
+==3522==    at 0x10AE96: relDomain (setcal.c:565)
+==3522==
+[1;31m[FAIL][0m Prikaz "domain" #5 Relace 4
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/domain/5.txt
+Predpokladany vystup:
+U a b c
+R (b a) (b b) (b c) (c b)
+S b c
+
+STDOUT:
+U a b c 
+R (b a) (b b) (b c) (c b) 
+S b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3524== Conditional jump or move depends on uninitialised value(s)
+==3524==    at 0x10AFF7: relDomain (setcal.c:575)
+==3524==    by 0x10CF7E: main (setcal.c:1006)
+==3524==  Uninitialised value was created by a stack allocation
+==3524==    at 0x10AE96: relDomain (setcal.c:565)
+==3524==
+[1;32m[ OK ][0m Prikaz "domain" #6 Mnozina
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3526== Conditional jump or move depends on uninitialised value(s)
+==3526==    at 0x10A117: findRelIndex (setcal.c:358)
+==3526==    by 0x10B85A: checkOneRel (setcal.c:733)
+==3526==    by 0x10CF23: main (setcal.c:1005)
+==3526==  Uninitialised value was created by a stack allocation
+==3526==    at 0x10B96B: main (setcal.c:758)
+==3526==
+[1;31m[FAIL][0m Prikaz "domain" #7 Univerzum
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/domain/7.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3528== Conditional jump or move depends on uninitialised value(s)
+==3528==    at 0x10BE64: main (setcal.c:800)
+==3528==  Uninitialised value was created by a stack allocation
+==3528==    at 0x10B97C: main (setcal.c:758)
+==3528== 
+==3528== Conditional jump or move depends on uninitialised value(s)
+==3528==    at 0x10BE6F: main (setcal.c:800)
+==3528==  Uninitialised value was created by a stack allocation
+==3528==    at 0x10B97C: main (setcal.c:758)
+==3528== 
+==3528== Conditional jump or move depends on uninitialised value(s)
+==3528==    at 0x10D67C: main (setcal.c:858)
+==3528==  Uninitialised value was created by a stack allocation
+==3528==    at 0x10B97C: main (setcal.c:758)
+==3528==
+[1;32m[ OK ][0m Prikaz "domain" #8 Zadny parametr
+[1;32m[ OK ][0m Prikaz "domain" #9 Moc parametru
+[1;31m[FAIL][0m Prikaz "codomain" #1 Prazdne univerzum, prazdna relace
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/codomain/1.txt
+Predpokladany vystup:
+U
+R
+S
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3534== Conditional jump or move depends on uninitialised value(s)
+==3534==    at 0x10BA72: main (setcal.c:779)
+==3534==  Uninitialised value was created by a stack allocation
+==3534==    at 0x10B97C: main (setcal.c:758)
+==3534== 
+==3534== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3534==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3534==    by 0x109482: loadLine (setcal.c:51)
+==3534==    by 0x10BA61: main (setcal.c:778)
+==3534==
+[1;31m[FAIL][0m Prikaz "codomain" #2 Relace 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/codomain/2.txt
+Predpokladany vystup:
+U a b c
+R (a b)
+S b
+
+STDOUT:
+U a b c 
+R (a b) 
+S b 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3536== Conditional jump or move depends on uninitialised value(s)
+==3536==    at 0x10B1ED: relCodomain (setcal.c:596)
+==3536==    by 0x10D080: main (setcal.c:1016)
+==3536==  Uninitialised value was created by a stack allocation
+==3536==    at 0x10B08C: relCodomain (setcal.c:586)
+==3536==
+[1;31m[FAIL][0m Prikaz "codomain" #3 Relace 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/codomain/3.txt
+Predpokladany vystup:
+U a b c
+R (a a) (b b) (c c)
+S a b c
+
+STDOUT:
+U a b c 
+R (a a) (b b) (c c) 
+S a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3538== Conditional jump or move depends on uninitialised value(s)
+==3538==    at 0x10B1ED: relCodomain (setcal.c:596)
+==3538==    by 0x10D080: main (setcal.c:1016)
+==3538==  Uninitialised value was created by a stack allocation
+==3538==    at 0x10B08C: relCodomain (setcal.c:586)
+==3538==
+[1;31m[FAIL][0m Prikaz "codomain" #4 Relace 3
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/codomain/4.txt
+Predpokladany vystup:
+U a b c
+R (a b) (b b) (a c) (b c) (c c)
+S b c
+
+STDOUT:
+U a b c 
+R (a b) (a c) (b b) (b c) (c c) 
+S b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3540== Conditional jump or move depends on uninitialised value(s)
+==3540==    at 0x10B1ED: relCodomain (setcal.c:596)
+==3540==    by 0x10D080: main (setcal.c:1016)
+==3540==  Uninitialised value was created by a stack allocation
+==3540==    at 0x10B08C: relCodomain (setcal.c:586)
+==3540==
+[1;31m[FAIL][0m Prikaz "codomain" #5 Relace 4
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/codomain/5.txt
+Predpokladany vystup:
+U a b c
+R (a b) (b b) (a c) (b c) (c c) (a a) (b a)
+S a b c
+
+STDOUT:
+U a b c 
+R (a a) (a b) (a c) (b a) (b b) (b c) (c c) 
+S a b c 
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "codomain" #6 Mnozina
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3544== Conditional jump or move depends on uninitialised value(s)
+==3544==    at 0x10A117: findRelIndex (setcal.c:358)
+==3544==    by 0x10B85A: checkOneRel (setcal.c:733)
+==3544==    by 0x10D025: main (setcal.c:1015)
+==3544==  Uninitialised value was created by a stack allocation
+==3544==    at 0x10B96B: main (setcal.c:758)
+==3544==
+[1;31m[FAIL][0m Prikaz "codomain" #7 Univerzum
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/codomain/7.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3546== Conditional jump or move depends on uninitialised value(s)
+==3546==    at 0x10BE64: main (setcal.c:800)
+==3546==  Uninitialised value was created by a stack allocation
+==3546==    at 0x10B97C: main (setcal.c:758)
+==3546== 
+==3546== Conditional jump or move depends on uninitialised value(s)
+==3546==    at 0x10BE6F: main (setcal.c:800)
+==3546==  Uninitialised value was created by a stack allocation
+==3546==    at 0x10B97C: main (setcal.c:758)
+==3546== 
+==3546== Conditional jump or move depends on uninitialised value(s)
+==3546==    at 0x10D67C: main (setcal.c:858)
+==3546==  Uninitialised value was created by a stack allocation
+==3546==    at 0x10B97C: main (setcal.c:758)
+==3546==
+[1;32m[ OK ][0m Prikaz "codomain" #8 Zadny parametr
+[1;32m[ OK ][0m Prikaz "codomain" #9 Moc parametru
+[1;31m[FAIL][0m Prikaz "function" #1 Prazdne univerzum, prazdna relace
+Program vratil chybovy navratovy kod (1) prestoze nemel!
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/function/1.txt
+Predpokladany vystup:
+U
+R
+true
+
+STDOUT:
+
+STDERR:
+Chyba: Spatny format univerza
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3552== Conditional jump or move depends on uninitialised value(s)
+==3552==    at 0x10BA72: main (setcal.c:779)
+==3552==  Uninitialised value was created by a stack allocation
+==3552==    at 0x10B97C: main (setcal.c:758)
+==3552== 
+==3552== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==3552==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3552==    by 0x109482: loadLine (setcal.c:51)
+==3552==    by 0x10BA61: main (setcal.c:778)
+==3552==
+[1;31m[FAIL][0m Prikaz "function" #2 Prazdna relace
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/function/2.txt
+Predpokladany vystup:
+U a b c
+R
+true
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3554== Conditional jump or move depends on uninitialised value(s)
+==3554==    at 0x10BE64: main (setcal.c:800)
+==3554==  Uninitialised value was created by a stack allocation
+==3554==    at 0x10B97C: main (setcal.c:758)
+==3554== 
+==3554== Conditional jump or move depends on uninitialised value(s)
+==3554==    at 0x10BE6F: main (setcal.c:800)
+==3554==  Uninitialised value was created by a stack allocation
+==3554==    at 0x10B97C: main (setcal.c:758)
+==3554== 
+==3554== Conditional jump or move depends on uninitialised value(s)
+==3554==    at 0x10D67C: main (setcal.c:858)
+==3554==  Uninitialised value was created by a stack allocation
+==3554==    at 0x10B97C: main (setcal.c:758)
+==3554==
+[1;31m[FAIL][0m Prikaz "function" #3 Funkce 1
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/function/3.txt
+Predpokladany vystup:
+U a b c d
+R (a b) (c d) (d c) (b b)
+true
+
+STDOUT:
+U a b c d 
+R (a b) (b b) (c d) (d c) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "function" #4 Funkce 2
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/function/4.txt
+Predpokladany vystup:
+U a b c d
+R (a b)
+true
+
+STDOUT:
+U a b c d 
+R (a b) 
+true
+
+STDERR:
+
+[1;31m[FAIL][0m Prikaz "function" #5 Neni funkce
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/function/5.txt
+Predpokladany vystup:
+U a b c d
+R (a b) (b c) (d c) (a a)
+false
+
+STDOUT:
+U a b c d 
+R (a a) (a b) (b c) (d c) 
+false
+
+STDERR:
+
+[1;32m[ OK ][0m Prikaz "function" #6 Mnozina
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3562== Conditional jump or move depends on uninitialised value(s)
+==3562==    at 0x10A117: findRelIndex (setcal.c:358)
+==3562==    by 0x10B85A: checkOneRel (setcal.c:733)
+==3562==    by 0x10CE26: main (setcal.c:995)
+==3562==  Uninitialised value was created by a stack allocation
+==3562==    at 0x10B96B: main (setcal.c:758)
+==3562==
+[1;31m[FAIL][0m Prikaz "function" #7 Univerzum
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+Program nevratil na STDERR zadnou chybovou zpravu!
+
+Argumenty: tests/function/7.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+
+STDERR:
+
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3564== Conditional jump or move depends on uninitialised value(s)
+==3564==    at 0x10BE64: main (setcal.c:800)
+==3564==  Uninitialised value was created by a stack allocation
+==3564==    at 0x10B97C: main (setcal.c:758)
+==3564== 
+==3564== Conditional jump or move depends on uninitialised value(s)
+==3564==    at 0x10BE6F: main (setcal.c:800)
+==3564==  Uninitialised value was created by a stack allocation
+==3564==    at 0x10B97C: main (setcal.c:758)
+==3564== 
+==3564== Conditional jump or move depends on uninitialised value(s)
+==3564==    at 0x10D67C: main (setcal.c:858)
+==3564==  Uninitialised value was created by a stack allocation
+==3564==    at 0x10B97C: main (setcal.c:758)
+==3564==
+[1;32m[ OK ][0m Prikaz "function" #8 Zadny parametr
+[1;32m[ OK ][0m Prikaz "function" #9 Moc parametru
+[1;31m[FAIL][0m Prikaz "surjective"
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/surjective/1.txt
+Predpokladany vystup:
+U a b c x y z w
+S a b c
+S x y z
+S x y
+S x y z w
+S
+R (x y) (a x) (b z) (c y)
+R (a x) (b a) (c z)
+R (a x) (b y)
+R (a x) (a y) (b y) (c z)
+R
+R (a x) (b y) (c x)
+R (a x) (b y) (c z)
+false
+false
+false
+false
+false
+true
+false
+false
+false
+false
+true
+true
+false
+
+STDOUT:
+U a b c x y z w 
+S a b c 
+S x y z 
+S x y 
+S x y z w 
+S 
+R (a x) (b z) (c y) (x y) 
+R (a x) (b a) (c z) 
+R (a x) (b y) 
+R (a x) (a y) (b y) (c z) 
+R 
+R (a x) (b y) (c x) 
+R (a x) (b y) (c z) 
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+
+STDERR:
+Relace obsahuje prvky nepatrici do patricnych mnozin
+
+[1;31m[FAIL][0m Prikaz "injective" #1 Obsahly test
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/injective/1.txt
+Predpokladany vystup:
+U a b c x y z w
+S a b c
+S x y z
+S x y
+S x y z w
+S
+R (x y) (a x) (b z) (c y)
+R (a x) (b a) (c z)
+R (a x) (b y)
+R (a x) (a y) (b y) (c z)
+R
+R (a x) (b y) (c x)
+R (a x) (b y) (c z)
+false
+false
+false
+false
+false
+true
+false
+false
+false
+false
+false
+true
+true
+
+STDOUT:
+U a b c x y z w 
+S a b c 
+S x y z 
+S x y 
+S x y z w 
+S 
+R (a x) (b z) (c y) (x y) 
+R (a x) (b a) (c z) 
+R (a x) (b y) 
+R (a x) (a y) (b y) (c z) 
+R 
+R (a x) (b y) (c x) 
+R (a x) (b y) (c z) 
+false
+true
+true
+true
+
+STDERR:
+Relace obsahuje prvky nepatrici do patricnych mnozin
+Relace obsahuje prvky nepatrici do patricnych mnozin
+Relace obsahuje prvky nepatrici do patricnych mnozin
+Relace obsahuje prvky nepatrici do patricnych mnozin
+Relace obsahuje prvky nepatrici do patricnych mnozin
+Relace obsahuje prvky nepatrici do patricnych mnozin
+Relace obsahuje prvky nepatrici do patricnych mnozin
+Relace obsahuje prvky nepatrici do patricnych mnozin
+Relace obsahuje prvky nepatrici do patricnych mnozin
+
+[1;32m[ OK ][0m Prikaz "injective" #2 Malo parametru
+[1;31m[FAIL][0m Prikaz "injective" #3 Moc parametru
+Program vratil uspesne dokonceni (kod 0) prestoze nemel!
+
+Argumenty: tests/injective/3.txt
+Predpokladany vystup:
+
+STDOUT:
+U a b c 
+S a 
+R (a a) 
+
+STDERR:
+Relace obsahuje prvky nepatrici do patricnych mnozin
+
+[1;32m[ OK ][0m Prikaz "injective" #4 Spatne typy parametru
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3578== Conditional jump or move depends on uninitialised value(s)
+==3578==    at 0x10A0C9: findSetIndex (setcal.c:348)
+==3578==    by 0x10B920: checkThreeRel (setcal.c:748)
+==3578==    by 0x10D145: main (setcal.c:1025)
+==3578==  Uninitialised value was created by a stack allocation
+==3578==    at 0x10B97C: main (setcal.c:758)
+==3578==
+[1;32m[ OK ][0m Prikaz "injective" #5 Spatne typy parametru
+[1;33m[WARN][0m Valgrind detekoval memory leak nebo jinou chybu!
+==3580== Conditional jump or move depends on uninitialised value(s)
+==3580==    at 0x10A117: findRelIndex (setcal.c:358)
+==3580==    by 0x10B8F2: checkThreeRel (setcal.c:748)
+==3580==    by 0x10D145: main (setcal.c:1025)
+==3580==  Uninitialised value was created by a stack allocation
+==3580==    at 0x10B96B: main (setcal.c:758)
+==3580==
+[1;31m[FAIL][0m Prikaz "bijective"
+Vystup programu se neshoduje s predpokladanym vystupem!
+
+Argumenty: tests/bijective/1.txt
+Predpokladany vystup:
+U a b c x y z w
+S a b c
+S x y z
+S x y
+S x y z w
+S
+R (x y) (a x) (b z) (c y)
+R (a x) (b a) (c z)
+R (a x) (b y)
+R (a x) (a y) (b y) (c z)
+R
+R (a x) (b y) (c x)
+R (a x) (b y) (c z)
+false
+false
+false
+false
+false
+true
+false
+false
+false
+false
+false
+true
+false
+
+STDOUT:
+U a b c x y z w 
+S a b c 
+S x y z 
+S x y 
+S x y z w 
+S 
+R (a x) (b z) (c y) (x y) 
+R (a x) (b a) (c z) 
+R (a x) (b y) 
+R (a x) (a y) (b y) (c z) 
+R 
+R (a x) (b y) (c x) 
+R (a x) (b y) (c z) 
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+
+STDERR:
+Relace obsahuje prvky nepatrici do patricnych mnozin
+
+-- STATISTIKA --
+Zakladni reseni:
+Uspesnost: 78/210 (37.14%)
