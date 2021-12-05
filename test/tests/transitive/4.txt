@@ -1,3 +1,0 @@
-U a b c d
-R (a b) (b c) (a c)
-C transitive 2

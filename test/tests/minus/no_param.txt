@@ -1,3 +1,0 @@
-U a b
-S a
-C minus

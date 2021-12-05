@@ -1,3 +1,0 @@
-U a b c
-R (b a)
-C codomain 2 2 2

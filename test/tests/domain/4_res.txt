@@ -1,3 +1,0 @@
-U a b c
-R (a b) (b b) (a c) (b c) (c c)
-S a b c

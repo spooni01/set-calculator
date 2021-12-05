@@ -34,10 +34,16 @@ char *loadLine(FILE *file, char *firstChar, int *numOfElems, int *numOfLines)
 		fprintf(stderr, "Chyba: na vstupu je prazdny radek (%d)!\n", *numOfLines);
 		return NULL;
 	}
-	if(!strchr(allowedFirstChars, lineIdentifier) || getc(file) != ' ')
+	char secondChar = getc(file);
+	if(!strchr(allowedFirstChars, lineIdentifier) || (secondChar != ' ' && secondChar != '\n'))
 	{	
 		fprintf(stderr,"Chyba: Spatny format na radku %d!\n", *numOfLines);
 		return NULL;
+	}
+	if(secondChar == '\n')
+	{
+		char *empty = calloc(1, sizeof(int));
+		return empty;
 	}
 
 	*firstChar = lineIdentifier;
@@ -342,7 +348,7 @@ int findSetIndex(set_t *setArray, int numOfSets, int lineNum)
 	return -1;
 }
 
-int findRelIndex(set_t *relArray, int numOfRels, int lineNum)
+int findRelIndex(rel_t *relArray, int numOfRels, int lineNum)
 {
 	for(int i = 0; i < numOfRels; ++i)
 	{
@@ -595,7 +601,7 @@ void relCodomain(rel_t rel, int numOfUniElems, char **univerzum) {
 	printSet(final_set, numOfUniElems, univerzum);
 }
 
-int relInjective(rel_t rel, int numOfUniElems, int shouldPrint) {
+int relInjective(rel_t rel, int numOfUniElems, int shouldPrint,set_t set1, set_t set2) {
 	if(!relFunction(rel, numOfUniElems, 0))
 	{
 		if(shouldPrint)
@@ -609,6 +615,15 @@ int relInjective(rel_t rel, int numOfUniElems, int shouldPrint) {
 		count = 0;
 		for(int i = 0; i < numOfUniElems; i++)
 		{
+			for (int k = 0; k < numOfUniElems; k++)
+			{
+				if(rel.elements[i][j] == 1 && (set1.elements[k] == 0 && set2.elements[k] == 0))
+				{
+					fprintf(stderr, "Relace neobsahuje prvky zo zadanych mnozin\n");
+					return 1;
+				}
+			}
+			
 			if(rel.elements[i][j])
 				count++;
 		}
@@ -626,7 +641,7 @@ int relInjective(rel_t rel, int numOfUniElems, int shouldPrint) {
 	return 1;
 }
 
-int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint) {	
+int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint, set_t set1, set_t set2) {	
 	if(!relFunction(rel, numOfUniElems, 0))
 	{
 		if(shouldPrint)
@@ -640,6 +655,15 @@ int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint) {
 		count = 0; 
 		for (int i = 0; i < numOfUniElems; i++)
 		{
+			for (int k = 0; k < numOfUniElems; k++)
+			{
+				if(rel.elements[i][j] == 1 && (set1.elements[k] == 0 && set2.elements[k] == 0))
+				{
+					fprintf(stderr, "Relace neobsahuje prvky zo zadanych mnozin\n");
+					return 1;
+				}
+			}
+
 			if(rel.elements[i][j])
 				count++;
 		}	
@@ -656,12 +680,59 @@ int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint) {
 	return 1;
 }
 
-void relBijective(rel_t rel, int numOfUniElems) {
-	if(!relFunction(rel, numOfUniElems, 0) || !relInjective(rel, numOfUniElems, 0) || !relSurjective(rel, numOfUniElems, 0))
+void relBijective(rel_t rel, int numOfUniElems, set_t set1, set_t set2) {
+	if(!relFunction(rel, numOfUniElems, 0) || !relInjective(rel, numOfUniElems, 0, set1, set2) || !relSurjective(rel, numOfUniElems, 0, set1, set2))
 		printf("false\n");
 	else
 		printf("true\n");
 
+}
+
+/** CHECK OPERATION ARGS FUNCTIONS**/
+
+int checkOneSet(int numOfArgs, int arg, char *commandName, set_t *setArray, int numOfSets, int lineNum)
+{
+	if(numOfArgs != 2)
+	{
+		fprintf(stderr, "Prikaz %s prijima pouze jeden argument\nChyba na radku: %d\n", commandName, lineNum);
+		return 1;
+	}
+	else if(findSetIndex(setArray, numOfSets, arg) == -1)
+	{
+		fprintf(stderr, "Neplatny argument prikazu %s\nChyba na radku: %d\n", commandName, lineNum);
+		return 1;
+	}
+	return 0;
+}
+
+int checkTwoSets(int numOfArgs, int arg1, int arg2, char *commandName, set_t *setArray, int numOfSets, int lineNum)
+{
+	if(numOfArgs != 3)
+	{
+		fprintf(stderr, "Prikaz %s prijima pouze jeden argument\nChyba na radku: %d\n", commandName, lineNum);
+		return 1;
+	}
+	else if(findSetIndex(setArray, numOfSets, arg1) == -1 || findSetIndex(setArray, numOfSets, arg2) == -1)
+	{
+		fprintf(stderr, "Neplatny argument prikazu %s\nChyba na radku: %d\n", commandName, lineNum);
+		return 1;
+	}
+	return 0;
+}
+
+int checkOneRel(int numOfArgs, int arg, char *commandName, rel_t *relArray, int numOfRels, int lineNum)
+{
+	if(numOfArgs != 2)
+	{
+		fprintf(stderr, "Prikaz %s prijima pouze jeden argument\nChyba na radku: %d\n", commandName, lineNum);
+		return 1;
+	}
+	else if(findRelIndex(relArray, numOfRels, arg) == -1)
+	{
+		fprintf(stderr, "Neplatny argument prikazu %s\nChyba na radku: %d\n", commandName, lineNum);
+		return 1;
+	}
+	return 0;
 }
 
 /** MAIN **/
@@ -716,7 +787,7 @@ int main(int argc, char *argv[]) {
 			functionFail = loadSet(lineBuffer, set, numOfUniElems, univerzum);
 			if(functionFail)
 			{	
-				endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
 				return 1;
 			}
 
@@ -739,7 +810,7 @@ int main(int argc, char *argv[]) {
 			functionFail = loadRel(lineBuffer, rel, numOfLines,  numOfUniElems, univerzum);
 			if(functionFail)
 			{	
-				endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
 				return 1;
 			}
 
@@ -754,7 +825,7 @@ int main(int argc, char *argv[]) {
 	}
 	if(lineBuffer == NULL)
 	{
-		endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+		endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
 		return 1;
 	}
 
@@ -764,34 +835,184 @@ int main(int argc, char *argv[]) {
 	int paramOne;
 	int paramTwo;
 	int paramThree;
+
 	while(firstCharOnLine == 'C' && lineBuffer != NULL)
 	{
-		//TODO
-		//zjisti, co je to za prikaz
-		//zkontroluj platnost prikazu
-		//zavolej danou funkci
-		//opakuj do konca
-
 		paramsLoaded = sscanf(lineBuffer, "%s %d %d %d", command, &paramOne, &paramTwo, &paramThree);
 
-		/* moze se hodit
-		if(paramsLoaded != 1)
+		if(!strcmp("empty", command))
 		{
-			fprintf(stderr, "Prikaz empty prijima pouze jeden argument\nChyba na radku: %d\n", numOfLines);
-			endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
-			return 1;
+			if (!checkOneSet(paramsLoaded, paramOne, "empty", setArray, setArrIndex + 1, numOfLines))
+				setEmpty(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
 		}
-		else if(findSetIndex(setArray, setArrIndex + 1, paramOne) == -1)
+		else if(!strcmp("card", command))
 		{
-			fprintf(stderr, "Neplatny argument prikazu empty\nChyba na radku: %d\n", numOfLines);
-			endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
-			return 1;
+			if (!checkOneSet(paramsLoaded, paramOne, "card", setArray, setArrIndex + 1, numOfLines))
+				setCard(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
 		}
-		*/
-			free(lineBuffer);
-			lineBuffer = loadLine(file, &firstCharOnLine, &numOfElementsInArray, &numOfLines);
+		else if(!strcmp("complement", command))
+		{
+			if (!checkOneSet(paramsLoaded, paramOne, "complement", setArray, setArrIndex + 1, numOfLines))
+				setComplement(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], numOfUniElems, univerzum);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("union", command))
+		{
+			if (!checkTwoSets(paramsLoaded, paramOne, paramTwo, "union", setArray, setArrIndex + 1, numOfLines))
+				setUnion(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], numOfUniElems, univerzum);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("intersect", command))
+		{
+			if (!checkTwoSets(paramsLoaded, paramOne, paramTwo, "intersect", setArray, setArrIndex + 1, numOfLines))
+				setIntersect(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], numOfUniElems, univerzum);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("minus", command))
+		{
+			if (!checkTwoSets(paramsLoaded, paramOne, paramTwo, "minus", setArray, setArrIndex + 1, numOfLines))
+				setMinus(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], numOfUniElems, univerzum);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("subseteq", command))
+		{
+			if (!checkTwoSets(paramsLoaded, paramOne, paramTwo, "subseteq", setArray, setArrIndex + 1, numOfLines))
+				setSubseteq(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("subset", command))
+		{
+			if (!checkTwoSets(paramsLoaded, paramOne, paramTwo, "subset", setArray, setArrIndex + 1, numOfLines))
+				setSubset(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("equals", command))
+		{
+			if (!checkTwoSets(paramsLoaded, paramOne, paramTwo, "equals", setArray, setArrIndex + 1, numOfLines))
+				setEquals(setArray[findSetIndex(setArray, setArrIndex + 1, paramOne)], setArray[findSetIndex(setArray, setArrIndex + 1, paramTwo)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		//relation operations
+		else if(!strcmp("reflexive", command))
+		{
+			if (!checkOneRel(paramsLoaded, paramOne, "reflexive", relArray, relArrIndex + 1, numOfLines))
+				relReflexive(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("symmetric", command))
+		{
+			if (!checkOneRel(paramsLoaded, paramOne, "symmetric", relArray, relArrIndex + 1, numOfLines))
+				relSymmetric(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("antisymmetric", command))
+		{
+			if (!checkOneRel(paramsLoaded, paramOne, "antisymmetric", relArray, relArrIndex + 1, numOfLines))
+				relAntisymmetric(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("transitive", command))
+		{
+			if (!checkOneRel(paramsLoaded, paramOne, "transitive", relArray, relArrIndex + 1, numOfLines))
+				relTransitive(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("function", command))
+		{
+			if (!checkOneRel(paramsLoaded, paramOne, "function", relArray, relArrIndex + 1, numOfLines))
+				relFunction(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems, 1);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("domain", command))
+		{
+			if (!checkOneRel(paramsLoaded, paramOne, "domain", relArray, relArrIndex + 1, numOfLines))
+				relDomain(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems, univerzum);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+		else if(!strcmp("codomain", command))
+		{
+			if (!checkOneRel(paramsLoaded, paramOne, "codomain", relArray, relArrIndex + 1, numOfLines))
+				relCodomain(relArray[findRelIndex(relArray, relArrIndex + 1, paramOne)], numOfUniElems, univerzum);
+			else
+			{
+				endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+				return 1;
+			}
+		}
+
+		//TODO - pridat elseif pro fce relInjective relSurjective a relBijective
+
+		else
+		{
+			printf("command not found lol\n");
+		}
+
+		free(lineBuffer);
+		lineBuffer = loadLine(file, &firstCharOnLine, &numOfElementsInArray, &numOfLines);
 	}
 
-	endProgram(bufferLine, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
+	endProgram(lineBuffer, file, univerzum, numOfUniElems, setArray, setArrIndex, relArray, relArrIndex);
 	return 0;
- } 
+} 

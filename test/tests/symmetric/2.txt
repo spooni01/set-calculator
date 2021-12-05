@@ -1,3 +1,0 @@
-U a b c
-R
-C symmetric 2

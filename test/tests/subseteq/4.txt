@@ -1,4 +1,0 @@
-U a b c d
-S d c
-S a b
-C subseteq 2 3

@@ -1,3 +1,0 @@
-U a b c
-R (a b) (b c) (b a)
-C antisymmetric 2

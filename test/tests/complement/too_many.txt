@@ -1,3 +1,0 @@
-U a b c d e f
-S d c f
-C complement 2 2 2

@@ -1,5 +1,0 @@
-U a b c
-S a
-S b
-S c
-C intersect 1 2 3
