@@ -26,6 +26,12 @@ char *loadLine(FILE *file, char *firstChar, int *numOfElems, int *numOfLines)
 	char allowedFirstChars[] = {'U', 'S', 'R', 'C'};
 
 	(*numOfLines)++;
+	if(*numOfLines > FILE_MAX_LINES)
+	{
+		fprintf(stderr, "Chyba: prilis mnoho radku!");
+		return NULL;
+	}
+
 	char lineIdentifier = getc(file);
 	if(lineIdentifier == EOF)
 		return NULL;
@@ -292,31 +298,28 @@ void freeRels(rel_t *relArray, int numOfRels, int relSize)
 //prints elements of the univerzum
 void printUniverzum(char **univerzum, int numOfUniElems)
 {
+	printf("U ");
 	for(int i = 0; i < numOfUniElems; i++)
 	{
-		printf("%d. element: %s\n", i + 1, univerzum[i]);
+		printf("%s ", univerzum[i]);
 	}
+	printf("\n");
 }
 
 
 void printSet(set_t set, int length, char **univerzum) {
-	int count = 0; // number of printed elements
-	printf("{");
+	printf("S ");
 	for (int i = 0; i < length; i++)
 	{
-	        if(set.elements[i] == 1) {
-			if(count==0)
-	                	printf("%s", univerzum[i]);
-	                else
-	                	printf(", %s", univerzum[i]); 
-			count++;         
-		}
+	        if(set.elements[i] == 1)
+			printf("%s ", univerzum[i]);
 	          
 	}
- 	printf("}\n");
+ 	printf("\n");
 }
 
 void printRel(rel_t rel, int numOfUniElems, char **univerzum) {
+	printf("R ");
 	for (int i = 0; i < numOfUniElems; i++)
 	{
 		for (int j = 0; j < numOfUniElems; j++)
@@ -750,6 +753,7 @@ int main(int argc, char *argv[]) {
 	univerzum = malloc(numOfUniElems * sizeof(char*));
 	loadUniElements(univerzumLine, univerzum);
 	free(univerzumLine);
+	printUniverzum(univerzum, numOfUniElems);
 
 	set_t setArray[FILE_MAX_LINES];
 	rel_t relArray[FILE_MAX_LINES];
@@ -776,6 +780,7 @@ int main(int argc, char *argv[]) {
 			setArray[setArrIndex].elements = set;
 			set = NULL;
 			setArray[setArrIndex].lineNum = numOfLines;
+			printSet(setArray[setArrIndex], numOfUniElems, univerzum);
 			setArrIndex++;		
 		}
 
@@ -799,6 +804,7 @@ int main(int argc, char *argv[]) {
 			relArray[relArrIndex].elements = rel;
 			rel = NULL;
 			relArray[relArrIndex].lineNum = numOfLines;
+			printRel(relArray[relArrIndex], numOfUniElems, univerzum);
 			relArrIndex++;
 		}
 
