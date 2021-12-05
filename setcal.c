@@ -620,7 +620,7 @@ int relInjective(rel_t rel, int numOfUniElems, int shouldPrint,set_t set1, set_t
 				if(rel.elements[i][j] == 1 && (set1.elements[k] == 0 && set2.elements[k] == 0))
 				{
 					fprintf(stderr, "Relace neobsahuje prvky zo zadanych mnozin\n");
-					return 1;
+					return 0;
 				}
 			}
 			
@@ -660,7 +660,7 @@ int relSurjective(rel_t rel, int numOfUniElems, int shouldPrint, set_t set1, set
 				if(rel.elements[i][j] == 1 && (set1.elements[k] == 0 && set2.elements[k] == 0))
 				{
 					fprintf(stderr, "Relace neobsahuje prvky zo zadanych mnozin\n");
-					return 1;
+					return 0;
 				}
 			}
 
